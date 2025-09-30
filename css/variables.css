@@ -1,0 +1,74 @@
+/*--------------------------------------------------------------
+# Police & Couleur
+--------------------------------------------------------------*/
+/*--- Polices ---*/
+:root {
+  /* Police pour le reste du site */
+  --texte-default: "Quantico, sans-serif";                  /* LINK DANS HTML */
+  /* Police pour les titres de chaque section */
+  --texte-titre: "Jersey 10, sans-serif";                   /* LINK DANS HTML */ 
+}
+
+/*--- Couleurs ---*/
+/* Couleurs globales */
+:root {
+  --couleur-fond: "#0D1220";
+  --couleur-texte-default: "#000000";
+  --couleur-texte-titre: "#000000";
+  --couleur-texte-fond-acceuil: "rgba(255, 255, 255, 0.5)";
+  --couleur-texte-footer: "#E6E6E6";
+}
+
+/* Couleurs navigation */
+:root {
+  --nav-recherche-couleur-fond: "#FFFFFF";
+  --nav-recherche-couleur-contour: "#000000";
+}
+
+/* Couleurs des sections */
+:root {
+  --liens-couleur-section: "#3DADFF";
+  --liens-couleur-hover-section: "#007AD2";
+
+  --personnes-couleur-section: "#FF9500";
+  --personnes-couleur-hover-section: "#CB7600";
+
+  --docs-couleur-section: "#63CF75";
+  --docs-couleur-hover-section: "#3E9B4B";
+}
+
+/* Couleurs composants section acceuil */
+:root {
+  --snake-couleur-corp: "#7FC765";
+  --snake-couleur-yeux: "#000000";
+  --snake-couleur-blocs: "#D4D4D4";
+}
+
+/* Couleurs composants section liens utiles */
+:root {
+  --liens-couleur-logo: "#ffffff";
+}
+
+/* Couleurs composants section personnes ressources */
+:root {
+  --personnes-couleur-fond-carte: "#FF9500";
+}
+
+/* Couleurs  composants section documents utiles */
+:root {
+  --docs-couleur-dossier-1: "#63CF75";
+  --docs-couleur-dossier-2: "#67D679";
+  --docs-couleur-dossier-3: "#52AC5E";
+  --docs-couleur-dossier-4: "#428A4C";
+  --docs-couleur-dossier-5: "#326839";
+  --docs-couleur-dossier-6: "#214626";
+  --docs-couleur-dossier-7: "#18301B";
+  --docs-couleur-dossier-contour: "#000000";
+  --docs-couleur-dossier-fond: "#E6E6E6";
+}
+
+/* Couleurs composants footer */
+:root {
+  --footer-couleur-fond: "#555555";
+  --footer-couleur-logo: "#E6E6E6";
+}
