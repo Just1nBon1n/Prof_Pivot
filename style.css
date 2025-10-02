@@ -14,6 +14,16 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
   box-sizing: border-box;
 }
 
+/* TITRES, TEXTES */
+h1 {
+  font-family: var(--texte-titre);
+  color: var(--couleur-texte-titre);
+}
+h2 {
+  font-family: var(--texte-default);
+  color: var(--couleur-texte-default);
+}
+
 /* HEADER */
 header {
   width: 100%;
@@ -28,14 +38,32 @@ header {
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
-  background-color: green;
+  background-color: var(--couleur-fond);
 
-  section:not(.carre) {
-    height: 10rem;
+  #Imp {
+    height: 75vh;
     margin: 20px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+  }
+
+
+
+  /* Intra sections de Pixel */
+  .Pixel {
+    height: 50px;
+    width: 100%;
+    background-color: lightgrey;
+  }
+  .PixelsB {
+    background-color: var(--liens-couleur-section);
+  }
+  .PixelsO {
+    background-color: var(--personnes-couleur-section);
+  }
+  .Pixelsv {
+    background-color: var(--docs-couleur-section);
   }
 }
 
@@ -44,7 +72,7 @@ footer {
   width: 100%;
 
     section.carre {
-    background-color: grey;
+    background-color: var(--footer-couleur-fond);
 
   }
 }

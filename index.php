@@ -2,10 +2,42 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Prof Pivot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profs Pivot</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/variables.css">
 </head>
+<header>
+    
+</header>
 <body>
-  <h1>Bienvenue sur Prof Pivot</h1>
-  <p>Ceci est la page d'accueil de votre projet web.</p>
+  <section class="Accueil">
+    <canva class="Snake">
+      
+    </canva>
+  </section>
+  <section  class="Pixel PixelsB"></section>
+
+  <section id="Imp" class="Liens"></section>
+
+  <section class="Pixel PixelsO"></section>
+
+  <section id="Imp" class="Profs"></section>
+
+  <section class="Pixel Pixelsv"></section>
+
+  <section id="Imp" class="Documents"></section>
+
 </body>
+<footer>
+  <section class="carre">
+  <div class="texte">
+    <h2>Nous Joindre</h2>
+    <h2>(514) - 254 - 7131</h2>
+    <h2>3800 rue Sherbrooke E,
+        Montréal QUÉBÉC H1X 2A2
+    </h2>
+  </div>
+  </section>
+</footer>
 </html>
