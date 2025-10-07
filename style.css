@@ -1,13 +1,93 @@
+@charset "UTF-8";
 /*
 Theme Name: Profs Pivot
 Author: David, Arthur, Johnny, Justin
-Author URI: http://www.hostinger.com/tutorials
+Author URI: https://github.com/Just1nBon1n/Prof_Pivot
 Description: Le site web des profs pivot des Techniques d'intégration multimédia du Collège de Maisonneuve.
 Version: 1.0
 License: GNU General Public License v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
+/* /////////////////////////////////
+Les variables 
+//////////////////////////////////// */
+/*--------------------------------------------------------------
+# Couleur
+--------------------------------------------------------------*/
+/* Couleurs globales */
+:root {
+  --couleur-fond: #0D1220;
+  --couleur-texte-default: #000000;
+  --couleur-texte-titre: #000000;
+  --couleur-texte-fond-acceuil: rgba(255, 255, 255, 0.5);
+  --couleur-texte-footer: #E6E6E6;
+}
 
+/* Couleurs navigation */
+:root {
+  --nav-recherche-couleur-fond: #FFFFFF;
+  --nav-recherche-couleur-contour: #000000;
+}
+
+/* Couleurs des sections */
+:root {
+  --liens-couleur-section: #3DADFF;
+  --liens-couleur-hover-section: #007AD2;
+  --personnes-couleur-section: #FF9500;
+  --personnes-couleur-hover-section: #CB7600;
+  --docs-couleur-section: #63CF75;
+  --docs-couleur-hover-section: #3E9B4B;
+}
+
+/* Couleurs composants section acceuil */
+:root {
+  --snake-couleur-corp: #7FC765;
+  --snake-couleur-yeux: #000000;
+  --snake-couleur-blocs: #D4D4D4;
+}
+
+/* Couleurs composants section liens utiles */
+:root {
+  --liens-couleur-logo: #ffffff;
+}
+
+/* Couleurs composants section personnes ressources */
+:root {
+  --personnes-couleur-fond-carte: #FF9500;
+}
+
+/* Couleurs  composants section documents utiles */
+:root {
+  --docs-couleur-dossier-1: #63CF75;
+  --docs-couleur-dossier-2: #67D679;
+  --docs-couleur-dossier-3: #52AC5E;
+  --docs-couleur-dossier-4: #428A4C;
+  --docs-couleur-dossier-5: #326839;
+  --docs-couleur-dossier-6: #214626;
+  --docs-couleur-dossier-7: #18301B;
+  --docs-couleur-dossier-contour: #000000;
+  --docs-couleur-dossier-fond: #E6E6E6;
+}
+
+/* Couleurs composants footer */
+:root {
+  --footer-couleur-fond: #555555;
+  --footer-couleur-logo: #E6E6E6;
+}
+
+/*--------------------------------------------------------------
+# Typographies
+--------------------------------------------------------------*/
+:root {
+  /* Police pour le reste du site */
+  --texte-default: Quantico, sans-serif; /* LINK DANS HTML */
+  /* Police pour les titres de chaque section */
+  --texte-titre: "Jersey 10", sans-serif; /* LINK DANS HTML */
+}
+
+/* /////////////////////////////////
+Les balise de bases
+//////////////////////////////////// */
 * {
   margin: 0;
   padding: 0;
@@ -19,6 +99,7 @@ h1 {
   font-family: var(--texte-titre);
   color: var(--couleur-texte-titre);
 }
+
 h2 {
   font-family: var(--texte-default);
   color: var(--couleur-texte-default);
@@ -39,40 +120,34 @@ body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   background-color: var(--couleur-fond);
-
-  #Imp {
-    height: 75vh;
-    margin: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-
-
   /* Intra sections de Pixel */
-  .Pixel {
-    height: 50px;
-    width: 100%;
-    background-color: lightgrey;
-  }
-  .PixelsB {
-    background-color: var(--liens-couleur-section);
-  }
-  .PixelsO {
-    background-color: var(--personnes-couleur-section);
-  }
-  .Pixelsv {
-    background-color: var(--docs-couleur-section);
-  }
+}
+body #Imp {
+  height: 75vh;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+body .Pixel {
+  height: 50px;
+  width: 100%;
+  background-color: lightgrey;
+}
+body .PixelsB {
+  background-color: var(--liens-couleur-section);
+}
+body .PixelsO {
+  background-color: var(--personnes-couleur-section);
+}
+body .Pixelsv {
+  background-color: var(--docs-couleur-section);
 }
 
 /* FOOTER */
 footer {
   width: 100%;
-
-    section.carre {
-    background-color: var(--footer-couleur-fond);
-
-  }
 }
+footer section.carre {
+  background-color: var(--footer-couleur-fond);
+}/*# sourceMappingURL=style.css.map */
