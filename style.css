@@ -150,4 +150,89 @@ footer {
 }
 footer section.carre {
   background-color: var(--footer-couleur-fond);
+}
+
+/* /////////////////////////////////
+Les layouts
+//////////////////////////////////// */
+.Accueil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--couleur-fond);
+  position: relative;
+  overflow: hidden;
+}
+.Accueil .snake-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+.Accueil canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.Accueil .instructions {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  z-index: 10;
+}
+.Accueil .instructions p {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+.Accueil .instructions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+.Accueil .instructions ul li {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.Accueil .instructions #startButton {
+  background-color: #00b894;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.Accueil .instructions #startButton:hover {
+  background-color: #019875;
+}
+
+@media (min-width: 600px) {
+  .Accueil .instructions p {
+    font-size: 1.4rem;
+  }
+  .Accueil .instructions li {
+    font-size: 1.2rem;
+  }
+  .Accueil .instructions #startButton {
+    font-size: 1.4rem;
+    padding: 0.8rem 1.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  .Accueil .instructions p {
+    font-size: 1.6rem;
+  }
+  .Accueil .instructions li {
+    font-size: 1.3rem;
+  }
+  .Accueil .instructions #startButton {
+    font-size: 1.8rem;
+    padding: 1rem 2rem;
+  }
 }/*# sourceMappingURL=style.css.map */
