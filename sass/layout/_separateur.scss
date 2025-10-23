@@ -1,9 +1,8 @@
 .pixel {
     display: block;
-    background-color: orange;
+    // background-color: orange;
     width: 20px;
     height: 20px;
-    // flex-shrink: 0;
     animation: flicker 4s infinite ease-in-out;
     transition: opacity 0.3s ease-out, filter 0.3s ease-out;
 }
@@ -28,14 +27,24 @@
 
 .titre-section {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 75%;
+    left: 10%;
     transform: translate(-50%, -120%);
     color: black;
     font-size: 4rem;
     text-align: center;
     z-index: 10;
     pointer-events: none;
+}
+
+#separateur-1 .pixel{
+    background-color: var(--liens-couleur-section);
+}
+#separateur-2 .pixel{
+    background-color: var(--personnes-couleur-section);
+}
+#separateur-3 .pixel{
+    background-color: var(--docs-couleur-section);
 }
 
 @keyframes flicker {
