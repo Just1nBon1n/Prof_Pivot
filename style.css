@@ -80,7 +80,7 @@ Les variables
 --------------------------------------------------------------*/
 :root {
   /* Police pour le reste du site */
-  --texte-default: Quantico, sans-serif; /* LINK DANS HTML */
+  --texte-default: "Quantico", sans-serif; /* LINK DANS HTML */
   /* Police pour les titres de chaque section */
   --texte-titre: "Jersey 10", sans-serif; /* LINK DANS HTML */
 }
@@ -123,7 +123,6 @@ body {
   /* Intra sections de Pixel */
 }
 body #Imp {
-  height: 75vh;
   margin: 20px;
   padding: 20px;
   border: 1px solid #ccc;
@@ -235,4 +234,52 @@ Les layouts
     font-size: 1.8rem;
     padding: 1rem 2rem;
   }
+}
+.Ressources .pivots .prof {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin: 20px;
+  margin-top: 0;
+}
+.Ressources .pivots .prof figure {
+  grid-column: span 2;
+  margin: 0;
+  width: 100%;
+  height: auto;
+  position: relative; /* nécessaire pour l'overlay */
+  overflow: hidden;
+}
+.Ressources .pivots .prof figure .img-pivots {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.Ressources .pivots .prof figure figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  color: #fff;
+  font-family: var(--texte-titre);
+  text-align: center;
+  font-size: 1rem;
+  z-index: 2;
+}
+.Ressources .pivots .prof figure .prof_content {
+  flex: 1 1 0;
+  grid-column: span 1;
+}
+.Ressources .pivots .prof .David {
+  transform-origin: left center; /* Point d'ancrage à gauche */
+}
+.Ressources .pivots .prof .Greg {
+  transform-origin: right center; /* Point d'ancrage à droite */
+}
+.Ressources .res-titre {
+  font-family: var(--texte-titre);
+  color: var(--couleur-texte-footer);
+  text-align: center;
+  font-size: 1.5rem;
 }/*# sourceMappingURL=style.css.map */

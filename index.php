@@ -6,7 +6,9 @@
 <section class="Pixel PixelsB"></section>
 <section id="Imp" class="Liens"></section>
 <section class="Pixel PixelsO"></section>
-<section id="Imp" class="Profs"></section>
+<section id="Imp" class="Profs">
+  <?php get_template_part('Arthur/Ressources'); ?>
+</section>
 <section class="Pixel Pixelsv"></section>
 <section id="Imp" class="Documents"></section>
 <h1>TEST</h1>
