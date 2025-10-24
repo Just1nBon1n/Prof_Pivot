@@ -80,7 +80,7 @@ Les variables
 --------------------------------------------------------------*/
 :root {
   /* Police pour le reste du site */
-  --texte-default: Quantico, sans-serif; /* LINK DANS HTML */
+  --texte-default: "Quantico", sans-serif; /* LINK DANS HTML */
   /* Police pour les titres de chaque section */
   --texte-titre: "Jersey 10", sans-serif; /* LINK DANS HTML */
 }
@@ -117,6 +117,7 @@ header {
 
 /* BODY */
 body {
+  overflow-x: hidden;
   font-family: Arial, sans-serif;
   line-height: 1.6;
   background-color: var(--couleur-fond);
@@ -241,11 +242,12 @@ Les layouts
 .dossiers {
   display: flex;
   flex-direction: column;
+  gap: -60px;
 }
 
 .dossier {
   position: relative;
-  width: 395px;
+  width: 315px;
   height: 250px;
   perspective: 800px;
 }
@@ -254,6 +256,7 @@ Les layouts
 .arriere {
   position: absolute;
   inset: 0;
+  border: 2px solid var(--docs-couleur-dossier-contour);
   border-radius: 4px;
 }
 
@@ -290,9 +293,12 @@ Les layouts
   content: "";
   position: absolute;
   top: -20px;
-  left: 10px;
-  width: 320px;
+  left: 9px;
+  width: 300px;
   height: 25px;
+  border-top: 2px solid var(--docs-couleur-dossier-contour);
+  border-left: 2px solid var(--docs-couleur-dossier-contour);
+  border-right: 2px solid var(--docs-couleur-dossier-contour);
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
@@ -325,13 +331,8 @@ Les layouts
   background-color: var(--docs-couleur-dossier-7);
 }
 
-.dossier:nth-child(odd) .arriere::before {
-  left: 10px;
-}
-
 .dossier:nth-child(even) .arriere::before {
   left: auto;
-  right: 10px;
 }
 
 .texte-etiquette {
@@ -339,7 +340,7 @@ Les layouts
   top: -22px;
   font-size: 22px;
   color: #000;
-  font-family: "Quantico", sans-serif;
+  font-family: var(--texte-default), sans-serif;
 }
 
 /* Papier */
@@ -370,6 +371,7 @@ Les layouts
   left: 0;
   width: 100%;
   height: 85%;
+  border: 2px solid var(--docs-couleur-dossier-contour);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   border-top-left-radius: 6px;
@@ -450,14 +452,16 @@ Les layouts
 
 .titre-section {
   position: absolute;
-  top: 75%;
-  left: 10%;
+  top: 100%;
+  left: 50%;
   transform: translate(-50%, -120%);
   color: black;
   font-size: 4rem;
   text-align: center;
   z-index: 10;
   pointer-events: none;
+  font-size: 55px;
+  font-family: var(--texte-titre), sans-serif;
 }
 
 #separateur-1 .pixel {

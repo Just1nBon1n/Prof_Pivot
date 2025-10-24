@@ -1,21 +1,12 @@
-// body {
-//     background: #0e0a2a;
-//     display: flex;
-//     justify-content: center;
-//     align-items: flex-start;
-//     padding: 40px;
-//     gap: 0;
-// }
-
 .dossiers{
     display: flex;
     flex-direction: column;
-    // gap: -60px;
+    gap: -60px;
 }
 
 .dossier {
     position: relative;
-    width: 395px;
+    width: 315px;
     height: 250px;
     perspective: 800px;
 }
@@ -24,6 +15,7 @@
 .arriere {
     position: absolute;
     inset: 0;
+    border: 2px solid var(--docs-couleur-dossier-contour);
     // background: linear-gradient(to bottom, #59fb31, #009521);
     border-radius: 4px;
     // box-shadow: inset 0 -2px 0 rgb(38, 102, 14);
@@ -55,10 +47,12 @@
     content: '';
     position: absolute;
     top: -20px;
-    left: 10px;
-    width: 320px;
+    left: 9px;
+    width: 300px;
     height: 25px;
-    // background: #59fb31;
+    border-top: 2px solid var(--docs-couleur-dossier-contour);
+    border-left: 2px solid var(--docs-couleur-dossier-contour);
+    border-right: 2px solid var(--docs-couleur-dossier-contour);
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
@@ -85,12 +79,12 @@
 }
 
 .dossier:nth-child(odd) .arriere::before {
-    left: 10px;
+    // left: 10px;
 }
 
 .dossier:nth-child(even) .arriere::before {
     left: auto;
-    right: 10px;
+    // right: 10px;
 }
 
 .texte-etiquette {
@@ -98,7 +92,7 @@
     top: -22px;
     font-size: 22px;
     color: #000;
-    font-family: "Quantico", sans-serif;
+    font-family: var(--texte-default), sans-serif;
 }
 
 /* Papier */
@@ -129,7 +123,7 @@
     left: 0;
     width: 100%;
     height: 85%;
-    // background: linear-gradient(to bottom, #59fb31, #009521);
+    border: 2px solid var(--docs-couleur-dossier-contour);
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top-left-radius: 6px;
@@ -173,4 +167,3 @@
 .dossier:hover .papier {
     transform: translateY(-50px);
 }
-  

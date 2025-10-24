@@ -3,112 +3,113 @@ let nombreDossier = 7;
 
 // Étiquettes
 const etiquettes = [
-    "Contrat d’engagement TIM",
-    "Grille des cours en TIM",
-    "Pondération des cours TIM",
-    "Guide des ressources d'aide",
-    "Par où commencer",
-    "Introduction à MacOS",
-    "Installation Adobe"
+  "Contrat d’engagement TIM",
+  "Grille des cours en TIM",
+  "Pondération des cours TIM",
+  "Guide des ressources d'aide",
+  "Par où commencer",
+  "Introduction à MacOS",
+  "Installation Adobe"
 ];
 
-const fichiersLiens = [
+// Fichiers à télécharger
+const fichiersLiens = [];
 
-  ];
+let dernierElementTouche = null;
 
 for (let i = 0; i < nombreDossier; i++) {
-    // Dossier
-    const dossier = document.createElement("div");
-    dossier.classList.add('dossier');
 
-    // Arrière
-    const arriere = document.createElement('div');
-    arriere.classList.add('arriere');
+  // Création de la structure
+  const dossier = document.createElement("div");
+  dossier.classList.add("dossier");
 
-    // Etiquette
-    const etiquette = document.createElement('span');
-    etiquette.classList.add('texte-etiquette');
-    etiquette.textContent = etiquettes[i] || `Dossier ${i+1}`;
-    arriere.appendChild(etiquette);
+  const arriere = document.createElement("div");
+  arriere.classList.add("arriere");
 
-    if (i % 2 == 0) {
-        // odd
-        etiquette.style.left = '15px';
-        etiquette.style.right = 'auto';
-        etiquette.style.textAlign = 'left';
-    } 
-    else {
-        // even
-        etiquette.style.right = '15px';
-        etiquette.style.left = 'auto';
-        etiquette.style.textAlign = 'right';
-    }
+  const etiquette = document.createElement("span");
+  etiquette.classList.add("texte-etiquette");
+  etiquette.textContent = etiquettes[i] || `Dossier ${i + 1}`;
+  arriere.appendChild(etiquette);
 
-    // Papier
-    const papier = document.createElement('div');
-    papier.classList.add('papier');
+  if (i % 2 === 0) {
+    //odd
+    etiquette.style.left = "15px";
+    etiquette.style.right = "auto";
+    etiquette.style.textAlign = "left";
+  } 
+  else {
+    //even
+    etiquette.style.right = "15px";
+    etiquette.style.left = "auto";
+    etiquette.style.textAlign = "right";
+  }
 
-    const texteTelecharger = document.createElement('h2');
-    texteTelecharger.classList.add('telecharger-papier');
-    texteTelecharger.textContent = 'Télécharger';
-    papier.appendChild(texteTelecharger);
+  const papier = document.createElement("div");
+  papier.classList.add("papier");
 
-    // Avant
-    const avant = document.createElement('div');
-    avant.classList.add('avant');
+  const texteTelecharger = document.createElement("h2");
+  texteTelecharger.classList.add("telecharger-papier");
+  texteTelecharger.textContent = "Télécharger";
+  papier.appendChild(texteTelecharger);
 
-    // Append
-    dossier.appendChild(arriere);
-    dossier.appendChild(papier);
-    dossier.appendChild(avant);
+  const avant = document.createElement("div");
+  avant.classList.add("avant");
 
-    dossiers.appendChild(dossier);
+  // Append
+  dossier.appendChild(arriere);
+  dossier.appendChild(papier);
+  dossier.appendChild(avant);
+  dossiers.appendChild(dossier);
 
-    // Gestion clics et tapotements
-    const fichierURL = fichiersLiens[i] || "#";
+  const fichierURL = fichiersLiens[i] || "#";
 
-    const ouvrirFichier = () => {
+  const ouvrirFichier = () => {
     if (fichierURL == "#") {
-        alert("Fichier non disponible pour ce dossier.");
-        return;
+      alert("Fichier non disponible pour ce dossier.");
+      return;
     }
     window.open(fichierURL, "_blank");
-    };
+  };
 
-    // Détecte clic ou tapotements
-    const addTapOuClickListener = (element, callback) => {
-    let startX, startY, startTime;
-    let tapDetecte = false;
+    // Gestion des interactions
+    const gereInteraction = (element) => {
+    const touche = "ontouchstart" in window;
 
-    // Événements mobile
-    element.addEventListener("touchstart", (e) => {
-        const touch = e.touches[0];
-        startX = touch.clientX;
-        startY = touch.clientY;
-        startTime = Date.now();
-        tapDetecte = false;
-    });
+    if (touche) {
+        element.addEventListener("touchend", (e) => {
+            e.preventDefault();
+            element.classList.add("hover-active");
+            // Si on touche le même élément deux fois de suite, on l'ouvre
+            if (dernierElementTouche == element) {
+                ouvrirFichier();
+                dernierElementTouche = null;
+            } 
+            else {
+                // Sinon, activer "hover"
+                document.querySelectorAll(".dossier.hover-active").forEach(d =>
+                    d.classList.remove("hover-active")
+                );
+                dernierElementTouche = element;
+            }
+        });
+    } 
+    else {
+        // Desktop
+        element.addEventListener("click", ouvrirFichier);
+    }
+  };
 
-    element.addEventListener("touchend", (e) => {
-        const touch = e.changedTouches[0];
-        const dx = Math.abs(touch.clientX - startX);
-        const dy = Math.abs(touch.clientY - startY);
-        const dt = Date.now() - startTime;
-
-        if (dx < 10 && dy < 10 && dt < 300) {
-        tapDetecte = true;
-        e.preventDefault();
-        callback(e);
-        }
-    });
-
-    // Événement desktop
-    element.addEventListener("click", (e) => {
-        if (!tapDetecte) callback(e);
-    });
-    };
-
-    // Utilisation
-    addTapOuClickListener(avant, ouvrirFichier);
-    addTapOuClickListener(papier, ouvrirFichier);
+  // Zones cliquables
+  gereInteraction(avant);
+  gereInteraction(papier);
 }
+
+// Si on tape ailleurs sur mobile, on désactive le hover
+document.addEventListener("touchstart", (e) => {
+  if (!e.target.closest(".dossier")) {
+    document.querySelectorAll(".dossier.hover-active").forEach(d =>
+      d.classList.remove("hover-active")
+    );
+    dernierElementTouche = null;
+  }
+});
