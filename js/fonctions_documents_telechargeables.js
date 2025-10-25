@@ -78,9 +78,9 @@ for (let i = 0; i < nombreDossier; i++) {
     if (touche) {
         element.addEventListener("touchend", (e) => {
             e.preventDefault();
-            element.classList.add("hover-active");
             // Si on touche le même élément deux fois de suite, on l'ouvre
             if (dernierElementTouche == element) {
+                element.classList.add("hover-active");
                 ouvrirFichier();
                 dernierElementTouche = null;
             } 

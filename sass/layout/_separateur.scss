@@ -27,15 +27,21 @@
 .titre-section {
     position: absolute;
     top: 100%;
-    left: 50%;
+    left: 52%;
     transform: translate(-50%, -120%);
     color: black;
-    font-size: 4rem;
     text-align: center;
     z-index: 10;
     pointer-events: none;
     font-size: 55px;
     font-family: var(--texte-titre), sans-serif;
+}
+@media screen and (min-width: 432px) {
+    .titre-section {
+        white-space: nowrap;
+        top: 90%;
+        font-size: 85px;
+    }
 }
 
 #separateur-1 .pixel{
