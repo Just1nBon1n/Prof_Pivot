@@ -58,7 +58,7 @@ Les variables
 
 /* Couleurs  composants section documents utiles */
 :root {
-  --docs-couleur-dossier-1: #63CF75;
+  --docs-couleur-dossier-1: #93eda2;
   --docs-couleur-dossier-2: #67D679;
   --docs-couleur-dossier-3: #52AC5E;
   --docs-couleur-dossier-4: #428A4C;
@@ -250,6 +250,7 @@ Les layouts
   width: 315px;
   height: 250px;
   perspective: 800px;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 3);
 }
 
 /* Arrière */
@@ -331,15 +332,20 @@ Les layouts
   background-color: var(--docs-couleur-dossier-7);
 }
 
+.dossier:nth-child(odd) .arriere::before {
+  left: 10px;
+}
+
 .dossier:nth-child(even) .arriere::before {
   left: auto;
+  right: 10px;
 }
 
 .texte-etiquette {
   position: absolute;
   top: -22px;
   font-size: 22px;
-  color: #000;
+  color: #ffffff;
   font-family: var(--texte-default), sans-serif;
 }
 
@@ -423,6 +429,35 @@ Les layouts
   transform: translateY(-50px);
 }
 
+.dossier:nth-of-type(even):hover {
+  transform: rotateZ(-5deg);
+}
+
+.dossier:nth-of-type(odd):hover {
+  transform: rotateZ(5deg);
+}
+
+@media screen and (min-width: 432px) {
+  .dossier {
+    width: 800px;
+    height: 550px;
+  }
+  .dossier:hover .papier {
+    transform: translateY(-150px);
+  }
+  .telecharger-papier {
+    text-align: center;
+    font-size: 65px;
+  }
+  .arriere::before {
+    width: 400px;
+    height: 55px;
+  }
+  .texte-etiquette {
+    top: -22px;
+    font-size: 30px;
+  }
+}
 .pixel {
   display: block;
   width: 20px;
