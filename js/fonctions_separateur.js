@@ -78,6 +78,31 @@
         });
     }
 
+    /* Gère l'optimisation de l'animtion des séparateurs */
+    function toggleAnimation(grandConteneur, visible) {
+        if (visible) {
+            grandConteneur.classList.add("anime");
+        } 
+        else {
+            grandConteneur.classList.remove("anime");
+        }
+    }
+    
+    function observeSeparateurs() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                toggleAnimation(entry.target, entry.isIntersecting);
+            });
+        });
+    
+        grandConteneursSeparateurs.forEach(grandConteneur => {
+            observer.observe(grandConteneur);
+        });
+    }
+    
+    // Joue l'animation seulement quand le séparateur est visible
+    observeSeparateurs();
+
     initialiserSeparateurs();
 
     window.addEventListener("resize", initialiserSeparateurs);

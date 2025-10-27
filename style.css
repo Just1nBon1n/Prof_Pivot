@@ -463,7 +463,12 @@ Les layouts
   width: 20px;
   height: 20px;
   animation: flicker 4s infinite ease-in-out;
+  animation-play-state: paused;
   transition: opacity 0.3s ease-out, filter 0.3s ease-out;
+}
+
+.anime .pixel {
+  animation-play-state: running;
 }
 
 .parent-pixel.hovered {
