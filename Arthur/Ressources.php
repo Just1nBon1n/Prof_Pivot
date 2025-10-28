@@ -15,6 +15,12 @@
   </section>
   <section class="aide">
   <h2 class="res-titre">Soutien et encadrement</h2>
+  <ul id="circle">
+    <li style="transform: rotateY(0deg) translateZ(150px)">Gauche</li>
+    <li style="transform: rotateY(90deg) translateZ(150px)">Milieu</li>
+    <li style="transform: rotateY(180deg) translateZ(150px)">Droite</li>
+    <li style="transform: rotateY(270deg) translateZ(150px)">Derrière</li>
+  </ul>
   </section>
 
 </section>

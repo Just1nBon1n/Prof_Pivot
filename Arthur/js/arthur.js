@@ -55,4 +55,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const active = greg.style.transform && greg.style.transform !== '';
     if (active) GregLeave(); else GregHover();
   });
+const circle = document.getElementById('circle');
+const numItems = 4; // nombre de li
+let currentIndex = 0;
+
+function rotateStep() {
+  // Calcul angle
+  const angle = currentIndex * (360 / numItems);
+  // Ne pas translater le conteneur vers l'arrière — laisser la perspective sur le parent
+  circle.style.transform = `rotateY(${angle}deg)`;
+
+  // Agrandir li devant
+  const items = circle.querySelectorAll('li');
+  items.forEach((li, index) => {
+    const itemAngle = index * (360 / numItems);
+    // position en cercle autour de l'axe Y avec translateZ positif
+    if(index === currentIndex) {
+      li.style.transform = `rotateY(${itemAngle}deg) translateZ(150px) scale(1.3)`;
+      li.style.zIndex = '10';
+      li.style.opacity = '1';
+    } else {
+      li.style.transform = `rotateY(${itemAngle}deg) translateZ(150px) scale(1)`;
+      li.style.zIndex = '1';
+      li.style.opacity = '0.8';
+    }
+  });
+
+  // Après 3 secondes, passer à l’élément suivant
+  currentIndex = (currentIndex + 1) % numItems;
+  setTimeout(rotateStep, 3000);
+}
+
+// Démarrer la boucle
+rotateStep();
+
 });

@@ -239,11 +239,32 @@ Les layouts
     padding: 1rem 2rem;
   }
 }
+.Ressources {
+  display: flex;
+  flex-direction: column; /* force empilement vertical : .pivots au-dessus, .aide en dessous */
+  align-items: stretch;
+  height: auto;
+}
+@media screen and (min-width: 432px) {
+  .Ressources .pivots {
+    height: 70vh;
+  }
+}
+@media screen and (min-width: 576px) {
+  .Ressources .pivots {
+    height: 100vh;
+  }
+}
 .Ressources .pivots .prof {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   margin: 20px;
   margin-top: 0;
+}
+@media screen and (min-width: 576px) {
+  .Ressources .pivots .prof {
+    height: 100%;
+  }
 }
 .Ressources .pivots .prof figure {
   grid-column: span 2;
@@ -253,12 +274,22 @@ Les layouts
   position: relative; /* nécessaire pour l'overlay */
   overflow: hidden;
 }
+@media screen and (min-width: 432px) {
+  .Ressources .pivots .prof figure {
+    height: 100%;
+  }
+}
 .Ressources .pivots .prof figure .img-pivots {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 10px;
   object-fit: cover;
+}
+@media screen and (min-width: 432px) {
+  .Ressources .pivots .prof figure .img-pivots {
+    height: 100%;
+  }
 }
 .Ressources .pivots .prof figure figcaption {
   position: absolute;
@@ -280,6 +311,49 @@ Les layouts
 }
 .Ressources .pivots .prof .Greg {
   transform-origin: right center; /* Point d'ancrage à droite */
+}
+.Ressources .aide {
+  order: 1; /* s'assure d'être après .pivots dans l'ordre visuel */
+  flex: 0 0 auto; /* ne pas s'étirer */
+  margin-top: 4rem; /* espace au-dessus si nécessaire */
+  height: 30vh;
+  /* perspective pour voir les éléments 3D et éviter le clipping */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  perspective: 900px;
+  perspective-origin: 50% 50%;
+  overflow: visible;
+}
+.Ressources .aide ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+  overflow: visible;
+}
+.Ressources .aide ul li {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background: #4caf50;
+  border-radius: 8px;
+  left: 50%;
+  top: 50%;
+  margin-left: -50px;
+  margin-top: -25px;
+  font-weight: bold;
+  backface-visibility: visible; /* permet de voir les faces arrière */
+  transform-style: preserve-3d;
+  opacity: 1;
+  transition: transform 0.6s ease, opacity 0.6s ease;
 }
 .Ressources .res-titre {
   font-family: var(--texte-titre);
