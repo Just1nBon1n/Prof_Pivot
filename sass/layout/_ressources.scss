@@ -1,0 +1,58 @@
+.Ressources {
+  .pivots {
+  .prof {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      margin: 20px;
+      margin-top: 0;
+      figure {
+        grid-column: span 2;
+        margin: 0;
+        width: 100%;
+        height: auto;
+        position: relative; /* nécessaire pour l'overlay */
+        overflow: hidden;
+
+        .img-pivots {
+          display: block;
+          width: 100%;
+          height: auto;
+          border-radius: 10px;
+          object-fit: cover;
+        }
+
+        figcaption {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 50%;
+          color: #fff;
+          // padding: 0.6rem 1rem;
+          font-family: var(--texte-titre);
+          text-align: center;
+          font-size: 1rem;
+          z-index: 2;
+        }
+        .prof_content {
+          flex: 1 1 0;
+          grid-column: span 1;
+        }
+        }
+        .David {
+          transform-origin: left center; /* Point d'ancrage à gauche */
+        }
+        .Greg {
+          transform-origin: right center; /* Point d'ancrage à droite */
+        }
+      }
+  }
+  .aide {
+  }
+    .res-titre{
+    font-family: var(--texte-titre);
+    color: var(--couleur-texte-footer);
+    text-align: center;
+    // margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+}

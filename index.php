@@ -5,6 +5,11 @@
 
 <section class="Pixel PixelsB"></section>
 <section class="Pixel PixelsO"></section>
+<section id="Imp" class="Profs">
+  <?php get_template_part('Arthur/Ressources'); ?>
+</section>
+<section class="Pixel Pixelsv"></section>
+<section id="Imp" class="Documents"></section>
 <!-- <section class="Pixel PixelsB"></section> -->
 <?php get_template_part('David/Separateur', null, array('id' => 'separateur-1', 'title' => 'LIENS UTILES'));?>
 <section id="Imp" class="Liens"></section>
