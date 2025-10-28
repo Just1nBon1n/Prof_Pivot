@@ -345,6 +345,8 @@ Les layouts
   .menu-item:hover .text {
     opacity: 1;
     transform: translateY(0);
+  }
+}
 .dossiers {
   display: flex;
   flex-direction: column;
