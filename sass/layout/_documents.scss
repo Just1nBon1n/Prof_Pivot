@@ -1,0 +1,200 @@
+.dossiers{
+    display: flex;
+    flex-direction: column;
+    gap: -60px;
+}
+
+.dossier {
+    position: relative;
+    width: 315px;
+    height: 250px;
+    perspective: 800px;
+    transition: transform 0.5s cubic-bezier( 0.175, 0.885, 0.32, 3 );
+}
+
+/* Arrière */
+.arriere {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--docs-couleur-dossier-contour);
+    // background: linear-gradient(to bottom, #59fb31, #009521);
+    border-radius: 4px;
+    // box-shadow: inset 0 -2px 0 rgb(38, 102, 14);
+}
+.dossier:nth-of-type(1) .arriere {
+    background-color: var(--docs-couleur-dossier-1);
+}
+.dossier:nth-of-type(2) .arriere {
+    background-color: var(--docs-couleur-dossier-2);
+}
+.dossier:nth-of-type(3) .arriere {
+    background-color: var(--docs-couleur-dossier-3);
+}
+.dossier:nth-of-type(4) .arriere {
+    background-color: var(--docs-couleur-dossier-4);
+}
+.dossier:nth-of-type(5) .arriere {
+    background-color: var(--docs-couleur-dossier-5);
+}
+.dossier:nth-of-type(6) .arriere {
+    background-color: var(--docs-couleur-dossier-6);
+}
+.dossier:nth-of-type(7) .arriere {
+    background-color: var(--docs-couleur-dossier-7);
+}
+
+/* Etiquette */
+.arriere::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 9px;
+    width: 300px;
+    height: 25px;
+    border-top: 2px solid var(--docs-couleur-dossier-contour);
+    border-left: 2px solid var(--docs-couleur-dossier-contour);
+    border-right: 2px solid var(--docs-couleur-dossier-contour);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.dossier:nth-of-type(1) .arriere::before {
+    background-color: var(--docs-couleur-dossier-1);
+}
+.dossier:nth-of-type(2) .arriere::before {
+    background-color: var(--docs-couleur-dossier-2);
+}
+.dossier:nth-of-type(3) .arriere::before {
+    background-color: var(--docs-couleur-dossier-3);
+}
+.dossier:nth-of-type(4) .arriere::before {
+    background-color: var(--docs-couleur-dossier-4);
+}
+.dossier:nth-of-type(5) .arriere::before {
+    background-color: var(--docs-couleur-dossier-5);
+}
+.dossier:nth-of-type(6) .arriere::before {
+    background-color: var(--docs-couleur-dossier-6);
+}
+.dossier:nth-of-type(7) .arriere::before {
+    background-color: var(--docs-couleur-dossier-7);
+}
+
+.dossier:nth-child(odd) .arriere::before {
+    left: 10px;
+}
+
+.dossier:nth-child(even) .arriere::before {
+    left: auto;
+    right: 10px;
+}
+
+.texte-etiquette {
+    position: absolute;
+    top: -22px;
+    font-size: 22px;
+    color: #ffffff;
+    font-family: var(--texte-default), sans-serif;
+}
+
+/* Papier */
+.papier {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: 70%;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+    transition: transform 0.4s ease;
+    z-index: 1;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.telecharger-papier{
+    text-align: center;
+}
+
+/* Avant */
+.avant {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 85%;
+    border: 2px solid var(--docs-couleur-dossier-contour);
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    transform-origin: bottom center;
+    transform: rotateX(0deg);
+    transition: transform 0.4s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+    pointer-events: all;
+    cursor: pointer;
+}
+.dossier:nth-of-type(1) .avant {
+    background-color: var(--docs-couleur-dossier-1);
+}
+.dossier:nth-of-type(2) .avant {
+    background-color: var(--docs-couleur-dossier-2);
+}
+.dossier:nth-of-type(3) .avant {
+    background-color: var(--docs-couleur-dossier-3);
+}
+.dossier:nth-of-type(4) .avant {
+    background-color: var(--docs-couleur-dossier-4);
+}
+.dossier:nth-of-type(5) .avant {
+    background-color: var(--docs-couleur-dossier-5);
+}
+.dossier:nth-of-type(6) .avant {
+    background-color: var(--docs-couleur-dossier-6);
+}
+.dossier:nth-of-type(7) .avant {
+    background-color: var(--docs-couleur-dossier-7);
+}
+
+/* Animations */
+.dossier:hover .avant {
+    transform: rotateX(-40deg);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+}
+
+.dossier:hover .papier {
+    transform: translateY(-50px);
+}
+
+.dossier:nth-of-type(even):hover {
+    transform: rotateZ(-5deg);
+}
+.dossier:nth-of-type(odd):hover {
+    transform: rotateZ(5deg);
+}
+
+@media screen and (min-width: 432px) {
+    .dossier {
+        width: 800px;
+        height: 550px;
+    }
+    .dossier:hover .papier {
+        transform: translateY(-150px);
+    }
+    .telecharger-papier{
+        text-align: center;
+        font-size: 65px;
+    }
+
+    .arriere::before {
+        width: 400px;
+        height: 55px;
+    }
+    .texte-etiquette {
+        top: -22px;
+        font-size: 30px;
+    }
+}
