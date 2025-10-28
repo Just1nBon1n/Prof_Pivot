@@ -26,25 +26,28 @@ header {
 
 /* BODY */
 body {
+  overflow-x: hidden;
   font-family: Arial, sans-serif;
   line-height: 1.6;
   background-color: var(--couleur-fond);
 
   #Imp {
-    height: 75vh;
     margin: 20px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    position: relative; ///////
+    display: flex; /////
+    justify-content: center; //////
   }
 
 
 
   /* Intra sections de Pixel */
   .Pixel {
-    height: 50px;
-    width: 100%;
-    background-color: lightgrey;
+    position: relative; /////
+    display: flex; /////
+    flex-direction: column; /////
   }
   .PixelsB {
     background-color: var(--liens-couleur-section);
