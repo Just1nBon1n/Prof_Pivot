@@ -3,6 +3,12 @@
 <!-- Inclusion du fichier accueil.php -->
 <?php get_template_part('justin/acceuil'); ?>
 
+<section class="Pixel PixelsB"></section>
+<section id="Imp" class="Liens">
+<?php get_template_part('Johnny/johnny'); ?>
+
+</section>
+<section class="Pixel PixelsO"></section>
 <!-- <section class="Pixel PixelsB"></section> -->
 <?php get_template_part('David/Separateur', null, array('id' => 'separateur-1', 'title' => 'LIENS UTILES'));?>
 <section id="Imp" class="Liens"></section>
