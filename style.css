@@ -236,7 +236,7 @@ Les layouts
   }
 }
 /**************************************************************************************************************/
-/* Grid container */
+/* Conteneur Grid */
 .grid-menu {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -313,7 +313,6 @@ Les layouts
   grid-column: span 2;
 }
 
-/* Tablet et mobile  */
 @media (max-width: 900px) {
   .grid-menu {
     grid-template-columns: repeat(2, 1fr);
@@ -322,19 +321,22 @@ Les layouts
     height: auto;
     gap: 12px;
   }
-  .menu-item {
-    grid-column: auto !important;
-    grid-row: auto !important;
+  /* Réinitialisation de tous les items du menu pour mobile */
+  .grid-menu .menu-item {
+    grid-column: auto;
+    grid-row: auto;
     font-size: 1.5rem;
   }
+  /* Icône toujours visible sur mobile */
   .menu-item .icon {
-    opacity: 1 !important;
+    opacity: 1;
   }
+  /* Texte toujours visible sur mobile */
   .menu-item .text {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+    opacity: 1;
+    transform: translateY(0);
   }
-  /* Remove hover transitions on mobile */
+  /* Désactiver les effets hover sur mobile */
   .menu-item:hover .icon,
   .menu-item:hover .text {
     opacity: 1;
