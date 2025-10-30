@@ -44,6 +44,8 @@ Les variables
   --snake-couleur-corp: #7FC765;
   --snake-couleur-yeux: #000000;
   --snake-couleur-blocs: #D4D4D4;
+  --snake-couleur-nourriture: #FF3B3B;
+  --snake-couleur-lumiere: #8ea1b1;
 }
 
 /* Couleurs composants section liens utiles */
@@ -126,7 +128,6 @@ body {
 body #Imp {
   margin: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
   border-radius: 5px;
   position: relative;
   display: flex;
@@ -158,6 +159,9 @@ footer section.carre {
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
+/*--------------------------------------------------------------
+// Styles pour la page d'accueil avec le jeu Snake en mobile
+--------------------------------------------------------------*/
 .Accueil {
   display: flex;
   justify-content: center;
@@ -215,6 +219,9 @@ Les layouts
   background-color: #019875;
 }
 
+/*--------------------------------------------------------------
+// Styles pour les tablettes
+--------------------------------------------------------------*/
 @media (min-width: 600px) {
   .Accueil .instructions p {
     font-size: 1.4rem;
@@ -227,6 +234,9 @@ Les layouts
     padding: 0.8rem 1.5rem;
   }
 }
+/*--------------------------------------------------------------
+// Styles pour Desktops
+--------------------------------------------------------------*/
 @media (min-width: 1024px) {
   .Accueil .instructions p {
     font-size: 1.6rem;
