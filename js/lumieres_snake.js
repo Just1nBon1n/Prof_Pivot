@@ -1,15 +1,18 @@
 document.addEventListener("DOMContentLoaded", function() {
     const canvasLum = document.getElementById("canvasLumieres");
     if (!canvasLum) return;
-
     const ctx = canvasLum.getContext("2d");
+    
+    // === Variables globales ==================================================
     let box = 40;
     let blocsLumineux = [];
 
-    // Utilisation de la fonction globale définie dans couleursUtils.js
+    // Utilisation de la fonction définie dans couleursUtils.js
+    // pour obtenir la couleur des lumières du snake
     const couleurLumiere = getCssColor('--snake-couleur-lumiere');
-    console.log(couleurLumiere);
+    // console.log(couleurLumiere);
 
+    // === Fonctions ===========================================================
     function ajusterParametresJeu() {
         const largeur = window.innerWidth;
         if (largeur < 600) box = 42;
@@ -51,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 bloc.y = Math.floor(Math.random() * (canvasLum.height / box)) * box;
             }
 
-            ctx.fillStyle = `rgba(${couleurLumiere.r}, ${couleurLumiere.g}, ${couleurLumiere.b}, ${bloc.alpha * 0.4})`;
+            ctx.fillStyle = rgbToString(couleurLumiere, bloc.alpha);
             ctx.fillRect(bloc.x, bloc.y, box, box);
         }
         requestAnimationFrame(animerBlocs);

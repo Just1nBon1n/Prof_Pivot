@@ -16,8 +16,10 @@ document.addEventListener("click", () => {
   }, 300);
 });
 
-// Sélectionne uniquement les éléments où tu veux l'effet
-const hoverElements = document.querySelectorAll('.hoverable');
+// Sélectionnez tous les types d'éléments interactifs communs
+const interactiveSelectors = 'a, button, input[type="submit"], input[type="button"], .interactive-class-specifique';
+
+const hoverElements = document.querySelectorAll(interactiveSelectors);
 
 hoverElements.forEach(el => {
   el.addEventListener('mouseenter', () => {
