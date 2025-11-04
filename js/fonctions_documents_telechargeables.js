@@ -1,19 +1,12 @@
 const dossiers = document.querySelector(".dossiers");
 let nombreDossier = 7;
 
-// Étiquettes
-const etiquettes = [
-  "Contrat d’engagement TIM",
-  "Grille des cours en TIM",
-  "Pondération des cours TIM",
-  "Guide des ressources d'aide",
-  "Par où commencer",
-  "Introduction à MacOS",
-  "Installation Adobe"
-];
+// Données injectées depuis PHP
 
-// Fichiers à télécharger
-const fichiersLiens = [];
+// Étiquettes
+const etiquettes = dossiersData.etiquettes;
+// Liens des fichiers à télécharger
+const fichiersLiens = dossiersData.fichiersLiens;
 
 let dernierElementTouche = null;
 
