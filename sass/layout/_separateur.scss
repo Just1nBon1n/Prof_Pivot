@@ -44,7 +44,7 @@
 @media screen and (min-width: 432px) {
     .titre-section {
         white-space: nowrap;
-        top: 90%;
+        top: 75%;
         font-size: 85px;
     }
 }
@@ -59,6 +59,7 @@
     background-color: var(--docs-couleur-section);
 }
 
+// Animation
 @keyframes flicker {
     0%   { opacity: 1; filter: brightness(1.05); }
     25%  { opacity: 0.9; filter: brightness(0.95); }

@@ -61,13 +61,13 @@ Les variables
 
 /* Couleurs  composants section documents utiles */
 :root {
-  --docs-couleur-dossier-1: #93eda2;
-  --docs-couleur-dossier-2: #67D679;
-  --docs-couleur-dossier-3: #52AC5E;
-  --docs-couleur-dossier-4: #428A4C;
-  --docs-couleur-dossier-5: #326839;
-  --docs-couleur-dossier-6: #214626;
-  --docs-couleur-dossier-7: #18301B;
+  --docs-couleur-dossier-1: #4CE054;
+  --docs-couleur-dossier-2: #46CE4D;
+  --docs-couleur-dossier-3: #3CB142;
+  --docs-couleur-dossier-4: #329437;
+  --docs-couleur-dossier-5: #28772C;
+  --docs-couleur-dossier-6: #1E5A21;
+  --docs-couleur-dossier-7: #153C17;
   --docs-couleur-dossier-contour: #000000;
   --docs-couleur-dossier-fond: #E6E6E6;
 }
@@ -539,16 +539,18 @@ Les layouts
     transform: translateY(0);
   }
 }
+.Documents {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
 .dossiers {
   display: flex;
   flex-direction: column;
 }
 
 /* cible tous les enfants directs de .dossier */
-.dossiers > * + * {
-  margin-top: -60px;
-}
-
 .dossier {
   position: relative;
   width: 315px;
@@ -810,7 +812,7 @@ Les layouts
 @media screen and (min-width: 432px) {
   .titre-section {
     white-space: nowrap;
-    top: 90%;
+    top: 75%;
     font-size: 85px;
   }
 }

@@ -1,12 +1,18 @@
+.Documents{
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
 .dossiers{
     display: flex;
     flex-direction: column;
 }
 
 /* cible tous les enfants directs de .dossier */
-.dossiers > * + * {
-    margin-top: -60px;
-}
+// .dossiers > * + * {
+//     margin-top: -60px;
+// }
 
 .dossier {
     position: relative;
@@ -180,6 +186,8 @@
     transform: rotateZ(5deg);
 }
 
+
+// Media query pour Desktop
 @media screen and (min-width: 432px) {
     .dossier {
         width: 800px;
