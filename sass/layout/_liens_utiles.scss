@@ -1,6 +1,10 @@
 
  
     /**************************************************************************************************************/
+    .section_LiensUtiles{
+      margin-top: 500px;
+      margin-bottom: 500px;
+    }
     /* Conteneur Grid */
     .grid-menu {
       display: grid;
@@ -10,7 +14,20 @@
       margin: 0 auto;
       gap: 0;
       height: 100vh;
+      position: relative;
+
+      /* Appliquer un effet de bord pixelisé sur les côtés */
+      -webkit-mask-image: 
+        linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+      mask-image: 
+        linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-composite: intersect;
+      
+      /* petit effet de “pixelation” avec filtre */
+      image-rendering: pixelated;
     }
+
 
     /* Base style for all items */
     .menu-item {
@@ -98,3 +115,5 @@
     transform: translateY(0);
   }
 }
+
+

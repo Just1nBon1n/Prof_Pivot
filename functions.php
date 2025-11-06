@@ -4,7 +4,8 @@
   
   // Liste des fichiers à inclure
   $function_files = array(
-    'options.php'
+    'options.php',
+    'customizerLiensUtiles.php'
   );
 
   // Boucle pour inclure tous les fichiers
