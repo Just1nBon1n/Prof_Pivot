@@ -31,9 +31,12 @@
 
 /* Couleurs composants section acceuil */
 :root {
-  --snake-couleur-corp: #7FC765;
-  --snake-couleur-yeux: #000000;
-  --snake-couleur-blocs: #D4D4D4;
+  --snake-couleur-tete: #317032;
+  --snake-couleur-corps: #7FC765;
+  --snake-couleur-nourriture: #fffb00;
+  --snake-couleur-Logo-TIM: rgba(255, 255, 255, 0.2);
+  --snake-couleur-grille: rgba(255, 255, 255, 0.1);
+  --snake-couleur-lumiere: #ba3333;
 }
 
 /* Couleurs composants section liens utiles */

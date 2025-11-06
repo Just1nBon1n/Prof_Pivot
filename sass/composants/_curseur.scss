@@ -1,0 +1,160 @@
+/* CURSEUR ////////////////////////////////////////////////////////////////// */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000; /* Toujours au dessus */
+  /* Taille curseur */
+  width: 3rem;
+  height: 3rem;
+  pointer-events: none;   
+  /* Centrer le curseur par rapport à la souris */ 
+  transform: translate(-50%, -50%); 
+  /* Structure curseur */
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  /* border: 1px solid red;  */
+}
+
+/* Carres curseur haut gauche */
+.cursor .carre1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+  border: 1.5px solid black;
+}
+
+.cursor .detail1 {
+  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
+  position: relative;
+  width: 80%;
+  height: 80%;
+  /* border: 1px solid red;  */
+}
+
+.cursor .carre1 .ligne1 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 70%;
+  height: 20%;
+  background-color: red;
+}
+
+.cursor .carre1 .ligne2 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 20%;
+  height: 70%;
+  background-color: red;
+}
+
+/* Carres curseur bas droite */
+.cursor .carre2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+  grid-row-start: 2;
+  grid-column-start: 2;
+  border: 1.5px solid black;
+}
+
+.cursor .detail2 {
+  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
+  position: relative;
+  width: 80%;
+  height: 80%;
+  /* border: 1px solid red;  */
+}
+
+.cursor .carre2 .ligne1 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 70%;
+  height: 20%;
+  background-color: red;
+  bottom: 0;
+  right: 0;
+}
+
+.cursor .carre2 .ligne2 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 20%;
+  height: 70%;
+  background-color: red;
+  bottom: 0;
+  right: 0;
+}
+
+/* ========================== */
+/* Hover animations           */
+/* ========================== */
+/* Animation Hover ////////////////////////////////////////////////////////// */
+/* Mouvement carré */
+.cursor .carre1,
+.cursor .carre2 {
+  transition: transform 0.3s ease;
+}
+
+.cursor.hovered .carre1 {
+  transform: translate(100%, 0); /* déplace vers gauche */
+}
+.cursor.hovered .carre2 {
+  transform: translate(-100%, 0); /* déplace vers droite */
+}
+
+/* Mouvement lignes 1 */
+.cursor .carre1 .ligne1,
+.cursor .carre2 .ligne1
+ {
+  transition: transform .5s ease;
+}
+
+.cursor.hovered .carre1 .ligne1 {
+  transform: translate(30%, 0);
+}
+.cursor.hovered .carre2 .ligne1 {
+  transform: translate(-30%, 0);
+}
+
+/* Mouvement lignes 2 */
+.cursor .carre1 .ligne2,
+.cursor .carre2 .ligne2 {
+  transition: transform .3s ease;
+}
+
+.cursor.hovered .carre1 .ligne2 {
+  transform: translate(400%, 0);
+}
+.cursor.hovered .carre2 .ligne2 {
+  transform: translate(-400%, 0);
+}
+
+
+/* ========================== */
+/* Click animation            */
+/* ========================== */
+.cursor.clicked {
+  animation: tailleCurseur 0.3s ease;
+  /* IMPORTANT! garder le meme delais dans le JS */
+}
+
+@keyframes tailleCurseur {
+  0%   { transform: translate(-50%, -50%) scale(1); }
+  50%  { transform: translate(-50%, -50%) scale(0.8); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.carre1, .carre2 {
+  animation: positionCarres 1.3s ease;
+  /* IMPORTANT! garder le meme delais dans le JS */
+}
+
+@keyframes positionCarres {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(50%, 0); }
+  100% { transform: translate(0, 0); }
+}

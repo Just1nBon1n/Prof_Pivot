@@ -41,9 +41,12 @@ Les variables
 
 /* Couleurs composants section acceuil */
 :root {
-  --snake-couleur-corp: #7FC765;
-  --snake-couleur-yeux: #000000;
-  --snake-couleur-blocs: #D4D4D4;
+  --snake-couleur-tete: #317032;
+  --snake-couleur-corps: #7FC765;
+  --snake-couleur-nourriture: #fffb00;
+  --snake-couleur-Logo-TIM: rgba(255, 255, 255, 0.2);
+  --snake-couleur-grille: rgba(255, 255, 255, 0.1);
+  --snake-couleur-lumiere: #ba3333;
 }
 
 /* Couleurs composants section liens utiles */
@@ -105,59 +108,193 @@ h2 {
   color: var(--couleur-texte-default);
 }
 
-/* HEADER */
-header {
-  width: 100%;
-  height: 150px;
-  background-color: var(--couleur-fond);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /* BODY */
 body {
   overflow-x: hidden;
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
   background-color: var(--couleur-fond);
-  /* Intra sections de Pixel */
-}
-body #Imp {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-body .Pixel {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-body .PixelsB {
-  background-color: var(--liens-couleur-section);
-}
-body .PixelsO {
-  background-color: var(--personnes-couleur-section);
-}
-body .Pixelsv {
-  background-color: var(--docs-couleur-section);
-}
-
-/* FOOTER */
-footer {
-  width: 100%;
-}
-footer section.carre {
-  background-color: var(--footer-couleur-fond);
 }
 
 /* /////////////////////////////////
+Les composants
+//////////////////////////////////// */
+/* CURSEUR ////////////////////////////////////////////////////////////////// */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000; /* Toujours au dessus */
+  /* Taille curseur */
+  width: 3rem;
+  height: 3rem;
+  pointer-events: none;
+  /* Centrer le curseur par rapport à la souris */
+  transform: translate(-50%, -50%);
+  /* Structure curseur */
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  /* border: 1px solid red;  */
+}
+
+/* Carres curseur haut gauche */
+.cursor .carre1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+  border: 1.5px solid black;
+}
+
+.cursor .detail1 {
+  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
+  position: relative;
+  width: 80%;
+  height: 80%;
+  /* border: 1px solid red;  */
+}
+
+.cursor .carre1 .ligne1 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 70%;
+  height: 20%;
+  background-color: red;
+}
+
+.cursor .carre1 .ligne2 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 20%;
+  height: 70%;
+  background-color: red;
+}
+
+/* Carres curseur bas droite */
+.cursor .carre2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: whitesmoke;
+  grid-row-start: 2;
+  grid-column-start: 2;
+  border: 1.5px solid black;
+}
+
+.cursor .detail2 {
+  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
+  position: relative;
+  width: 80%;
+  height: 80%;
+  /* border: 1px solid red;  */
+}
+
+.cursor .carre2 .ligne1 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 70%;
+  height: 20%;
+  background-color: red;
+  bottom: 0;
+  right: 0;
+}
+
+.cursor .carre2 .ligne2 {
+  /* positionnement par rapport au carré */
+  position: absolute;
+  width: 20%;
+  height: 70%;
+  background-color: red;
+  bottom: 0;
+  right: 0;
+}
+
+/* ========================== */
+/* Hover animations           */
+/* ========================== */
+/* Animation Hover ////////////////////////////////////////////////////////// */
+/* Mouvement carré */
+.cursor .carre1,
+.cursor .carre2 {
+  transition: transform 0.3s ease;
+}
+
+.cursor.hovered .carre1 {
+  transform: translate(100%, 0); /* déplace vers gauche */
+}
+
+.cursor.hovered .carre2 {
+  transform: translate(-100%, 0); /* déplace vers droite */
+}
+
+/* Mouvement lignes 1 */
+.cursor .carre1 .ligne1,
+.cursor .carre2 .ligne1 {
+  transition: transform 0.5s ease;
+}
+
+.cursor.hovered .carre1 .ligne1 {
+  transform: translate(30%, 0);
+}
+
+.cursor.hovered .carre2 .ligne1 {
+  transform: translate(-30%, 0);
+}
+
+/* Mouvement lignes 2 */
+.cursor .carre1 .ligne2,
+.cursor .carre2 .ligne2 {
+  transition: transform 0.3s ease;
+}
+
+.cursor.hovered .carre1 .ligne2 {
+  transform: translate(400%, 0);
+}
+
+.cursor.hovered .carre2 .ligne2 {
+  transform: translate(-400%, 0);
+}
+
+/* ========================== */
+/* Click animation            */
+/* ========================== */
+.cursor.clicked {
+  animation: tailleCurseur 0.3s ease;
+  /* IMPORTANT! garder le meme delais dans le JS */
+}
+
+@keyframes tailleCurseur {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+.carre1, .carre2 {
+  animation: positionCarres 1.3s ease;
+  /* IMPORTANT! garder le meme delais dans le JS */
+}
+
+@keyframes positionCarres {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(50%, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+/* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
+/*--------------------------------------------------------------
+// Styles pour la page d'accueil avec le jeu Snake en mobile
+--------------------------------------------------------------*/
 .Accueil {
   display: flex;
   justify-content: center;
@@ -215,6 +352,9 @@ Les layouts
   background-color: #019875;
 }
 
+/*--------------------------------------------------------------
+// Styles pour les tablettes
+--------------------------------------------------------------*/
 @media (min-width: 600px) {
   .Accueil .instructions p {
     font-size: 1.4rem;
@@ -227,6 +367,9 @@ Les layouts
     padding: 0.8rem 1.5rem;
   }
 }
+/*--------------------------------------------------------------
+// Styles pour Desktops
+--------------------------------------------------------------*/
 @media (min-width: 1024px) {
   .Accueil .instructions p {
     font-size: 1.6rem;
@@ -400,7 +543,11 @@ Les layouts
 .dossiers {
   display: flex;
   flex-direction: column;
-  gap: -60px;
+}
+
+/* cible tous les enfants directs de .dossier */
+.dossiers > * + * {
+  margin-top: -60px;
 }
 
 .dossier {

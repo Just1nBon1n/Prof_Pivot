@@ -1,7 +1,11 @@
 .dossiers{
     display: flex;
     flex-direction: column;
-    gap: -60px;
+}
+
+/* cible tous les enfants directs de .dossier */
+.dossiers > * + * {
+    margin-top: -60px;
 }
 
 .dossier {
