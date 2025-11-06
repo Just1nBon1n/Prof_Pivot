@@ -15,12 +15,29 @@
   </section>
   <section class="aide">
   <h2 class="res-titre">Soutien et encadrement</h2>
-  <ul id="circle">
-    <li style="transform: rotateY(0deg) translateZ(150px)">Gauche</li>
-    <li style="transform: rotateY(90deg) translateZ(150px)">Milieu</li>
-    <li style="transform: rotateY(180deg) translateZ(150px)">Droite</li>
-    <li style="transform: rotateY(270deg) translateZ(150px)">Derrière</li>
-  </ul>
+<ul>
+  <li class="caroussel1">
+    <div class="slide-box" aria-hidden="true">
+      <h2>API</h2>
+    </div>
+  </li>
+  <li class="caroussel2">
+    <div class="slide-box" aria-hidden="true">
+      <H2>CÉTIM</H2>
+    </div> 
+  </li>
+  <li class="caroussel3">
+    <div class="slide-box" aria-hidden="true">
+      <h2>COORDO</h2>
+      <img style="width: 50px; height: 50px;" src="<?php echo get_template_directory_uri(); ?>/Arthur/images/martin.jpeg" alt="Martin">
+    </div>
+  </li>
+  <li class="caroussel4">
+    <div class="slide-box" aria-hidden="true">
+      <H2>COORDO</H2>
+    </div>
+  </li>
+</ul>
   </section>
 
 </section>

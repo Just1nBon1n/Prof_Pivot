@@ -4,20 +4,33 @@
   align-items: stretch;
   height: auto;
   .pivots {
+    /* espace latéral global pour la section pivots */
+    padding-left: 3vw;
+    padding-right: 3vw;
+    box-sizing: border-box;
+
       @media screen and (min-width: 432px){
           height: 70vh;
       }
       @media screen and (min-width: 576px){
           height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center; /* centre verticalement .prof dans la section */
       }
-  .prof {
+    .prof {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      margin: 20px;
+      max-width: 1200px; /* largeur max de la grille */
+      width: 100%;
+      margin: 20px auto 0 auto; /* centre horizontalement la grille */
+      padding-inline: 0.75rem; /* marge interne gauche / droite */
       margin-top: 0;
 
         @media screen and (min-width: 576px){
-          height: 100%;
+          height: 80%; /* <- .prof prend 80% de la hauteur de .pivots */
+          box-sizing: border-box;
+          width: 100%;
         }
       figure {
         grid-column: span 2;
@@ -25,21 +38,30 @@
         width: 100%;
         height: auto;
         @media screen and (min-width: 432px){
+          box-sizing: content-box;
           height: 100%;
         }
         position: relative; /* nécessaire pour l'overlay */
         overflow: hidden;
 
-        .img-pivots {
-          display: block;
-          width: 100%;
-          height: auto;
-        @media screen and (min-width: 432px){
-          height: 100%;
-        }
-          border-radius: 10px;
-          object-fit: cover;
-        }
+        /* garder le haut fixe lors des transforms ou du redimensionnement */
+        transform-origin: left center;
+
+         .img-pivots {
+           display: block;
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+           object-position: 50% 20%; /* le haut de l'image reste visible */
+           transform-origin: top center;
+           image-rendering: pixelated;
+           image-rendering: crisp-edges;
+           -ms-interpolation-mode: nearest-neighbor;
+         @media screen and (min-width: 432px){
+           height: 100%;
+         }
+           border-radius: 10px;
+         }
 
         figcaption {
           position: absolute;
@@ -59,56 +81,90 @@
         }
         }
         .David {
-          transform-origin: left center; /* Point d'ancrage à gauche */
-        }
-        .Greg {
-          transform-origin: right center; /* Point d'ancrage à droite */
-        }
-      }
+          transform-origin: top left; /* ancre en haut à gauche pour garder le haut fixe */
+         }
+         .Greg {
+          transform-origin: top right; /* ancre en haut à droite pour garder le haut fixe */
+         }
+       }
   }
   .aide {
     order: 1;            /* s'assure d'être après .pivots dans l'ordre visuel */
     flex: 0 0 auto;      /* ne pas s'étirer */
     margin-top: 4rem;    /* espace au-dessus si nécessaire */
-    height: 30vh;
+    margin-bottom: 4rem;
+    /* plus de place pour les slides */
+    min-height: 40vh;
+    @media screen and (min-width: 576px) {
+      min-height: 55vh; /* augmente sur écrans plus larges */
+    }
 
-    /* perspective pour voir les éléments 3D et éviter le clipping */
     display: flex;
-    flex-direction: column;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-    perspective: 900px;
-    perspective-origin: 50% 50%;
-    overflow: visible;
+    overflow: hidden;
 
     ul {
       list-style: none;
       padding: 0;
       margin: 0;
+      width: min(900px, 90%); /* largeur du carrousel */
+      height: 75vh;
       position: relative;
-      width: 200px;
-      height: 200px;
-      transform-style: preserve-3d;
-      transition: transform 0.8s ease;
-      overflow: visible;
+      display: flex;           /* track */
+      align-items: center;     /* centre verticalement les slides dans le track */
+      justify-content: flex-start; /* IMPORTANT: éviter centrage qui découpe les slides */
+      transition: transform 0.6s ease;
+      // overflow: hidden;        /* cache les slides hors-écran */
     }
+
     ul li {
-      position: absolute;
-      width: 100px;
-      height: 50px;
-      line-height: 50px;
-      text-align: center;
-      background: #4caf50;
+      position: relative;      /* chaque slide */
+      flex: 0 0 100%; /* chaque slide prend 100% du track */
+      width: 100%;
+      height: 100%;             /* important : assure que la slide a la hauteur du track */
+      display: flex;            /* transforme chaque slide en conteneur flex */
+      flex-direction: column;   /* empile la box et le titre */
+      gap: 1rem;
+      justify-content: center;  /* centre le contenu horizontalement */
+      align-items: center;      /* centre le contenu verticalement */
+      box-sizing: border-box;
+      padding: 1rem;            /* espace interne pour lecture */
+      // background: #fff;
       border-radius: 8px;
-      left: 50%;
-      top: 50%;
-      margin-left: -50px;
-      margin-top: -25px;
-      font-weight: bold;
-      backface-visibility: visible; /* permet de voir les faces arrière */
-      transform-style: preserve-3d;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    ul li h2 {
+      margin: 0;                /* supprime margin par défaut qui décale le contenu */
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* petite boîte noire centrée dans chaque slide */
+    ul li .slide-box {
+      width: 75%;
+      height: 100%;
+      background: #000;
+      border-radius: 4px;
+      flex: 0 0 auto;
+
+      h2{
+        color: #fff;
+        font-family: var(--texte-titre);
+        text-align: center;
+        margin: 0;
+        padding: 0.5rem;
+      }
+    }
+
+    /* style pour la slide visible (optionnel) */
+    ul li.active {
+      transform: scale(1.02);
       opacity: 1;
-      transition: transform 0.6s ease, opacity 0.6s ease;
+      z-index: 2;
+      // background-color: #ffffff;
     }
   }
   .res-titre{
@@ -116,6 +172,7 @@
     color: var(--couleur-texte-footer);
     text-align: center;
     // margin-bottom: 10px;
-    font-size: 1.5rem;
+    margin: 2rem;
+    font-size: 3rem;
   }
 }

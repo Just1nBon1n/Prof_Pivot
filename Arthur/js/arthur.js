@@ -1,92 +1,135 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // ----- Profs pivots (David / Greg) -----
   const david = document.querySelector('.David');
   const greg = document.querySelector('.Greg');
-  if (!david || !greg) return;
 
-  const davidCaption = david.querySelector('figcaption');
-  const gregCaption = greg.querySelector('figcaption');
+  if (david && greg) {
+    const davidCaption = david.querySelector('figcaption');
+    const gregCaption = greg.querySelector('figcaption');
 
-  const Styles = (el, props) => { if (!el) return; props.forEach(p => el.style[p] = ''); };
+    const Styles = (el, props) => { if (!el) return; props.forEach(p => el.style[p] = ''); };
 
-  const CacherCaption = (cap) => { if (!cap) return; cap.style.opacity = '0'; cap.style.transition = 'opacity 0.2s ease'; };
-  const MontrerCaption = (cap) => { if (!cap) return; Styles(cap, ['opacity','transition']); };
+    const CacherCaption = (cap) => { if (!cap) return; cap.style.opacity = '0'; cap.style.transition = 'opacity 0.2s ease'; };
+    const MontrerCaption = (cap) => { if (!cap) return; Styles(cap, ['opacity','transition']); };
 
-  const DavidHover = () => {
-    david.style.zIndex = '3';
-    david.style.transform = 'scaleX(1.5)';
-    david.style.transition = 'transform 0.3s ease-in-out';
-    greg.style.transform = 'scaleX(0.5)';
-    greg.style.transition = 'transform 0.3s ease-in-out';
-    greg.style.transformOrigin = 'right center';
-    CacherCaption(gregCaption);
-  };
-  const DavidLeave = () => {
-    Styles(david, ['zIndex','transform','transition']);
-    Styles(greg, ['transform','transformOrigin','transition']);
-    MontrerCaption(gregCaption);
-  };
-  const GregHover = () => {
-    greg.style.zIndex = '3';
-    greg.style.transform = 'scaleX(1.5)';
-    greg.style.transition = 'transform 0.3s ease-in-out';
-    greg.style.transformOrigin = 'right center';
-    david.style.transform = 'scaleX(0.5)';
-    david.style.transition = 'transform 0.3s ease-in-out';
-    david.style.transformOrigin = 'left center';
-    CacherCaption(davidCaption);
-  };
-  const GregLeave = () => {
-    Styles(greg, ['zIndex','transform','transition','transformOrigin']);
-    Styles(david, ['transform','transformOrigin','transition']);
-    MontrerCaption(davidCaption);
-  };
+    const DavidHover = () => {
+      david.style.zIndex = '3';
+      david.style.transform = 'scaleX(1.5)';
+      david.style.transition = 'transform 0.3s ease-in-out';
+      greg.style.transform = 'scaleX(0.5)';
+      greg.style.transition = 'transform 0.3s ease-in-out';
+      greg.style.transformOrigin = 'right center';
+      CacherCaption(gregCaption);
+    };
+    const DavidLeave = () => {
+      Styles(david, ['zIndex','transform','transition']);
+      Styles(greg, ['transform','transformOrigin','transition']);
+      MontrerCaption(gregCaption);
+    };
+    const GregHover = () => {
+      greg.style.zIndex = '3';
+      greg.style.transform = 'scaleX(1.5)';
+      greg.style.transition = 'transform 0.3s ease-in-out';
+      greg.style.transformOrigin = 'right center';
+      david.style.transform = 'scaleX(0.5)';
+      david.style.transition = 'transform 0.3s ease-in-out';
+      david.style.transformOrigin = 'left center';
+      CacherCaption(davidCaption);
+    };
+    const GregLeave = () => {
+      Styles(greg, ['zIndex','transform','transition','transformOrigin']);
+      Styles(david, ['transform','transformOrigin','transition']);
+      MontrerCaption(davidCaption);
+    };
 
-  david.addEventListener('mouseenter', DavidHover);
-  david.addEventListener('mouseleave', DavidLeave);
-  greg.addEventListener('mouseenter', GregHover);
-  greg.addEventListener('mouseleave', GregLeave);
+    david.addEventListener('mouseenter', DavidHover);
+    david.addEventListener('mouseleave', DavidLeave);
+    greg.addEventListener('mouseenter', GregHover);
+    greg.addEventListener('mouseleave', GregLeave);
 
-  // Support tactile : toggle au clic
-  david.addEventListener('click', () => {
-    const active = david.style.transform && david.style.transform !== '';
-    if (active) DavidLeave(); else DavidHover();
-  });
-  greg.addEventListener('click', () => {
-    const active = greg.style.transform && greg.style.transform !== '';
-    if (active) GregLeave(); else GregHover();
-  });
-const circle = document.getElementById('circle');
-const numItems = 4; // nombre de li
-let currentIndex = 0;
+    // tactile : toggle au clic
+    david.addEventListener('click', () => {
+      const active = david.style.transform && david.style.transform !== '';
+      if (active) DavidLeave(); else DavidHover();
+    });
+    greg.addEventListener('click', () => {
+      const active = greg.style.transform && greg.style.transform !== '';
+      if (active) GregLeave(); else GregHover();
+    });
+  }
 
-function rotateStep() {
-  // Calcul angle
-  const angle = currentIndex * (360 / numItems);
-  // Ne pas translater le conteneur vers l'arrière — laisser la perspective sur le parent
-  circle.style.transform = `rotateY(${angle}deg)`;
+  // ----- Carrousel .aide (4 li dans le DOM, 1 visible à la fois) -----
+  const track = document.querySelector('.aide ul');
+  if (track) {
+    const slides = Array.from(track.querySelectorAll('li'));
+    const total = slides.length;
+    if (total === 0) return;
 
-  // Agrandir li devant
-  const items = circle.querySelectorAll('li');
-  items.forEach((li, index) => {
-    const itemAngle = index * (360 / numItems);
-    // position en cercle autour de l'axe Y avec translateZ positif
-    if(index === currentIndex) {
-      li.style.transform = `rotateY(${itemAngle}deg) translateZ(150px) scale(1.3)`;
-      li.style.zIndex = '10';
-      li.style.opacity = '1';
-    } else {
-      li.style.transform = `rotateY(${itemAngle}deg) translateZ(150px) scale(1)`;
-      li.style.zIndex = '1';
-      li.style.opacity = '0.8';
-    }
-  });
+    // track garde 100% de la zone visible ; chaque slide = 100% du track
+    track.style.display = 'flex';
+    track.style.transition = 'transform 0.6s ease';
+    track.style.willChange = 'transform';
+    // track.style.overflow = 'hidden';
+    track.style.width = '100%';
 
-  // Après 3 secondes, passer à l’élément suivant
-  currentIndex = (currentIndex + 1) % numItems;
-  setTimeout(rotateStep, 3000);
-}
+    slides.forEach(li => {
+      li.style.flex = '0 0 100%';   // chaque slide prend 100% du track (une seule visible)
+      li.style.width = '100%';
+      li.style.boxSizing = 'border-box';
+    });
 
-// Démarrer la boucle
-rotateStep();
+    let currentIndex = 0;
 
+    const goTo = (index) => {
+      currentIndex = (index + total) % total;
+      // translation par pas de 100% du track (une slide)
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentIndex));
+    };
+
+    // autoplay / controls (modifié : premier click stoppe l'autoplay mais ne change pas l'index)
+    let autoplay = setInterval(() => goTo(currentIndex + 1), 3000);
+    let autoplayStoppedByUser = false; // true si l'utilisateur a cliqué pour stopper
+    let firstClickIgnored = false;     // true après le premier click (qui n'indexe pas)
+
+    track.addEventListener('mouseenter', () => {
+      clearInterval(autoplay);
+    });
+    track.addEventListener('mouseleave', () => {
+      // ne redémarre pas si l'utilisateur a cliqué pour arrêter
+      if (!autoplayStoppedByUser) {
+        clearInterval(autoplay);
+        autoplay = setInterval(() => goTo(currentIndex + 1), 3000);
+      }
+    });
+
+    track.addEventListener('click', (e) => {
+      // Premier clic : stoppe l'autoplay mais ne change pas l'index
+      if (!firstClickIgnored) {
+        clearInterval(autoplay);
+        autoplayStoppedByUser = true;
+        firstClickIgnored = true;
+        return;
+      }
+
+      // Clics suivants : comportement normal (navigation)
+      clearInterval(autoplay);
+      autoplayStoppedByUser = true;
+      const rect = track.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      if (x < rect.width / 2) goTo(currentIndex - 1); else goTo(currentIndex + 1);
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') goTo(currentIndex - 1);
+      if (e.key === 'ArrowRight') goTo(currentIndex + 1);
+    });
+    window.addEventListener('resize', () => {
+      // réappliquer au resize (garde 1 slide visible)
+      slides.forEach(li => { li.style.flex = '0 0 100%'; li.style.width = '100%'; });
+      goTo(currentIndex);
+    });
+
+    // init
+    goTo(0);
+  }
 });
