@@ -5,7 +5,7 @@
   // Liste des fichiers à inclure
   $function_files = array(
     'options.php',
-    'customizer.php'
+    'customizerDocuments.php'
   );
 
   // Boucle pour inclure tous les fichiers

@@ -546,6 +546,7 @@ Les layouts
 }
 
 .dossiers {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -736,17 +737,44 @@ Les layouts
 }
 
 .dossier:nth-of-type(even):hover {
-  transform: rotateZ(-5deg);
+  transform: rotateZ(-2deg);
 }
 
 .dossier:nth-of-type(odd):hover {
-  transform: rotateZ(5deg);
+  transform: rotateZ(2deg);
 }
 
 @media screen and (min-width: 432px) {
+  .dossiers {
+    top: 200px;
+  }
   .dossier {
     width: 800px;
     height: 550px;
+  }
+  .dossier.dossier:nth-of-type(2) {
+    top: -100px;
+  }
+  .dossier.dossier:nth-of-type(3) {
+    top: -200px;
+  }
+  .dossier.dossier:nth-of-type(4) {
+    top: -300px;
+  }
+  .dossier.dossier:nth-of-type(5) {
+    top: -400px;
+  }
+  .dossier.dossier:nth-of-type(6) {
+    top: -500px;
+  }
+  .dossier.dossier:nth-of-type(7) {
+    top: -600px;
+  }
+  .dossier:nth-of-type(even) {
+    left: 200px;
+  }
+  .dossier:nth-of-type(odd) {
+    left: -200px;
   }
   .dossier:hover .papier {
     transform: translateY(-150px);
@@ -798,9 +826,9 @@ Les layouts
 
 .titre-section {
   position: absolute;
-  top: 100%;
-  left: 52%;
-  transform: translate(-50%, -120%);
+  top: 75%;
+  left: 55%;
+  transform: translate(-50%, -100%);
   color: black;
   text-align: center;
   z-index: 10;
@@ -812,7 +840,8 @@ Les layouts
 @media screen and (min-width: 432px) {
   .titre-section {
     white-space: nowrap;
-    top: 75%;
+    top: 70%;
+    left: 50%;
     font-size: 85px;
   }
 }

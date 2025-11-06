@@ -5,6 +5,7 @@
 }
 
 .dossiers{
+    position: relative;
     display: flex;
     flex-direction: column;
 }
@@ -180,19 +181,34 @@
 }
 
 .dossier:nth-of-type(even):hover {
-    transform: rotateZ(-5deg);
+    transform: rotateZ(-2deg);
 }
 .dossier:nth-of-type(odd):hover {
-    transform: rotateZ(5deg);
+    transform: rotateZ(2deg);
 }
 
 
 // Media query pour Desktop
 @media screen and (min-width: 432px) {
+    .dossiers{
+        top: 200px;
+    }
     .dossier {
         width: 800px;
         height: 550px;
     }
+    @for $i from 2 through 7 {
+        .dossier.dossier:nth-of-type(#{$i}) {
+            top: -#{$i * 100 - 100}px;
+        }
+    }
+    .dossier:nth-of-type(even) {
+        left: 200px;
+    }
+    .dossier:nth-of-type(odd) {
+        left: -200px;
+    }
+
     .dossier:hover .papier {
         transform: translateY(-150px);
     }
