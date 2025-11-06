@@ -13,10 +13,10 @@ let dernierElementTouche = null;
 for (let i = 0; i < nombreDossier; i++) {
 
   // Création de la structure
-  const dossier = document.createElement("div");
+  const dossier = document.createElement("span");
   dossier.classList.add("dossier");
 
-  const arriere = document.createElement("div");
+  const arriere = document.createElement("span");
   arriere.classList.add("arriere");
 
   const etiquette = document.createElement("span");
@@ -37,7 +37,7 @@ for (let i = 0; i < nombreDossier; i++) {
     etiquette.style.textAlign = "right";
   }
 
-  const papier = document.createElement("div");
+  const papier = document.createElement("span");
   papier.classList.add("papier");
 
   const texteTelecharger = document.createElement("h2");
@@ -45,7 +45,7 @@ for (let i = 0; i < nombreDossier; i++) {
   texteTelecharger.textContent = "Télécharger";
   papier.appendChild(texteTelecharger);
 
-  const avant = document.createElement("div");
+  const avant = document.createElement("span");
   avant.classList.add("avant");
 
   // Append

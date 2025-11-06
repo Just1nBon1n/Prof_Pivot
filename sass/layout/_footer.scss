@@ -1,0 +1,10 @@
+footer{
+    position: relative;
+    top: 100px;
+    background-color: var(--footer-couleur-fond);
+    display: flex;
+}
+
+footer h2{
+    color: var(--footer-couleur-logo);
+}
