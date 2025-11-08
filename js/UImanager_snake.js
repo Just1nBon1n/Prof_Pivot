@@ -26,11 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
             toggleInstructions("", false); 
             
             // Démarrer le jeu (Appel de la fonction de logique de jeu)
-            if (window.startGame) {
-                window.startGame();
-            } else {
-                console.error("The startGame() function from fonctions_snake.js is not loaded.");
-            }
+            window.commencerPartie();
         });
     }
 });

@@ -19,9 +19,12 @@ document.addEventListener("DOMContentLoaded", function() {
     let patternTIM = []; 
     let foodListe = []; 
     const foodNb = 3; 
+    // Taille du logo TIM en proportion de la taille d'une case (ici 0.5)
+    const TIMTaille = 0.5;
 
     // Récupération des couleurs CSS (effectuée une seule fois au chargement)
-    const couleurLogoTIM = getCssColor('--snake-couleur-Logo-TIM');
+    const couleurLogoTIMContour = getCssColor('--snake-couleur-Logo-TIM-Contour');
+    const couleurLogoTIMInterieur = getCssColor('--snake-couleur-Logo-TIM-Interieur');
     const couleurGrille = getCssColor('--snake-couleur-grille');
     const couleurNourriture = getCssColor('--snake-couleur-nourriture');
     const couleurSerpentTete = getCssColor('--snake-couleur-tete');
@@ -31,31 +34,82 @@ document.addEventListener("DOMContentLoaded", function() {
     // --- Ajuster les paramètres du jeu selon l’écran ---
     function ajusterParametresJeu() {
         const largeur = window.innerWidth;
-
+        // Taille mobile
         if (largeur < 600) { 
             box = 42;
             patternTIM = [
-                "TTTTT", " T ", " T ", " T ", "   ", 
-                " III ", "  I  ", "  I  ", " III ", "   ", 
-                "M   M", "MM MM", "M M M", "M   M"
+                "XXXXXXXXXXX ",
+                "XOOOOOOOOOXX",
+                "XOOOOOOOOOXX",
+                "XXXXOOOXXXXX",
+                "   XOOOXXXXX",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XXXXXX   ",
+                "    XXXXX   ",
+                "            ",
+                "   XXXXX    ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XOOOXX   ",
+                "   XXXXXX   ",
+                "    XXXXX   ",
+                "            ",
+                " XXXX  XXXX ",
+                " XOOXXXXOOXX",
+                " XOOOOXOOOXX",
+                " XOOOOOOOOXX",
+                " XOOOOOOOOXX",
+                " XOOXOOXOOXX",
+                " XOOXXXXOOXX",
+                " XOOXX XOOXX",
+                " XOOXX XOOXX",
+                " XOOXX XOOXX",
+                " XXXXX XXXXX",
+                "  XXXX  XXXX",
             ];
+        // Taille tablette
         } else if (largeur < 1024) { 
             box = 40;
             patternTIM = [
-                "TTTTT   III  M   M",
-                " T    I   MM MM",
-                " T    I   M M M",
-                " T    I   M   M",
-                " T   III  M   M"
+                "XXXXXXXXXXX XXXXX XXXX  XXXX ",
+                "XOOOOOOOOOXXXOOOXXXOOXXXXOOXX",
+                "XOOOOOOOOOXXXOOOXXXOOOXXOOOXX",
+                "XXXXOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "   XOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "   XOOOXX   XOOOXXXOOXOOXOOXX",
+                "   XOOOXX   XOOOXXXOOXXXXOOXX",
+                "   XOOOXX   XOOOXXXOOXX XOOXX",
+                "   XOOOXX   XOOOXXXOOXX XOOXX",
+                "   XOOOXX   XOOOXXXOOXX XOOXX",
+                "   XXXXXX   XXXXXXXXXXX XXXXX",
+                "    XXXXX    XXXXX XXXX  XXXX",
             ];
+        // Taille desktop
         } else { 
             box = 50;
             patternTIM = [
-                "TTTTTTT  IIIII  M     M",
-                "  T      I    MM   MM",
-                "  T      I    M M M M",
-                "  T      I    M  M  M",
-                "  T     IIIII M     M"
+                "XXXXXXXXXXX XXXXX XXXX  XXXX ",
+                "XOOOOOOOOOXXXOOOXXXOOXXXXOOXX",
+                "XOOOOOOOOOXXXOOOXXXOOOXXOOOXX",
+                "XXXXOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "   XOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "   XOOOXX   XOOOXXXOOXOOXOOXX",
+                "   XOOOXX   XOOOXXXOOXXXXOOXX",
+                "   XOOOXX   XOOOXXXOOXX XOOXX",
+                "   XOOOXX   XOOOXXXOOXX XOOXX",
+                "   XOOOXX   XOOOXXXOOXX XOOXX",
+                "   XXXXXX   XXXXXXXXXXX XXXXX",
+                "    XXXXX    XXXXX XXXX  XXXX",
             ];
         }
     }
@@ -73,10 +127,9 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('resize', ajusterCanvas);
     ajusterCanvas(); // Premier appel pour définir la taille du canvas au chargement
 
-    /**
-     * Initialise et démarre la boucle de jeu. Appelée par ui_manager.js.
-     */
-    function startGame() {
+
+    // --- Initialise et démarre la boucle de jeu. Appelée par ui_manager.js. ---
+    function commencerPartie() {
         ajusterParametresJeu();
         ajusterCanvas(); 
         
@@ -97,25 +150,51 @@ document.addEventListener("DOMContentLoaded", function() {
         game = setInterval(dessiner, 100);
     }
     // Rendre la fonction accessible globalement pour le ui_manager.js
-    window.startGame = startGame; 
+    window.commencerPartie = commencerPartie; 
 
 
-    // --- Dessiner le motif "TIM" ---
+    // --- Dessiner le motif "TIM" (Double Couleur) ---
     function dessinerTIM() {
         if (!patternTIM || patternTIM.length === 0) return;
 
         const patternWidth = patternTIM[0].length;
         const patternHeight = patternTIM.length;
-        const offsetX = Math.floor((canvas.width / box - patternWidth) / 2);
-        const offsetY = Math.floor((canvas.height / box - patternHeight) / 2);
+        const gridW = canvas.width / box;
+        const gridH = canvas.height / box;
+        
+        const boxTIM = box * TIMTaille; // Taille du bloc de dessin (0.5x)
+        
+        const patternDisplayWidth = patternWidth * TIMTaille;
+        const patternDisplayHeight = patternHeight * TIMTaille;
 
-        ctx.fillStyle = rgbToString(couleurLogoTIM);
+        const offsetX = Math.floor((gridW - patternDisplayWidth) / 2) * box;
+        const offsetY = Math.floor((gridH - patternDisplayHeight) / 2) * box;
+
         
         for (let y = 0; y < patternTIM.length; y++) {
             for (let x = 0; x < patternTIM[y].length; x++) {
-                if (patternTIM[y][x] !== " ") { 
-                    ctx.fillRect((offsetX + x) * box, (offsetY + y) * box, box, box);
+                const char = patternTIM[y][x];
+
+                if (char === " ") continue; 
+
+                // MAPPING DE COULEUR : X pour Contour, O pour Intérieur
+                let couleurAUtiliser;
+                
+                if (char === 'X') {
+                    couleurAUtiliser = couleurLogoTIMContour;
+                } else {
+                    couleurAUtiliser = couleurLogoTIMInterieur;
                 }
+
+                ctx.fillStyle = rgbToString(couleurAUtiliser);
+
+                // Dessin en micro-blocs
+                ctx.fillRect(
+                    offsetX + x * boxTIM, 
+                    offsetY + y * boxTIM, 
+                    boxTIM, 
+                    boxTIM
+                );
             }
         }
     }
@@ -165,9 +244,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // --- Boucle principale du jeu --------------------------------------------
     function dessiner() {
+        // 1. Vider le canvas 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        dessinerTIM();
+
+        // 2. Redessiner la grille
         dessinerGrille(); 
+
+        // 3. Redessiner le logo TIM
+        dessinerTIM();
 
         // --- Bouger le serpent ---
         let headX = snake[0].x;
@@ -225,9 +309,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // --- Dessiner serpent (Utilisation de l'alpha CSS) ---
         for (let i = 0; i < snake.length; i++) {
-            const couleurAUtiliser = (i === 0) ? couleurSerpentTete : couleurSerpentCorps;
+            const couleurDessinSnake = (i === 0) ? couleurSerpentTete : couleurSerpentCorps;
             
-            ctx.fillStyle = rgbToString(couleurAUtiliser); 
+            ctx.fillStyle = rgbToString(couleurDessinSnake); 
             ctx.fillRect(snake[i].x, snake[i].y, box, box);
         }
     }
