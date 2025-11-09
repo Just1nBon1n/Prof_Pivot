@@ -324,17 +324,19 @@ Les layouts
 }
 .Accueil .instructions {
   position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   text-align: center;
-  color: white;
+  color: #E6E6E6;
   font-family: var(--texte-titre);
   z-index: 10;
+  top: 15%;
+}
+.Accueil .instructions h2 {
+  color: #E6E6E6;
 }
 .Accueil .instructions p {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  color: #E6E6E6;
 }
 .Accueil .instructions ul {
   list-style: none;
@@ -347,14 +349,14 @@ Les layouts
 }
 .Accueil #startButton {
   background-color: #00b894;
-  color: white;
+  color: #E6E6E6;
   font-size: 1.2rem;
   padding: 0.6rem 1rem;
   z-index: 10;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.5s ease;
   font-family: var(--texte-titre);
 }
 .Accueil #startButton:hover {
