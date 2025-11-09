@@ -41,13 +41,13 @@ Les variables
 
 /* Couleurs composants section acceuil */
 :root {
-  --snake-couleur-Logo-TIM-Contour: rgb(54, 53, 53);
-  --snake-couleur-Logo-TIM-Interieur: rgb(218, 218, 218);
+  --snake-couleur-Logo-TIM-Contour: #141414;
+  --snake-couleur-Logo-TIM-Interieur: #D9D9D9;
   --snake-couleur-grille: rgba(255, 255, 255, 0.1);
   --snake-couleur-nourriture: #fffb00;
   --snake-couleur-tete: #317032;
   --snake-couleur-corps: #7FC765;
-  --snake-couleur-lumiere: #ba3333;
+  --snake-couleur-lumiere: #2a303f;
 }
 
 /* Couleurs composants section liens utiles */
@@ -329,7 +329,7 @@ Les layouts
   transform: translate(-50%, -50%);
   text-align: center;
   color: white;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--texte-titre);
   z-index: 10;
 }
 .Accueil .instructions p {
@@ -345,17 +345,19 @@ Les layouts
   font-size: 1rem;
   line-height: 1.4;
 }
-.Accueil .instructions #startButton {
+.Accueil #startButton {
   background-color: #00b894;
   color: white;
   font-size: 1.2rem;
   padding: 0.6rem 1rem;
+  z-index: 10;
   border: none;
   border-radius: 12px;
   cursor: pointer;
   transition: 0.2s ease;
+  font-family: var(--texte-titre);
 }
-.Accueil .instructions #startButton:hover {
+.Accueil #startButton:hover {
   background-color: #019875;
 }
 
@@ -369,7 +371,7 @@ Les layouts
   .Accueil .instructions li {
     font-size: 1.2rem;
   }
-  .Accueil .instructions #startButton {
+  .Accueil #startButton {
     font-size: 1.4rem;
     padding: 0.8rem 1.5rem;
   }
@@ -384,7 +386,7 @@ Les layouts
   .Accueil .instructions li {
     font-size: 1.3rem;
   }
-  .Accueil .instructions #startButton {
+  .Accueil #startButton {
     font-size: 1.8rem;
     padding: 1rem 2rem;
   }
