@@ -387,6 +387,10 @@ Les layouts
   flex-direction: column; /* force empilement vertical : .pivots au-dessus, .aide en dessous */
   align-items: stretch;
   height: auto;
+  /* zone pour afficher du texte à gauche de David au hover */
+  /* utilise le figcaption déjà présent comme texte affiché à gauche */
+  /* affichage au hover (ou via la classe hover-david ajoutée par JS) */
+  /* optionnel : pousser légèrement l'image vers la droite pour dégager la place */
 }
 .Ressources .pivots {
   /* espace latéral global pour la section pivots */
@@ -554,6 +558,47 @@ Les layouts
   text-align: center;
   margin: 2rem;
   font-size: 3rem;
+}
+.Ressources .zone-david {
+  position: relative;
+  overflow: visible; /* autorise l'affichage hors du cadre */
+}
+.Ressources .zone-david .img-pivots {
+  position: relative;
+  z-index: 3; /* image au-dessus du texte */
+  transition: transform 0.3s ease;
+  transform-origin: top left;
+}
+.Ressources .zone-david figcaption {
+  position: absolute;
+  top: 50%;
+  left: -52%; /* place la boîte à gauche de la photo */
+  transform: translateY(-50%);
+  width: 45%;
+  max-width: 320px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #fff;
+  padding: 0.6rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, left 0.25s ease, transform 0.25s ease;
+  z-index: 2; /* en dessous de l'image */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.Ressources .zone-david:hover figcaption,
+.Ressources .zone-david.hover-david figcaption {
+  opacity: 1;
+  left: calc(-45% - 12px);
+  pointer-events: auto;
+}
+.Ressources .zone-david:hover .img-pivots,
+.Ressources .zone-david.hover-david .img-pivots {
+  transform: translateX(8%);
 }
 
 /**************************************************************************************************************/

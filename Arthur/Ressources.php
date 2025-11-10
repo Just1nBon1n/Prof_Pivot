@@ -3,9 +3,11 @@
   <h2 class="res-titre">Profs pivots</h2>
   <div class="prof">
       <!-- <img src="<?php echo get_template_directory_uri(); ?>/Arthur/images/arthur.jpg" alt="Arthur"> -->
-       <figure class="David">
+       <figure class="David zone-david">
         <img class="img-pivots" src="<?php echo get_template_directory_uri(); ?>/Arthur/images/David.png" alt="">
         <figcaption>Appuyez pour plus d'infos sur David</figcaption>
+        <!-- texte qui apparaîtra à gauche au hover -->
+        <div class="david-info" aria-hidden="true">David — Enseignant référent<br>Spécialité : Web</div>
        </figure>
        <figure class="Greg">
         <img class="img-pivots" src="<?php echo get_template_directory_uri(); ?>/Arthur/images/Greg.png" alt="">

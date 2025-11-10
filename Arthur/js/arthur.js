@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const DavidHover = () => {
       david.style.zIndex = '3';
-      david.style.transform = 'scaleX(1.5)';
+      // david.style.transform = 'scaleX(1.5)';
+      david.style.transform = 'translateX(50%)';
       david.style.transition = 'transform 0.3s ease-in-out';
       greg.style.transform = 'scaleX(0.5)';
       greg.style.transition = 'transform 0.3s ease-in-out';
@@ -56,6 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const active = greg.style.transform && greg.style.transform !== '';
       if (active) GregLeave(); else GregHover();
     });
+  }
+
+  // toggle classe hover-david pour afficher le texte à gauche (si present)
+  const zoneDavid = document.querySelector('.zone-david');
+  if (zoneDavid && david) {
+    david.addEventListener('mouseenter', () => zoneDavid.classList.add('hover-david'));
+    david.addEventListener('mouseleave', () => zoneDavid.classList.remove('hover-david'));
+    // tactile / clic : toggle (optionnel — garde le texte visible après le premier tap)
+    david.addEventListener('touchstart', (e) => {
+      // empêcher double déclenchement mouse events sur certains navigateurs
+      e.stopPropagation();
+      zoneDavid.classList.toggle('hover-david');
+    }, { passive: true });
   }
 
   // ----- Carrousel .aide (4 li dans le DOM, 1 visible à la fois) -----
