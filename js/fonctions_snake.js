@@ -168,7 +168,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // --- Dessiner le motif "TIM" (Double Couleur) ---
     function dessinerTIM() {
+        // Ne rien faire si le pattern est vide
         if (!patternTIM || patternTIM.length === 0) return;
+        // Ne pas dessiner le logo si le jeu est en phase active (playing-pending ou playing)
+        if (window.getCurrentPhase() === 'playing-pending' || window.getCurrentPhase() === 'playing') {
+            return;
+        }
 
         const patternWidth = patternTIM[0].length;
         const patternHeight = patternTIM.length;

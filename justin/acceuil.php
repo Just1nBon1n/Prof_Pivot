@@ -8,20 +8,22 @@
         <!-- Instructions (Modale) -->
         <div id="instructions" class="instructions">
             <!-- 💡 NOUVEAU : Titre de Bienvenue statique -->
-            <h2 class="welcome-title">Bienvenue !</h2> 
+            <h2 class="titre">Bienvenue !</h2> 
             
             <!-- P: Contient le Titre Dynamique (Commandes / Game Over) -->
             <p></p> 
             
-            <!-- 🎯 Conteneur pour le corps des commandes (sera vide en phase 1) -->
+            <!-- Conteneur pour le corps des commandes (sera vide en phase 1) -->
             <div class="instructions-body">
-                <!-- Le contenu initial des commandes sera remplacé par JS -->
+                <!-- Remplace en JS -->
             </div>
-            
-            <!-- Le bouton est maintenant géré par le JS pour changer le texte et l'affichage -->
         </div>
-        <!-- IMPORTANT : Le bouton est maintenant hors de la div instructions pour être géré séparément par les z-index/l'UI manager. -->
-        <button id="startButton">Jouer</button> 
+
+        <!-- Boutons -->
+         <div class="boutton-container">
+            <button id="startButton">Jouer</button> 
+            <button id="quitButton" style="display:none;">Quitter</button>
+         </div>
     </div>
 </section>
 
