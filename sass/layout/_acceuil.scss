@@ -9,6 +9,7 @@
     background-color: var(--couleur-fond);
     position: relative;
     overflow: hidden;
+    letter-spacing: 0.1em;
 
     .snake-container {
         position: relative;
@@ -22,56 +23,127 @@
     canvas {
         position: absolute;
         top: 0;
-        left: 0;    
+        left: 0;
         display: block;
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
 
-    // Bloc des instructions + bouton
+    /* Bloc des instructions (Modale) - Centrage uniquement */
     .instructions {
         position: absolute;
         text-align: center;
-        color: #E6E6E6;
+        color: var(--couleur-texte-blanc);
         font-family: var(--texte-titre);
         z-index: 10;
-        top: 15%;
-
-        h2 {
-            color: #E6E6E6;
-        }
-
-        p {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: #E6E6E6;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 1rem 0;
-            li {
-                font-size: 1rem;
-                line-height: 1.4;
-            }
-        }
+        /* Centrage absolu */
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%);
     }
 
+    /* Styles pour les éléments DANS .instructions */
+    .instructions h2 {
+        font-family: var(--texte-titre);
+        color: var(--couleur-texte-blanc);
+        font-size: 2rem;
+        letter-spacing: 0.1em;
+        background-color: var(--acceuil-couleur-texte-fond);
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+        margin-bottom: 1rem; 
+    }
+
+    .instructions .instructions-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--acceuil-couleur-texte-fond); 
+        border-radius: 12px;
+    }
+
+    .instructions p {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        color: var(--couleur-texte-blanc);
+    }
+    
+    .instructions .instructions-body {
+        padding: 1rem;
+    }
+
+    .instructions .controls-display {
+        display: flex;
+        gap: 2rem;
+        padding-bottom: 1rem; 
+    }
+
+    .instructions .control-section {
+        text-align: left;
+    }
+
+    .instructions .control-section h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        font-family: var(--texte-titre);
+        color: var(--couleur-texte-blanc);
+    }
+    
+    .instructions .key-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+
+    .instructions .command-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .instructions .key {
+        display: inline-block;
+        background-color: #555;
+        color: white;
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+        font-family: monospace; 
+        min-width: 1.5rem;
+        text-align: center;
+        border: 1px solid #777;
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
+        transition: 0.2s;
+    }
+
+    .instructions .key-desc {
+        font-family: var(--texte-default);
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+    }
+
+
+    /* Conteneur des Boutons (Positionné par le CSS) */
     .boutton-container {
         position: absolute;
-        bottom: 15%;
-        width: 100%;
+        top: 75%; 
         display: flex;
         justify-content: center;
+        flex-direction: column;
         z-index: 10;
+        gap: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
-    #startButton {
-        background-color: #00b894;
-        color: #E6E6E6;
+    /* Styles des boutons */
+    #startButton, #quitButton {
+        background-color: var(--acceuil-couleur-bouton-jouer);
+        color: var(--couleur-texte-blanc);
         font-size: 1.2rem;
+        letter-spacing: 0.1em;
         padding: 0.6rem 1rem;
         z-index: 10;
         border: none;
@@ -79,28 +151,18 @@
         cursor: pointer;
         transition: 0.5s ease;
         font-family: var(--texte-titre);
-
     }
 
     #startButton:hover {
-        background-color: #019875;
+        background-color: var(--acceuil-couleur-bouton-jouer-hover);
     }
 
     #quitButton {
-        background-color: #d63031;
-        color: #E6E6E6;
-        font-size: 1.2rem;
-        padding: 0.6rem 1rem;
-        z-index: 10;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        transition: 0.5s ease;
-        font-family: var(--texte-titre);
-        margin-left: 1rem;
+        background-color: var(--acceuil-couleur-bouton-quitter);
     }
+    
     #quitButton:hover {
-        background-color: #c0392b;
+        background-color: var(--acceuil-couleur-bouton-quitter-hover);
     }
 }
 
@@ -111,16 +173,12 @@
 @media (min-width: 600px) {
     .Accueil {
         .instructions {
-            p {
-                font-size: 1.4rem;
-            }
-
-            li {
-                font-size: 1.2rem;
-            }
+            h2 { font-size: 2.4rem; }
+            p { font-size: 1.4rem; }
+            .control-section h4 { font-size: 1.3rem; }
         }
-
-        #startButton {
+        
+        #startButton, #quitButton {
             font-size: 1.4rem;
             padding: 0.8rem 1.5rem;
         }
@@ -134,16 +192,12 @@
 @media (min-width: 1024px) {
     .Accueil {
         .instructions {
-            p {
-                font-size: 1.6rem;
-            }
-
-            li {
-                font-size: 1.3rem;
-            }
+            h2 { font-size: 3rem; }
+            p { font-size: 1.6rem; }
+            .control-section h4 { font-size: 1.5rem; }
         }
-
-        #startButton {
+        
+        #startButton, #quitButton {
             font-size: 1.8rem;
             padding: 1rem 2rem;
         }

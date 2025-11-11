@@ -7,15 +7,17 @@
         
         <!-- Instructions (Modale) -->
         <div id="instructions" class="instructions">
-            <!-- 💡 NOUVEAU : Titre de Bienvenue statique -->
+            <!-- Titre de Bienvenue statique -->
             <h2 class="titre">Bienvenue !</h2> 
             
-            <!-- P: Contient le Titre Dynamique (Commandes / Game Over) -->
-            <p></p> 
-            
-            <!-- Conteneur pour le corps des commandes (sera vide en phase 1) -->
-            <div class="instructions-body">
-                <!-- Remplace en JS -->
+            <div class="instructions-container">
+                <!-- Contient le Titre Dynamique (Commandes / Game Over) -->
+                <p></p> 
+                
+                <!-- Conteneur pour le corps des commandes (sera vide en phase 1) -->
+                <div class="instructions-body">
+                    <!-- Remplace en JS -->
+                </div>
             </div>
         </div>
 
