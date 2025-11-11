@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function() {
     ajusterCanvas(); 
 
 
-    // --- Dessiner le motif "TIM" (Double Couleur) ---
+    // --- Dessiner le motif "TIM" ---
     function dessinerTIM() {
         // Ne rien faire si le pattern est vide
         if (!patternTIM || patternTIM.length === 0) return;
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const gridW = canvas.width / box;
         const gridH = canvas.height / box;
         
-        const boxTIM = box * TIMTaille; // Taille du bloc de dessin (0.5x)
+        const boxTIM = box * TIMTaille; // Taille du bloc de dessin
         
         const patternDisplayWidth = patternWidth * TIMTaille;
         const patternDisplayHeight = patternHeight * TIMTaille;

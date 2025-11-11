@@ -3,7 +3,9 @@ const buttonsContainer = document.querySelector('.boutton-container');
 const quitButton = document.getElementById('quitButton');
 const startButton = document.getElementById("startButton");
 const instructions = document.getElementById("instructions");
-const welcomeTitle = instructions ? instructions.querySelector('.titre') : null;
+const instructionsContainer = instructions ? instructions.querySelector('.instructions-container') : null; // 💡 NOUVEAU
+// 💡 CORRECTION : Cible h2.titre
+const welcomeTitle = instructions ? instructions.querySelector('h2.titre') : null; 
 const dynamicTitle = instructions ? instructions.querySelector('p') : null; // <p> pour titre dynamique
 const instructionsBody = instructions ? instructions.querySelector('.instructions-body') : null;
 
@@ -31,15 +33,14 @@ const COMMANDES_HTML = `
 // --- Logique UI au chargement du DOM ---
 document.addEventListener("DOMContentLoaded", function() {
     // Vérification de la structure après le chargement du DOM
-    if (!instructions || !dynamicTitle || !instructionsBody) {
-        console.error("Erreur: Structure des instructions incorrecte");
+    if (!instructions || !dynamicTitle || !instructionsBody || !instructionsContainer) {
+        console.error("Erreur: Structure des instructions incorrecte. Manque .instructions-container.");
         return;
     }
-    if (!startButton || !quitButton || !buttonsContainer ) {
-        console.error("Erreur: Bouton non trouvé");
+    if (!startButton || !quitButton || !buttonsContainer || !welcomeTitle ) {
+        console.error("Erreur: Un élément bouton ou titre initial est manquant.");
         return;
     }
-
 
     // État initial du jeu
     let currentPhase = 'initial'; 
@@ -53,17 +54,19 @@ document.addEventListener("DOMContentLoaded", function() {
         instructionsBody.innerHTML = '';
         welcomeTitle.style.display = 'none';
         dynamicTitle.style.display = 'none';
-        quitButton.style.display = 'none'; // Masquer par défaut
+        quitButton.style.display = 'none'; 
+        instructionsContainer.style.display = 'none'; // 💡 MASQUER LE CONTENEUR DYNAMIQUE PAR DÉFAUT
 
         
         switch (phase) {
             // 1. Bienvenue (Bouton Jouer)
             case 'initial': 
                 welcomeTitle.style.display = 'block';
-                welcomeTitle.textContent = 'Bienvenue !';
+                welcomeTitle.textContent = 'Bienvenue !'; // Texte statique
                 startButton.textContent = 'Jouer';
                 startButton.style.display = 'inline-block';
                 instructions.style.display = 'block';
+                // instructionsContainer reste masqué
                 break;
             
             // 2. COMMANDES + ATTENTE DU MOUVEMENT (Fusion)
@@ -74,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 instructionsBody.innerHTML = COMMANDES_HTML; // Afficher les commandes
                 startButton.style.display = 'none'; // Bouton masqué
                 instructions.style.display = 'block';
+                instructionsContainer.style.display = 'flex'; // 💡 AFFICHER LE CONTENEUR STYLISÉ
                 
                 // Initialisation du jeu (ne lance pas la boucle)
                 if (window.commencerPartie) {
@@ -87,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 break;
                 
             // 4. Fin de partie (Game Over)
-            case 'gameover':
+            case 'gameover': 
                 welcomeTitle.style.display = 'none';
                 dynamicTitle.style.display = 'block';
                 dynamicTitle.textContent = titre || 'GAME OVER !';
@@ -96,6 +100,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 startButton.textContent = 'Rejouer';
                 startButton.style.display = 'inline-block';
                 quitButton.style.display = 'inline-block'; // Afficher le bouton Quitter
+                
+                instructionsContainer.style.display = 'flex'; // 💡 AFFICHER LE CONTENEUR STYLISÉ
 
                 instructions.style.display = 'block';
                 break;
@@ -111,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // 💡 CORRECTION : Écouteur direct sur le bouton Quitter
+    // Écouteur direct sur le bouton Quitter
     quitButton.addEventListener("click", function() {
         // Quitter le jeu -> Retour à l'accueil (Phase 1)
         setUIState('initial'); 
@@ -133,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (isRestart) {
             setUIState('gameover', titre);
         } else {
-             setUIState('initial');
+            setUIState('initial');
         }
     };
 
