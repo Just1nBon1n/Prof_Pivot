@@ -12,4 +12,16 @@
   foreach ($function_files as $file) {
     include_once $functions_dir . $file;
   }
+
+  function liens_utiles_scripts() {
+      wp_enqueue_script(
+          'liens-anim', // identifiant unique du script
+          get_template_directory_uri() . '/js/liens-anim.js', // bon chemin vers ton fichier
+          array(), // dépendances (ex: ['jquery'] si besoin)
+          null,    // version
+          true     // chargement dans le footer
+      );
+  }
+  add_action('wp_enqueue_scripts', 'liens_utiles_scripts');
+
 ?>

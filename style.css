@@ -433,8 +433,8 @@ Les layouts
 
 /**************************************************************************************************************/
 .section_LiensUtiles {
-  margin-top: 500px;
-  margin-bottom: 500px;
+  margin-top: 250px;
+  margin-bottom: 250px;
 }
 
 /* Conteneur Grid */
@@ -553,6 +553,32 @@ Les layouts
     transform: translateY(0);
   }
 }
+@keyframes fadeTextInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(-10px);
+  }
+  80% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.menu-item.animate .text {
+  animation: fadeTextInOut 10s ease-in-out forwards;
+}
+
 .dossiers {
   display: flex;
   flex-direction: column;
