@@ -57,10 +57,12 @@
            image-rendering: pixelated;
            image-rendering: crisp-edges;
            -ms-interpolation-mode: nearest-neighbor;
+           border: var(--personnes-couleur-border) 2px solid;
+           border-radius: 0; /* plus d'arrondi sur les images */
          @media screen and (min-width: 432px){
            height: 100%;
          }
-           border-radius: 10px;
+           /* border-radius supprimé */
          }
 
         figcaption {
@@ -104,69 +106,40 @@
     flex-direction: column;
     align-items: center;
     overflow: hidden;
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      width: min(900px, 90%); /* largeur du carrousel */
-      height: 75vh;
-      position: relative;
-      display: flex;           /* track */
-      align-items: center;     /* centre verticalement les slides dans le track */
-      justify-content: flex-start; /* IMPORTANT: éviter centrage qui découpe les slides */
-      transition: transform 0.6s ease;
-      // overflow: hidden;        /* cache les slides hors-écran */
+    .carrousel {
+      margin : 100px auto;
+      width: 90%;
+      display: flex;
+      overflow-x: auto;
     }
-
-    ul li {
-      position: relative;      /* chaque slide */
-      flex: 0 0 100%; /* chaque slide prend 100% du track */
-      width: 100%;
-      height: 100%;             /* important : assure que la slide a la hauteur du track */
-      display: flex;            /* transforme chaque slide en conteneur flex */
-      flex-direction: column;   /* empile la box et le titre */
-      gap: 1rem;
-      justify-content: center;  /* centre le contenu horizontalement */
-      align-items: center;      /* centre le contenu verticalement */
-      box-sizing: border-box;
-      padding: 1rem;            /* espace interne pour lecture */
-      // background: #fff;
-      border-radius: 8px;
-      transition: transform 0.4s ease, opacity 0.4s ease;
+    .carrousel::-webkit-scrollbar {
+      display: none; /* masque la scrollbar */
     }
-
-    ul li h2 {
-      margin: 0;                /* supprime margin par défaut qui décale le contenu */
+    .group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+      animation: spin 12s linear infinite;
+      padding-right: 1em;
+    }
+    .card {
+      flex: 0 0 5em;
+      height: 7em;
+      padding: 1em;
+      background-color: var(--couleur-fond);
+      font-size: 3rem;
+      border-radius: .2em;
       text-align: center;
-      line-height: 1.1;
-    }
+      align-content: center;
+      border: var(--personnes-couleur-border) 2px solid;
 
-    /* petite boîte noire centrée dans chaque slide */
-    ul li .slide-box {
-      width: 75%;
-      height: 100%;
-      background: #000;
-      border-radius: 4px;
-      flex: 0 0 auto;
-
-      h2{
-        color: #fff;
-        font-family: var(--texte-titre);
-        text-align: center;
-        margin: 0;
-        padding: 0.5rem;
-      }
     }
+    @keyframes spin {
+      from { translate: 0;}
+      to { translate: -100%;}
+  }}
 
-    /* style pour la slide visible (optionnel) */
-    ul li.active {
-      transform: scale(1.02);
-      opacity: 1;
-      z-index: 2;
-      // background-color: #ffffff;
-    }
-  }
   .res-titre{
     font-family: var(--texte-titre);
     color: var(--couleur-texte-footer);
@@ -175,53 +148,50 @@
     margin: 2rem;
     font-size: 3rem;
   }
-  /* zone pour afficher du texte à gauche de David au hover */
-  .zone-david {
-    position: relative;
-    overflow: visible; /* autorise l'affichage hors du cadre */
-  }
 
-  .zone-david .img-pivots {
-    position: relative;
-    z-index: 3; /* image au-dessus du texte */
-    transition: transform 0.3s ease;
-    transform-origin: top left;
+  /* Retourné au comportement par défaut : pas de texte à gauche de David.
+     Les styles spécifiques à .zone-david ont été supprimés. */
+  .David .img-pivots {
+    /* garde les styles d'image normaux (déjà définis plus haut) */
   }
+.carrousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(900px, 90%);
+  margin: 0 auto;
+  position: relative;
+}
 
-  /* utilise le figcaption déjà présent comme texte affiché à gauche */
-  .zone-david figcaption {
-    position: absolute;
-    top: 50%;
-    left: -52%;                 /* place la boîte à gauche de la photo */
-    transform: translateY(-50%);
-    width: 45%;
-    max-width: 320px;
-    background: rgba(0,0,0,0.85);
-    color: #fff;
-    padding: 0.6rem 0.9rem;
-    border-radius: 6px;
-    font-size: 0.95rem;
-    line-height: 1.2;
-    text-align: left;
-    white-space: normal;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease, left 0.25s ease, transform 0.25s ease;
-    z-index: 2; /* en dessous de l'image */
-    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
-  }
+.carousel-arrow {
+  background: transparent;
+  border: none;
+  font-size: 2.2rem;
+  color: var(--couleur-texte-footer);
+  cursor: pointer;
+  transition: color 0.3s;
+  z-index: 2; /* au-dessus du carrousel */
+}
 
-  /* affichage au hover (ou via la classe hover-david ajoutée par JS) */
-  .zone-david:hover figcaption,
-  .zone-david.hover-david figcaption {
-    opacity: 1;
-    left: calc(-45% - 12px);
-    pointer-events: auto;
-  }
+.carousel-arrow.left {
+  margin-right: 1rem;
+}
 
-  /* optionnel : pousser légèrement l'image vers la droite pour dégager la place */
-  .zone-david:hover .img-pivots,
-  .zone-david.hover-david .img-pivots {
-    transform: translateX(8%);
-  }
+.carousel-arrow.right {
+  margin-left: 1rem;
+}
+
+.carrousel-wrapper ul {
+  width: 100%;
+  /* Autres styles déjà existants pour ul */
+}
+
+.carrousel.paused .group {
+  /* stoppe l'animation CSS (compatible webkit) */
+  animation-play-state: paused !important;
+  -webkit-animation-play-state: paused !important;
+  /* fallback : annule l'animation si besoin */
+  animation: none !important;
+  -webkit-animation: none !important;
+}
 }
