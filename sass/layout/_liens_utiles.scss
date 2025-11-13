@@ -16,7 +16,7 @@
       height: 100vh;
       position: relative;
 
-      /* Appliquer un effet de bord pixelisé sur les côtés */
+      /* Appliquer un effet de bord fade sur les côtés */
       -webkit-mask-image: 
         linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
       mask-image: 
@@ -48,11 +48,12 @@
     .menu-item .icon {
       font-size: 2rem;
       transition: opacity 0.3s ease;
+      margin-bottom: 8px;
     }
 
     .menu-item .text {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(15px);
       transition: opacity 0.3s ease, transform 0.3s ease;
       text-align: center;
       padding: 0 5px;
@@ -60,17 +61,39 @@
     }
     
     .menu-item:hover .icon {
-      opacity: 0;
-    }
-
-    .menu-item:hover .text {
       opacity: 1;
-      transform: translateY(-10px);
+      filter: brightness(0) invert(0);
+      transition: filter 0.3s ease;
+    }
+    
+    .menu-item.animate .text {
+      animation: fadeTextInOut 10s ease-in-out forwards;
     }
 
     .menu-item:hover {
       background-color: var(--liens-couleur-section);
       color: black;
+    }
+
+    .menu-item.hovered .text {
+      animation: none !important; 
+      opacity: 1 !important;     
+      transform: translateY(-4px) !important; 
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .menu-item.hovered .text {
+      animation: fadeInHover 0.3s forwards;
+    }
+
+    /*Animation d'apparition progressive lorsque l'animation JS n'affiche pas de texte */
+    @keyframes fadeInHover {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(-4px); }
+    }
+
+    .menu-item:not(:hover).animate .text {
+      animation: fadeTextInOut 10s ease-in-out forwards;
     }
 
     /* variation du grid */
@@ -80,51 +103,55 @@
     .menu-item:nth-child(8) { grid-column: span 2; grid-row: span 2; }
     .menu-item:nth-child(11){ grid-column: span 2; }
 
-    //* Tablette et mobile */
-@media (max-width: 900px) {
-  .grid-menu {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 320px; 
-    width: 90%;
-    height: auto;
-    gap: 12px;
+      //* Tablette et mobile */
+    @media (max-width: 900px) {
+    .grid-menu {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 320px; 
+      width: 90%;
+      height: auto;
+      gap: 12px;
+    }
+
+    /* Réinitialisation de tous les items du menu pour mobile */
+    .grid-menu .menu-item {
+      grid-column: auto;
+      grid-row: auto;
+      font-size: 1.5rem;
+    }
+
+    /* Icône toujours visible sur mobile */
+    .menu-item .icon {
+      opacity: 1;
+    }
+
+    /* Texte toujours visible sur mobile */
+    .menu-item .text {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Désactiver les effets hover sur mobile */
+    .menu-item:hover .icon,
+    .menu-item:hover .text {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
+    /* Fade animation (utilisé dans le script liens-anim.js) */
+    @keyframes fadeTextInOut {
+      0%   { opacity: 0; transform: translateY(10px); }
+      15%  { opacity: 1; transform: translateY(-4px); }   
+      65%  { opacity: 1; transform: translateY(-4px); }  
+      80%  { opacity: 0; transform: translateY(10px); }    
+      100% { opacity: 0; transform: translateY(10px); }    
+    }
 
-  /* Réinitialisation de tous les items du menu pour mobile */
-  .grid-menu .menu-item {
-    grid-column: auto;
-    grid-row: auto;
-    font-size: 1.5rem;
-  }
-
-  /* Icône toujours visible sur mobile */
-  .menu-item .icon {
-    opacity: 1;
-  }
-
-  /* Texte toujours visible sur mobile */
-  .menu-item .text {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Désactiver les effets hover sur mobile */
-  .menu-item:hover .icon,
-  .menu-item:hover .text {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@keyframes fadeTextInOut {
-  0%   { opacity: 0; transform: translateY(10px); }
-  15%  { opacity: 1; transform: translateY(-10px); }   
-  65%  { opacity: 1; transform: translateY(-10px); }  
-  80%  { opacity: 0; transform: translateY(10px); }    
-  100% { opacity: 0; transform: translateY(10px); }    
-}
-
-.menu-item.animate .text {
-  animation: fadeTextInOut 10s ease-in-out forwards;
-}
-
+    /* Hover override */
+    .menu-item.hovered .text {
+      animation: none !important; /* arrête timeline animation */
+      opacity: 1 !important;
+      transform: translateY(-4px) !important;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
 
