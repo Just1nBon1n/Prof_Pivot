@@ -357,26 +357,31 @@ document.addEventListener("DOMContentLoaded", function() {
     // === Contrôles du serpent ================================================
     // --- Contrôles au clavier ------------------------------------------------
     document.addEventListener("keydown", function(e) {
-        if (gameStarted) {
-             const key = e.key.toLowerCase();
-            if (key === "w" && direction !== "DOWN") direction = "UP";
-            if (key === "s" && direction !== "UP") direction = "DOWN";
-            if (key === "a" && direction !== "RIGHT") direction = "LEFT";
-            if (key === "d" && direction !== "LEFT") direction = "RIGHT";
-        } else {
-             // 💡 Démarrer le jeu si en phase 'playing-pending'
-            if (window.getCurrentPhase() === 'playing-pending') {
-                const key = e.key.toLowerCase();
-                if (key === "w" || key === "s" || key === "a" || key === "d") {
-                    startLoop();
-                    // Assigner la direction après le démarrage
-                    if (key === "w") direction = "UP";
-                    if (key === "s") direction = "DOWN";
-                    if (key === "a") direction = "LEFT";
-                    if (key === "d") direction = "RIGHT";
-                }
-            }
-        }
+        // Détecter la touche enfoncée, y compris les flèches
+        const key = e.key.toLowerCase();
+        
+        // Fonction utilitaire pour gérer les changements de direction
+        const setDirection = (newDir) => {
+             if (gameStarted) {
+                 direction = newDir;
+             } else if (window.getCurrentPhase() === 'playing-pending') {
+                 // Démarrer le jeu au premier mouvement valide
+                 startLoop();
+                 direction = newDir;
+             }
+        };
+
+        // Mappage WASD
+        if (key === "w" && direction !== "DOWN") setDirection("UP");
+        if (key === "s" && direction !== "UP") setDirection("DOWN");
+        if (key === "a" && direction !== "RIGHT") setDirection("LEFT");
+        if (key === "d" && direction !== "LEFT") setDirection("RIGHT");
+
+        // Mappage Flèches
+        if (key === "arrowup" && direction !== "DOWN") setDirection("UP");
+        if (key === "arrowdown" && direction !== "UP") setDirection("DOWN");
+        if (key === "arrowleft" && direction !== "RIGHT") setDirection("LEFT");
+        if (key === "arrowright" && direction !== "LEFT") setDirection("RIGHT");
     });
 
 

@@ -124,178 +124,6 @@ body {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-/* CURSEUR ////////////////////////////////////////////////////////////////// */
-.cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10000; /* Toujours au dessus */
-  /* Taille curseur */
-  width: 3rem;
-  height: 3rem;
-  pointer-events: none;
-  /* Centrer le curseur par rapport à la souris */
-  transform: translate(-50%, -50%);
-  /* Structure curseur */
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 50% 50%;
-  /* border: 1px solid red;  */
-}
-
-/* Carres curseur haut gauche */
-.cursor .carre1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: whitesmoke;
-  border: 1.5px solid black;
-}
-
-.cursor .detail1 {
-  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
-  position: relative;
-  width: 80%;
-  height: 80%;
-  /* border: 1px solid red;  */
-}
-
-.cursor .carre1 .ligne1 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 70%;
-  height: 20%;
-  background-color: red;
-}
-
-.cursor .carre1 .ligne2 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 20%;
-  height: 70%;
-  background-color: red;
-}
-
-/* Carres curseur bas droite */
-.cursor .carre2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: whitesmoke;
-  grid-row-start: 2;
-  grid-column-start: 2;
-  border: 1.5px solid black;
-}
-
-.cursor .detail2 {
-  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
-  position: relative;
-  width: 80%;
-  height: 80%;
-  /* border: 1px solid red;  */
-}
-
-.cursor .carre2 .ligne1 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 70%;
-  height: 20%;
-  background-color: red;
-  bottom: 0;
-  right: 0;
-}
-
-.cursor .carre2 .ligne2 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 20%;
-  height: 70%;
-  background-color: red;
-  bottom: 0;
-  right: 0;
-}
-
-/* ========================== */
-/* Hover animations           */
-/* ========================== */
-/* Animation Hover ////////////////////////////////////////////////////////// */
-/* Mouvement carré */
-.cursor .carre1,
-.cursor .carre2 {
-  transition: transform 0.3s ease;
-}
-
-.cursor.hovered .carre1 {
-  transform: translate(100%, 0); /* déplace vers gauche */
-}
-
-.cursor.hovered .carre2 {
-  transform: translate(-100%, 0); /* déplace vers droite */
-}
-
-/* Mouvement lignes 1 */
-.cursor .carre1 .ligne1,
-.cursor .carre2 .ligne1 {
-  transition: transform 0.5s ease;
-}
-
-.cursor.hovered .carre1 .ligne1 {
-  transform: translate(30%, 0);
-}
-
-.cursor.hovered .carre2 .ligne1 {
-  transform: translate(-30%, 0);
-}
-
-/* Mouvement lignes 2 */
-.cursor .carre1 .ligne2,
-.cursor .carre2 .ligne2 {
-  transition: transform 0.3s ease;
-}
-
-.cursor.hovered .carre1 .ligne2 {
-  transform: translate(400%, 0);
-}
-
-.cursor.hovered .carre2 .ligne2 {
-  transform: translate(-400%, 0);
-}
-
-/* ========================== */
-/* Click animation            */
-/* ========================== */
-.cursor.clicked {
-  animation: tailleCurseur 0.3s ease;
-  /* IMPORTANT! garder le meme delais dans le JS */
-}
-
-@keyframes tailleCurseur {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-.carre1, .carre2 {
-  animation: positionCarres 1.3s ease;
-  /* IMPORTANT! garder le meme delais dans le JS */
-}
-
-@keyframes positionCarres {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(50%, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
@@ -311,11 +139,8 @@ Les layouts
   position: relative;
   overflow: hidden;
   letter-spacing: 0.1em;
-  /* Bloc des instructions (Modale) - Centrage uniquement */
-  /* Styles pour les éléments DANS .instructions */
-  /* Conteneur des Boutons (Positionné par le CSS) */
-  /* Styles des boutons */
 }
+
 .Accueil .snake-container {
   position: relative;
   width: 100%;
@@ -324,6 +149,7 @@ Les layouts
   justify-content: center;
   align-items: center;
 }
+
 .Accueil canvas {
   position: absolute;
   top: 0;
@@ -333,27 +159,31 @@ Les layouts
   height: 100%;
   object-fit: contain;
 }
+
+/* Bloc des instructions (Modale) - Positionnement TOP */
 .Accueil .instructions {
   position: absolute;
   text-align: center;
   color: var(--couleur-texte-blanc);
   font-family: var(--texte-titre);
   z-index: 10;
-  /* Centrage absolu */
-  top: 50%;
+  /* Position mobile par défaut */
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%); /* Centrage horizontal uniquement */
 }
+
+/* Styles pour les éléments DANS .instructions */
 .Accueil .instructions h2 {
   font-family: var(--texte-titre);
   color: var(--couleur-texte-blanc);
-  font-size: 2rem;
+  font-size: 2.4rem;
   letter-spacing: 0.1em;
   background-color: var(--acceuil-couleur-texte-fond);
   padding: 0.5rem 1rem;
   border-radius: 12px;
-  margin-bottom: 1rem;
 }
+
 .Accueil .instructions .instructions-container {
   display: flex;
   flex-direction: column;
@@ -361,39 +191,72 @@ Les layouts
   background-color: var(--acceuil-couleur-texte-fond);
   border-radius: 12px;
 }
+
+.Accueil .instructions .instructions-titre {
+  font-size: 2.2rem;
+  padding: 1rem;
+}
+
 .Accueil .instructions p {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
   color: var(--couleur-texte-blanc);
 }
+
 .Accueil .instructions .instructions-body {
   padding: 1rem;
 }
+
 .Accueil .instructions .controls-display {
   display: flex;
   gap: 2rem;
   padding-bottom: 1rem;
 }
-.Accueil .instructions .control-section {
-  text-align: left;
+
+/* --- affichage des commandes --- */
+.Accueil .instructions .controls-desktop {
+  display: none;
 }
+
+.Accueil .instructions .controls-mobile {
+  display: block;
+}
+
+.Accueil .instructions .control-section {
+  text-align: center;
+}
+
+/*---------------------------------*/
 .Accueil .instructions .control-section h4 {
-  font-size: 1.1rem;
+  font-size: 1.8rem;
   margin-bottom: 0.5rem;
-  font-family: var(--texte-titre);
+  font-family: var(--texte-default);
   color: var(--couleur-texte-blanc);
 }
+
+.Accueil .instructions .commands-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.Accueil .instructions .separator {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+}
+
 .Accueil .instructions .key-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
+
 .Accueil .instructions .command-group {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  margin-bottom: 0.5rem;
 }
+
 .Accueil .instructions .key {
   display: inline-block;
   background-color: #555;
@@ -407,14 +270,16 @@ Les layouts
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
   transition: 0.2s;
 }
+
 .Accueil .instructions .key-desc {
   font-family: var(--texte-default);
-  font-size: 0.9rem;
-  margin-left: 0.5rem;
+  font-size: 1.2rem;
 }
+
+/* Conteneur des Boutons (Positionné par le CSS) */
 .Accueil .boutton-container {
   position: absolute;
-  top: 75%;
+  bottom: 30%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -423,10 +288,12 @@ Les layouts
   left: 50%;
   transform: translateX(-50%);
 }
+
+/* Styles des boutons */
 .Accueil #startButton, .Accueil #quitButton {
   background-color: var(--acceuil-couleur-bouton-jouer);
   color: var(--couleur-texte-blanc);
-  font-size: 1.2rem;
+  font-size: 2rem;
   letter-spacing: 0.1em;
   padding: 0.6rem 1rem;
   z-index: 10;
@@ -436,50 +303,75 @@ Les layouts
   transition: 0.5s ease;
   font-family: var(--texte-titre);
 }
+
 .Accueil #startButton:hover {
   background-color: var(--acceuil-couleur-bouton-jouer-hover);
 }
+
 .Accueil #quitButton {
   background-color: var(--acceuil-couleur-bouton-quitter);
 }
+
 .Accueil #quitButton:hover {
   background-color: var(--acceuil-couleur-bouton-quitter-hover);
 }
 
 /*--------------------------------------------------------------
-// Styles pour les tablettes
+// Styles pour les tablettes (MIN-WIDTH: 600px)
 --------------------------------------------------------------*/
 @media (min-width: 600px) {
-  .Accueil .instructions h2 {
-    font-size: 2.4rem;
+  .Accueil .instructions {
+    top: 20%;
   }
-  .Accueil .instructions p {
-    font-size: 1.4rem;
-  }
-  .Accueil .instructions .control-section h4 {
-    font-size: 1.3rem;
-  }
-  .Accueil #startButton, .Accueil #quitButton {
-    font-size: 1.4rem;
-    padding: 0.8rem 1.5rem;
-  }
-}
-/*--------------------------------------------------------------
-// Styles pour Desktops
---------------------------------------------------------------*/
-@media (min-width: 1024px) {
   .Accueil .instructions h2 {
     font-size: 3rem;
   }
   .Accueil .instructions p {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
   .Accueil .instructions .control-section h4 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
   .Accueil #startButton, .Accueil #quitButton {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    padding: 0.8rem 1.4rem;
+  }
+  .Accueil .boutton-container {
+    bottom: 25%;
+  }
+}
+/*--------------------------------------------------------------
+// Styles pour Desktops (MIN-WIDTH: 1024px)
+--------------------------------------------------------------*/
+@media (min-width: 1024px) {
+  .Accueil .instructions {
+    top: 15%;
+  }
+  .Accueil .instructions h2 {
+    font-size: 4rem;
+  }
+  .Accueil .instructions p {
+    font-size: 2rem;
+  }
+  .Accueil .instructions .control-section h4 {
+    font-size: 2rem;
+  }
+  .Accueil #startButton, .Accueil #quitButton {
+    font-size: 2.2rem;
     padding: 1rem 2rem;
+  }
+  .Accueil .boutton-container {
+    bottom: 20%;
+  }
+  /* gestion de l'affichage */
+  .Accueil .instructions .controls-desktop {
+    display: block;
+  }
+  .Accueil .instructions .controls-mobile {
+    display: none;
+  }
+  .Accueil .instructions .control-section {
+    text-align: center;
   }
 }
 .Ressources .pivots .prof {
