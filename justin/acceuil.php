@@ -12,7 +12,7 @@
             
             <div class="instructions-container">
                 <!-- Contient le Titre Dynamique (Commandes / Game Over) -->
-                <p></p> 
+                <p class="instructions-titre"></p> 
                 
                 <!-- Conteneur pour le corps des commandes (sera vide en phase 1) -->
                 <div class="instructions-body">
