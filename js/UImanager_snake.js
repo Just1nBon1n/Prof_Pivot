@@ -3,6 +3,7 @@ const buttonsContainer = document.querySelector('.boutton-container');
 const quitButton = document.getElementById('quitButton');
 const startButton = document.getElementById("startButton");
 const instructions = document.getElementById("instructions");
+const stopButton = document.getElementById("stopButton");
 const instructionsContainer = instructions ? instructions.querySelector('.instructions-container') : null;
 const welcomeTitle = instructions ? instructions.querySelector('h2.titre') : null; 
 const dynamicTitle = instructions ? instructions.querySelector('p') : null; // <p> pour titre dynamique
@@ -65,7 +66,13 @@ document.addEventListener("DOMContentLoaded", function() {
         dynamicTitle.style.display = 'none';
         quitButton.style.display = 'none'; 
         instructionsContainer.style.display = 'none'; 
+        stopButton.style.display = 'none';
 
+        // Gestion des classes de visibilité et d'animation
+        const isVisible = (phase !== 'playing');
+        instructions.classList.toggle('is-visible', isVisible);
+        stopButton.classList.toggle('is-visible', phase === 'playing');
+        buttonsContainer.classList.toggle('is-visible', phase !== 'playing-pending' && phase !== 'playing');
         
         switch (phase) {
             // 1. Bienvenue (Bouton Jouer)
@@ -80,7 +87,6 @@ document.addEventListener("DOMContentLoaded", function() {
             
             // 2. Prêt à jouer (Attente du mouvement)
             case 'playing-pending': 
-                // 💡 NOUVEAU MESSAGE ADAPTATIF BASÉ SUR LA LARGEUR
                 const message = window.innerWidth < 1024
                     ? 'Balayez l\'écran pour commencer' 
                     : 'Appuyez sur une touche (W A S D) pour commencer'; 
@@ -101,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // 3. Jeu en cours
             case 'playing': 
                 instructions.style.display = 'none';
+                stopButton.style.display = 'inline-block';
                 break;
                 
             // 4. Fin de partie (Game Over)
@@ -136,6 +143,15 @@ document.addEventListener("DOMContentLoaded", function() {
         setUIState('initial'); 
     });
 
+    // Écouteur pour le bouton d'arrêt
+    stopButton.addEventListener("click", function() {
+        if (currentPhase === 'playing') {
+            // Appel à la fonction du jeu pour arrêter la boucle et passer à Game Over
+            if (window.stopGame) {
+                window.stopGame(); 
+            }
+        }
+    });
 
     // --- Fonctions globales pour la communication avec le jeu ---
     window.getCurrentPhase = function() { return currentPhase; };
