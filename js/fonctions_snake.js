@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
     const canvas = document.getElementById("snakeJeu");
+    const stopButton = document.getElementById("stopButton");
     
-    // Vérification que les fonctions utilitaires sont chargées sinon erreur
+    // Vérification que les fonctions utilitaires sont chargées
     if (typeof rgbToString === 'undefined' || typeof window.setGameActive === 'undefined' || typeof window.getCurrentPhase === 'undefined') {
-        console.error("Erreur: Le gestionnaire UI (UImanager_snake.js) n'est pas chargé ou est incomplet.");
+        console.error("Erreur: Le gestionnaire UI (UImanager_snake.js) n'est pas chargé ou est incomplet. Veuillez vérifier l'ordre des balises <script>.");
         return;
     }
 
@@ -15,11 +16,16 @@ document.addEventListener("DOMContentLoaded", function() {
     let snake = [];
     let direction = "RIGHT";
     let growing = 3; 
-    let gameStarted = false;
+    let gameStarted = false; // CRITIQUE : Démarrage différé
     let patternTIM = []; 
     let foodListe = []; 
     const foodNb = 3; 
     const TIMTaille = 0.5;
+
+    // Constantes de dessin
+    const COUPE_TETE = 0.9; // Tête
+    const COUPE_CORPS = 0.8; // Corps
+    const COUPE_NOURRITURE = 0.7; // Nourriture
 
     // Récupération des couleurs CSS (effectuée une seule fois au chargement)
     const couleurLogoTIMContour = getCssColor('--snake-couleur-Logo-TIM-Contour');
@@ -29,20 +35,31 @@ document.addEventListener("DOMContentLoaded", function() {
     const couleurSerpentTete = getCssColor('--snake-couleur-tete');
     const couleurSerpentCorps = getCssColor('--snake-couleur-corps');
 
-
-    // === Debut des fonctions =================================================
     // --- Fonction utilitaire pour démarrer la boucle de jeu ---
     function startLoop() {
         if (game) clearInterval(game);
-        game = setInterval(dessiner, 125); // Vitesse 
+        game = setInterval(dessiner, 125); // Vitesse constante de 125ms
         gameStarted = true;
         window.setGameActive(); // Informe l'UI Manager que le jeu est actif (masque l'UI)
     }
 
+
+    function stopGame() {
+        if (game) clearInterval(game);
+        gameStarted = false;
+        
+        // Forcer la transition vers l'écran Game Over
+        window.toggleInstructions("Partie Terminée", true); 
+        
+        // Nettoyer les éléments du jeu (déclenche dessiner() une fois)
+        // La visibilité du stopButton est gérée dans l'UI Manager.
+        dessiner(); 
+    }
+    window.stopGame = stopGame; // Rendre la fonction accessible au gestionnaire UI
     
+
     /**
-     * Initialise le serpent et la nourriture, mais ne démarre pas la boucle de jeu.
-     * La boucle est démarrée par le premier mouvement dans les contrôles.
+     * Initialise le serpent et la nourriture, mais NE démarre PAS la boucle de jeu.
      */
     function commencerPartie() {
         ajusterParametresJeu();
@@ -151,9 +168,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
         }
     }
-    
 
-    // --- Ajuster la taille du canvas selon la fenêtre ---
+
+    // --- Ajuster la taille du canvas ---
     function ajusterCanvas() {
         ajusterParametresJeu();
         canvas.width = Math.floor(window.innerWidth / box) * box;
@@ -165,12 +182,11 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('resize', ajusterCanvas);
     ajusterCanvas(); 
 
-
-    // --- Dessiner le motif "TIM" ---
+    // --- Dessiner le motif "TIM" (Double Couleur) ---
     function dessinerTIM() {
-        // Ne rien faire si le pattern est vide
         if (!patternTIM || patternTIM.length === 0) return;
-        // Ne pas dessiner le logo si le jeu est en phase active (playing-pending ou playing)
+        
+        // Ne pas dessiner le logo si le jeu est en phase active.
         if (window.getCurrentPhase() === 'playing-pending' || window.getCurrentPhase() === 'playing') {
             return;
         }
@@ -180,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const gridW = canvas.width / box;
         const gridH = canvas.height / box;
         
-        const boxTIM = box * TIMTaille; // Taille du bloc de dessin
+        const boxTIM = box * TIMTaille; // Taille du bloc de dessin (0.5x)
         
         const patternDisplayWidth = patternWidth * TIMTaille;
         const patternDisplayHeight = patternHeight * TIMTaille;
@@ -267,99 +283,126 @@ document.addEventListener("DOMContentLoaded", function() {
         // 3. Redessiner le logo TIM au centre
         dessinerTIM();
 
-        // --- Bouger le serpent ---
-        let headX = snake[0].x;
-        let headY = snake[0].y;
+        // 💡 CONDIȚION PRINCIPALE DE DESSIN : Dessiner le serpent/nourriture uniquement en mode ACTIF
+        if (window.getCurrentPhase() === 'playing' || window.getCurrentPhase() === 'playing-pending') {
+            
+            // --- Bouger le serpent ---
+            let headX = snake[0].x;
+            let headY = snake[0].y;
 
-        if (gameStarted) { // Bouger seulement si le jeu a commencé
-            if (direction === "LEFT") headX -= box;
-            if (direction === "RIGHT") headX += box;
-            if (direction === "UP") headY -= box;
-            if (direction === "DOWN") headY += box;
-        }
+            if (gameStarted) { // Bouger seulement si le jeu a commencé
+                if (direction === "LEFT") headX -= box;
+                if (direction === "RIGHT") headX += box;
+                if (direction === "UP") headY -= box;
+                if (direction === "DOWN") headY += box;
+            }
 
-        // --- Wrap autour du bord ---
-        const width = canvas.width;
-        const height = canvas.height;
-        if (headX < 0) headX = width - box;
-        if (headX >= width) headX = 0;
-        if (headY < 0) headY = height - box;
-        if (headY >= height) headY = 0;
+            // --- Wrap autour du bord ---
+            const width = canvas.width;
+            const height = canvas.height;
+            if (headX < 0) headX = width - box;
+            if (headX >= width) headX = 0;
+            if (headY < 0) headY = height - box;
+            if (headY >= height) headY = 0;
 
-        // --- Collision avec soi-même ---
-        if (gameStarted) { // Vérifier la collision seulement si le jeu est en cours
-             for (let i = 1; i < snake.length; i++) { 
-                if (snake[i].x === headX && snake[i].y === headY) {
-                    // GAME OVER
-                    clearInterval(game);
-                    window.toggleInstructions("GAME OVER !", true); 
-                    gameStarted = false;
-                    return;
+            // --- Collision avec soi-même ---
+            if (gameStarted) { // Vérifier la collision seulement si le jeu est en cours
+                 for (let i = 1; i < snake.length; i++) { 
+                    if (snake[i].x === headX && snake[i].y === headY) {
+                        // GAME OVER
+                        clearInterval(game);
+                        window.toggleInstructions("GAME OVER !", true); 
+                        gameStarted = false;
+                        
+                        // Forcer un redraw immédiat (nécessaire pour masquer le serpent)
+                        dessiner(); 
+                        return;
+                    }
                 }
             }
-        }
 
-        // --- Nouvelle tête ---
-        const newHead = { x: headX, y: headY };
-        snake.unshift(newHead);
+            // --- Nouvelle tête ---
+            const newHead = { x: headX, y: headY };
+            snake.unshift(newHead);
 
-        // --- Gérer les nourritures ---
-        for (let i = 0; i < foodListe.length; i++) {
-            const food = foodListe[i];
-            
-            // Collision avec la nourriture
-            if (headX === food.x && headY === food.y) {
-                growing++;
-                foodListe[i] = genererNourriture(); 
+            // --- Gérer les nourritures (Carré) ---
+            const foodSize = box * COUPE_NOURRITURE;
+            const foodOffset = (box - foodSize) / 2;
+
+            for (let i = 0; i < foodListe.length; i++) {
+                const food = foodListe[i];
+                
+                // Collision avec la nourriture
+                if (headX === food.x && headY === food.y) {
+                    growing++;
+                    foodListe[i] = genererNourriture(); 
+                }
+                
+                // Dessiner la nourriture (Carré centré)
+                ctx.fillStyle = rgbToString(couleurNourriture); 
+                ctx.fillRect(
+                    food.x + foodOffset, 
+                    food.y + foodOffset, 
+                    foodSize, 
+                    foodSize
+                );
+            }
+
+            // --- Réduire le serpent si pas de croissance ---
+            if (gameStarted) {
+                if (growing > 0) {
+                    growing--;
+                } else {
+                    snake.pop();
+                }
             }
             
-            // Dessiner la nourriture
-            ctx.fillStyle = rgbToString(couleurNourriture); 
-            const foodSize = box * 0.7; // Taille de la nourriture
-            const foodOffset = (box - foodSize) / 2; // Centrer le bloc
-            ctx.fillRect(
-                food.x + foodOffset, 
-                food.y + foodOffset, 
-                foodSize, 
-                foodSize
-            );
-        }
-
-        // --- Réduire le serpent si pas de croissance ---
-        if (gameStarted) {
-            if (growing > 0) {
-                growing--;
-            } else {
-                snake.pop();
-            }
-        }
-        
-        // --- Dessiner serpent (Tête carrée distincte / Corps carré) ---
-        for (let i = 0; i < snake.length; i++) {
-            const couleurDessinSnake = (i === 0) ? couleurSerpentTete : couleurSerpentCorps;
-            ctx.fillStyle = rgbToString(couleurDessinSnake); 
+            // --- Dessiner serpent (Carré Harmonisé) ---
             
-            if (i === 0) {
-                // Tête cube plus petit
-                const teteSize = box * 0.9;
-                const offset = (box - teteSize) / 2;
-                ctx.fillRect(snake[i].x + offset, snake[i].y + offset, teteSize, teteSize);
-            } else {
-                // Corps cube plus petit
-                const corpsSize = box * 0.8;
-                const offset = (box - corpsSize) / 2;
-                ctx.fillRect(snake[i].x + offset, snake[i].y + offset, corpsSize, corpsSize);
+            const segmentSizeCorps = box * COUPE_CORPS;
+            const offsetCorps = (box - segmentSizeCorps) / 2;
+            const segmentSizeTete = box * COUPE_TETE;
+            const offsetTete = (box - segmentSizeTete) / 2;
+
+            for (let i = 0; i < snake.length; i++) {
+                const couleurDessinSnake = (i === 0) ? couleurSerpentTete : couleurSerpentCorps;
+                
+                if (i === 0) {
+                    // Tête (Carré légèrement plus petit)
+                    ctx.fillStyle = rgbToString(couleurDessinSnake); 
+                    ctx.fillRect(snake[i].x + offsetTete, snake[i].y + offsetTete, segmentSizeTete, segmentSizeTete);
+                } else {
+                    // Corps (Carré plus petit)
+                    ctx.fillStyle = rgbToString(couleurDessinSnake); 
+                    ctx.fillRect(snake[i].x + offsetCorps, snake[i].y + offsetCorps, segmentSizeCorps, segmentSizeCorps);
+                }
             }
-        }
+        } else {
+            // 💡 CORRECTION : Nettoyer le tableau du serpent et de la nourriture lorsque le jeu est terminé.
+            if (snake.length > 0) {
+                 snake = [];
+                 foodListe = [];
+            }
+        } // Fin de la condition de dessin du jeu (playing / playing-pending)
     }
-    
+
 
     // === Contrôles du serpent ================================================
     // --- Contrôles au clavier ------------------------------------------------
     document.addEventListener("keydown", function(e) {
-        // Détecter la touche enfoncée, y compris les flèches
         const key = e.key.toLowerCase();
         
+        // 💡 CRITIQUE : DÉTERMINER SI NOUS DEVONS BLOQUER L'ACTION PAR DÉFAUT
+        const isGameControl = (key === "w" || key === "s" || key === "a" || key === "d" || 
+                               key === "arrowup" || key === "arrowdown" || key === "arrowleft" || key === "arrowright");
+
+        const isGameActive = window.getCurrentPhase() === 'playing' || window.getCurrentPhase() === 'playing-pending';
+        
+        if (isGameControl && isGameActive) {
+             e.preventDefault(); // Bloque le défilement
+        }
+
+
         // Fonction utilitaire pour gérer les changements de direction
         const setDirection = (newDir) => {
              if (gameStarted) {
@@ -393,41 +436,38 @@ document.addEventListener("DOMContentLoaded", function() {
         const touch = e.touches[0];
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
-    });
+        
+        // Bloquer l'action par défaut du tactile (pinch zoom, défilement)
+        if (window.getCurrentPhase() === 'playing' || window.getCurrentPhase() === 'playing-pending') {
+             e.preventDefault();
+        }
+    }, { passive: false }); // Utiliser { passive: false } pour permettre le preventDefault
 
     canvas.addEventListener("touchend", function(e) {
-        if (gameStarted) {
-            // Logique de changement de direction normale (après démarrage)
-            const touch = e.changedTouches[0];
-            const dx = touch.clientX - touchStartX;
-            const dy = touch.clientY - touchStartY;
-            
-            if (Math.abs(dx) > Math.abs(dy)) {
-                if (dx > 30 && direction !== "LEFT") direction = "RIGHT";
-                else if (dx < -30 && direction !== "RIGHT") direction = "LEFT";
-            } else {
-                if (dy > 30 && direction !== "UP") direction = "DOWN";
-                else if (dy < -30 && direction !== "DOWN") direction = "UP";
-            }
-            
-        } else if (window.getCurrentPhase() === 'playing-pending') {
-            // 💡 Démarrer le jeu au premier swipe (Phase 3)
-            const touch = e.changedTouches[0];
-            const dx = touch.clientX - touchStartX;
-            const dy = touch.clientY - touchStartY;
+        const touch = e.changedTouches[0];
+        const dx = touch.clientX - touchStartX;
+        const dy = touch.clientY - touchStartY;
 
-            if (Math.abs(dx) > 30 || Math.abs(dy) > 30) {
-                 startLoop();
-                 
-                 // Assigner la première direction après le démarrage
-                 if (Math.abs(dx) > Math.abs(dy)) {
-                    if (dx > 30) direction = "RIGHT";
-                    else if (dx < -30) direction = "LEFT";
-                 } else {
-                    if (dy > 30) direction = "DOWN";
-                    else if (dy < -30) direction = "UP";
-                 }
+        if (Math.abs(dx) < 30 && Math.abs(dy) < 30) return; // Ignorer les tapotements
+        
+        const isPending = window.getCurrentPhase() === 'playing-pending';
+        
+        // Déterminer la direction du swipe
+        let newDir = direction;
+        if (Math.abs(dx) > Math.abs(dy)) {
+            if (dx > 30 && direction !== "LEFT") newDir = "RIGHT";
+            else if (dx < -30 && direction !== "RIGHT") newDir = "LEFT";
+        } else {
+            if (dy > 30 && direction !== "UP") newDir = "DOWN";
+            else if (dy < -30 && direction !== "DOWN") newDir = "UP";
+        }
+        
+        // Appliquer la direction et démarrer le jeu si nécessaire
+        if (newDir !== direction) {
+            if (isPending) {
+                startLoop();
             }
+            direction = newDir;
         }
     });
 });

@@ -147,6 +147,30 @@
 }
 
 
+/* Bouton Arrêter (Positionné par le CSS) */
+.Accueil #stopButton {
+    position: absolute;
+    top: 2%; 
+    left: 2%; 
+    z-index: 10;
+    
+    background-color: var(--acceuil-couleur-bouton-quitter); 
+    color: var(--couleur-texte-blanc);
+    font-size: 1.6rem;
+    letter-spacing: 0.1em;
+    padding: 0.5rem 0.8rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-family: var(--texte-titre);
+}
+
+.Accueil #stopButton:hover {
+    background-color: var(--acceuil-couleur-bouton-quitter-hover);
+}
+
+
 /* Conteneur des Boutons (Positionné par le CSS) */
 .Accueil .boutton-container {
     position: absolute;

@@ -21,6 +21,9 @@
             </div>
         </div>
 
+        <!-- Bouton Arrêter -->
+        <button id="stopButton" style="display:none;">Arrêter</button> 
+
         <!-- Boutons -->
          <div class="boutton-container">
             <button id="startButton">Jouer</button> 
