@@ -12,7 +12,7 @@ function mon_theme_customizer_register($wp_customize) {
     ));
 
     // --- Exemple de liens utiles ---
-    $liens = ['instagram', 'omnivox', 'Stage ATE', 'linkedin', 'calendrier_tim', 'calendrier_ecole', 'Horaire_evaluations', 'Horaire_profs', 'stages', 'tutorat', 'materiel', 'behance'];
+    $liens = ['instagram', 'Omnivox', 'Stage ATE', 'linkedin', 'calendrier_tim', 'calendrier_ecole', 'Horaire_evaluations', 'Horaire_profs', 'stages', 'tutorat', 'materiel', 'behance'];
 
     foreach ($liens as $lien) {
 
