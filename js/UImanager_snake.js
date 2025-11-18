@@ -55,50 +55,62 @@ document.addEventListener("DOMContentLoaded", function() {
     // État initial du jeu
     let currentPhase = 'initial'; 
     
-    
     // --- Fonction utilitaire pour gérer l'affichage/contenu ---
     function setUIState(phase, titre = null) {
         currentPhase = phase;
         
         // Nettoyage de l'affichage
         instructionsBody.innerHTML = '';
-        welcomeTitle.style.display = 'none';
+        // welcomeTitle.style.display = 'none'; // Gardé commenté (l'animation gère la visibilité)
         dynamicTitle.style.display = 'none';
         quitButton.style.display = 'none'; 
         instructionsContainer.style.display = 'none'; 
         stopButton.style.display = 'none';
 
-        // Gestion des classes de visibilité et d'animation
-        const isVisible = (phase !== 'playing');
-        instructions.classList.toggle('is-visible', isVisible);
-        stopButton.classList.toggle('is-visible', phase === 'playing');
-        buttonsContainer.classList.toggle('is-visible', phase !== 'playing-pending' && phase !== 'playing');
+        // *** ÉTAPE CRUCIALE: Nettoyage de TOUTES les classes d'animation ***
+        instructions.classList.remove(
+            'is-welcome-active', 
+            'is-command-active', 
+            'is-gameover-active'
+        );
         
         switch (phase) {
             // 1. Bienvenue (Bouton Jouer)
             case 'initial': 
-                welcomeTitle.style.display = 'block';
+                // 1a. Rétablissement de l'affichage des blocs
+                welcomeTitle.style.display = 'block'; 
+                instructions.style.display = 'block';
+                
+                // 1b. DÉCLENCHEMENT DE L'ANIMATION ACCUEIL
+                instructions.classList.add('is-welcome-active'); 
+                
+                // 1c. Configuration du contenu
                 welcomeTitle.textContent = 'Bienvenue !'; // Texte statique
                 startButton.textContent = 'Jouer';
                 startButton.style.display = 'inline-block';
-                instructions.style.display = 'block';
-                // instructionsContainer reste masqué
                 break;
             
             // 2. Prêt à jouer (Attente du mouvement)
             case 'playing-pending': 
+                // 2a. Rétablissement de l'affichage des blocs
                 const message = window.innerWidth < 1024
                     ? 'Balayez l\'écran pour commencer' 
                     : 'Appuyez sur une touche (W A S D) pour commencer'; 
-                welcomeTitle.style.display = 'none';
+                
+                welcomeTitle.style.display = 'none'; // Cache l'ancien titre
                 dynamicTitle.style.display = 'block';
-                dynamicTitle.textContent = message; 
-                instructionsBody.innerHTML = COMMANDES_HTML; // Afficher les commandes
-                startButton.style.display = 'none'; // Bouton masqué
                 instructions.style.display = 'block';
                 instructionsContainer.style.display = 'flex'; // AFFICHER LE CONTENEUR STYLISÉ
                 
-                // Initialisation du jeu (ne lance pas la boucle)
+                // 2b. DÉCLENCHEMENT DE L'ANIMATION COMMANDES>>
+                instructions.classList.add('is-command-active');
+                
+                // 2c. Configuration du contenu
+                dynamicTitle.textContent = message; 
+                instructionsBody.innerHTML = COMMANDES_HTML; // Afficher les commandes
+                startButton.style.display = 'none'; 
+
+                // Initialisation du jeu...
                 if (window.commencerPartie) {
                     window.commencerPartie(); 
                 }
@@ -112,18 +124,21 @@ document.addEventListener("DOMContentLoaded", function() {
                 
             // 4. Fin de partie (Game Over)
             case 'gameover': 
-                welcomeTitle.style.display = 'none';
+                // 4a. Rétablissement de l'affichage des blocs
                 dynamicTitle.style.display = 'block';
-                dynamicTitle.textContent = titre || 'GAME OVER !';
-                instructionsBody.innerHTML = '<p class="final-message">Choisissez une option.</p>'; // Message de fin
+                instructions.style.display = 'block';
+                instructionsContainer.style.display = 'flex';
                 
+                // 4b. DÉCLENCHEMENT DE L'ANIMATION GAMEOVER
+                instructions.classList.add('is-gameover-active');
+                
+                // 4c. Configuration du contenu
+                dynamicTitle.textContent = titre || 'GAME OVER !';
+                instructionsBody.innerHTML = '<p class="final-message">Choisissez une option.</p>'; 
                 startButton.textContent = 'Rejouer';
                 startButton.style.display = 'inline-block';
-                quitButton.style.display = 'inline-block'; // Afficher le bouton Quitter
+                quitButton.style.display = 'inline-block'; 
                 
-                instructionsContainer.style.display = 'flex';
-
-                instructions.style.display = 'block';
                 break;
         }
     }

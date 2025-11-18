@@ -1,6 +1,7 @@
-/*--------------------------------------------------------------
+/*----------------------------------------------------------------
 // Styles pour la page d'accueil avec le jeu Snake en mobile
---------------------------------------------------------------*/
+------------------------------------------------------------------*/
+// --- Strucure de base du jeu et des canvas ----------------------
 .Accueil {
     display: flex;
     justify-content: center;
@@ -30,8 +31,8 @@
     height: 100%;
     object-fit: contain;
 }
-
-/* Bloc des instructions (Modale) - Positionnement TOP */
+// --------------------------------------------------------------
+// --- Styles pour les instructions du jeu ----------------------
 .Accueil .instructions {
     position: absolute;
     text-align: center;
@@ -44,8 +45,8 @@
     transform: translateX(-50%); /* Centrage horizontal uniquement */
 }
 
-/* Styles pour les éléments DANS .instructions */
-.Accueil .instructions h2 {
+// Styles pour les éléments DANS .instructions
+.Accueil .instructions .titre {
     font-family: var(--texte-titre);
     color: var(--couleur-texte-blanc);
     font-size: 2.4rem;
@@ -55,12 +56,98 @@
     border-radius: 12px;
 }
 
+
+
+
+
+
+@keyframes slideInUp {
+    0% {
+        opacity: 0;
+        transform: translate(0, -200%);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+
+/* État initial pour tous les éléments qui seront animés dans n'importe quelle phase */
+.Accueil .instructions h2.titre, /* welcomeTitle */
+.Accueil .instructions p,       /* dynamicTitle */
+.Accueil .instructions .instructions-container, 
+.Accueil .boutton-container {
+    opacity: 0;
+    transform: translate(0, 30px);
+    pointer-events: none;
+    transition: none; /* Crucial pour laisser les @keyframes prendre le relais */
+}
+
+/* Les boutons individuels */
+.Accueil #startButton, .Accueil #quitButton {
+    transition: none; /* S'assure que la transition ne rentre pas en conflit */
+}
+
+/* Séquence 1 : Titre de Bienvenue et Boutons */
+#instructions.is-welcome-active h2.titre {
+    animation: slideInUp 0.6s ease-out forwards;
+    animation-delay: 0.2s; 
+    pointer-events: auto;
+}
+
+#instructions.is-welcome-active ~ .boutton-container {
+    animation: slideInUp 0.6s ease-out forwards;
+    animation-delay: 0.6s; /* Démarre après le titre */
+    pointer-events: auto;
+}
+
+/* Séquence 2 : Titre dynamique et Conteneur de commandes */
+#instructions.is-command-active p { /* dynamicTitle */
+    animation: slideInUp 0.5s ease-out forwards;
+    animation-delay: 0.1s; 
+    pointer-events: auto;
+}
+
+#instructions.is-command-active .instructions-container {
+    animation: slideInUp 0.5s ease-out forwards;
+    animation-delay: 0.4s; /* Démarre après le titre dynamique */
+    pointer-events: auto;
+}
+
+/* Séquence 4 : Game Over */
+#instructions.is-gameover-active p { /* dynamicTitle */
+    animation: slideInUp 0.6s ease-out forwards;
+    animation-delay: 0.1s; 
+    pointer-events: auto;
+}
+
+#instructions.is-gameover-active .instructions-container {
+    animation: slideInUp 0.6s ease-out forwards;
+    animation-delay: 0.4s; 
+    pointer-events: auto;
+}
+
+#instructions.is-gameover-active ~ .boutton-container {
+    animation: slideInUp 0.6s ease-out forwards;
+    animation-delay: 0.8s; 
+    pointer-events: auto;
+}
+
+
+
+
 .Accueil .instructions .instructions-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: var(--acceuil-couleur-texte-fond); 
     border-radius: 12px;
+}
+
+#instructions.is-animating .instructions-container {
+    animation: slideInUp 0.6s ease-out forwards;
+    animation-delay: 0.2s; /* 0.2s après le déclenchement */
+    pointer-events: auto; /* Autoriser les clics après l'apparition */
 }
 
 .Accueil .instructions .instructions-titre {
@@ -76,14 +163,15 @@
 .Accueil .instructions .instructions-body {
     padding: 1rem;
 }
+// -----------------------------------------------------------
 
+// --- Styles pour les commandes du jeu ----------------------
 .Accueil .instructions .controls-display {
     display: flex;
     gap: 2rem;
     padding-bottom: 1rem; 
 }
 
-/* --- affichage des commandes --- */
 .Accueil .instructions .controls-desktop {
     display: none; 
 }
@@ -93,7 +181,6 @@
 .Accueil .instructions .control-section {
     text-align: center;
 }
-/*---------------------------------*/
 
 .Accueil .instructions .control-section h4 {
     font-size: 1.8rem;
@@ -143,11 +230,10 @@
 .Accueil .instructions .key-desc {
     font-family: var(--texte-default);
     font-size: 1.2rem;
-    
 }
+// -----------------------------------------------------------
 
-
-/* Bouton Arrêter (Positionné par le CSS) */
+// --- Styles pour le bouton arrêter -------------------------
 .Accueil #stopButton {
     position: absolute;
     top: 2%; 
@@ -169,9 +255,9 @@
 .Accueil #stopButton:hover {
     background-color: var(--acceuil-couleur-bouton-quitter-hover);
 }
+// -----------------------------------------------------------
 
-
-/* Conteneur des Boutons (Positionné par le CSS) */
+// --- Styles pour les boutons démarrer et quitter -----------
 .Accueil .boutton-container {
     position: absolute;
     bottom: 30%; 
@@ -210,7 +296,7 @@
 .Accueil #quitButton:hover {
     background-color: var(--acceuil-couleur-bouton-quitter-hover);
 }
-
+// ------------------------------------------------------------
 
 /*--------------------------------------------------------------
 // Styles pour les tablettes (MIN-WIDTH: 600px)
@@ -220,7 +306,7 @@
         top: 20%; 
     }
     
-    .Accueil .instructions h2 { font-size: 3rem; }
+    .Accueil .instructions .titre { font-size: 3rem; }
     .Accueil .instructions p { font-size: 1.8rem; }
     .Accueil .instructions .control-section h4 { font-size: 1.6rem; }
 
@@ -243,7 +329,7 @@
         top: 15%; 
     }
     
-    .Accueil .instructions h2 { font-size: 4rem; }
+    .Accueil .instructions .titre { font-size: 4rem; }
     .Accueil .instructions p { font-size: 2rem; }
     .Accueil .instructions .control-section h4 { font-size: 2rem; }
     
