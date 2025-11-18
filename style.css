@@ -418,6 +418,21 @@ Les layouts
   margin: 20px auto 0 auto; /* centre horizontalement la grille */
   padding-inline: 0.75rem; /* marge interne gauche / droite */
   margin-top: 0;
+  /* chaque personne (figure + description) est un item de la grille */
+  /* description sous l'image (pour Grégory) */
+}
+.Ressources .pivots .prof .prof-person {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.Ressources .pivots .prof .person-desc {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  position: relative;
+  z-index: 3; /* force la description au-dessus du fond */
+  background: rgba(255, 255, 255, 0); /* transparent par défaut, changez si besoin */
 }
 @media screen and (min-width: 576px) {
   .Ressources .pivots .prof {
@@ -542,9 +557,6 @@ Les layouts
   text-align: center;
   margin: 2rem;
   font-size: 3rem;
-}
-.Ressources .David .img-pivots {
-  /* garde les styles d'image normaux (déjà définis plus haut) */
 }
 .Ressources .carrousel-wrapper {
   display: flex;
