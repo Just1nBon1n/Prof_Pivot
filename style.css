@@ -903,16 +903,16 @@ footer h2 {
   flex-direction: row;
 }
 
-.dessous {
+.adresse {
   display: flex;
-  text-align: center;
-  justify-content: center;
+  font-size: 10px;
 }
 
 .nous-joindre {
   display: flex;
   flex-direction: column;
   row-gap: 15px;
+  font-size: 10px;
 }
 
 .medias-sociaux {
@@ -930,8 +930,8 @@ footer h2 {
 
 .footer-icones-sociales a {
   display: inline-block;
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
 }
 
 .footer-icones-sociales img.icone-sociale {
@@ -946,6 +946,7 @@ footer h2 {
   left: 0;
   width: 100%;
   z-index: -1;
+  pointer-events: none;
 }
 
 .vague {
@@ -954,19 +955,36 @@ footer h2 {
   display: block;
 }
 
-#visual #wave {
+#waveSvg #wave {
   transition: d 1000ms cubic-bezier(0.16, 1, 0.3, 1);
   display: block;
+  pointer-events: none;
 }
 
 @media screen and (min-width: 432px) {
+  .nous-joindre {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    font-size: large;
+  }
   .vague {
     width: 100%;
     height: auto;
     display: block;
   }
+  .footer-icones-sociales a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+  }
   .footer-icones-sociales a img:hover {
     filter: brightness(20);
     scale: 1.2;
+  }
+  .adresse {
+    display: flex;
+    text-align: center;
+    justify-content: center;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -28,16 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-
 <footer>
     <div>
       <section class="dessus">
         <section class="nous-joindre">
-          <h2>Nous Joindre</h2>
-          <h2>(514) - 254 - 7131</h2>
+          <h2 class="titre-nous-joindre">Nous Joindre</h2>
+          <h2 class="no-telephone">(514) - 254 - 7131</h2>
         </section>
         <section class="medias-sociaux">
-          <h2>Médias Sociaux</h2>
+          <h2 class="titre-medias-sociaux">Médias Sociaux</h2>
           <?php
             $nombre_icones = get_theme_mod('nombre_icones', 3);
             ?>
@@ -60,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </section>
       </section>
       <section class="dessous">
-        <h2>3800 rue Sherbrooke E, Montréal QUÉBEC H1X 2A2</h2>
+        <h2 class="adresse">3800 rue Sherbrooke E, Montréal QUÉBEC H1X 2A2</h2>
       </section>
     </div>
 </footer>
