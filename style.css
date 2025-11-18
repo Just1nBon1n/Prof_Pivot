@@ -799,6 +799,7 @@ Les layouts
   animation: flicker 4s infinite ease-in-out;
   animation-play-state: paused;
   transition: opacity 0.3s ease-out, filter 0.3s ease-out;
+  scale: 0.9;
 }
 
 .anime .pixel {
@@ -812,7 +813,6 @@ Les layouts
 .conteneur-separateur {
   display: flex;
   justify-content: center;
-  gap: 2px;
 }
 
 .grand-conteneur-separateur {
@@ -821,13 +821,12 @@ Les layouts
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
 }
 
 .titre-section {
   position: absolute;
-  top: 75%;
-  left: 55%;
+  top: 70%;
+  left: 50%;
   transform: translate(-50%, -100%);
   color: black;
   text-align: center;
@@ -885,6 +884,7 @@ footer {
   top: 100px;
   background-color: var(--footer-couleur-fond);
   display: flex;
+  z-index: 1;
 }
 
 footer div {
@@ -956,4 +956,17 @@ footer h2 {
 
 #visual #wave {
   transition: d 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+@media screen and (min-width: 432px) {
+  .vague {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .footer-icones-sociales a img:hover {
+    filter: brightness(20);
+    scale: 1.2;
+  }
 }/*# sourceMappingURL=style.css.map */

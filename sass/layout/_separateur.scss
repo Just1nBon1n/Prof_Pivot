@@ -5,6 +5,7 @@
     animation: flicker 4s infinite ease-in-out;
     animation-play-state: paused;
     transition: opacity 0.3s ease-out, filter 0.3s ease-out;
+    scale: 0.9;
 }
 
 .anime .pixel {
@@ -18,7 +19,6 @@
 .conteneur-separateur{
     display: flex;
     justify-content: center;
-    gap: 2px;
 }
 .grand-conteneur-separateur {
     position: relative;
@@ -26,13 +26,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
 }
 
 .titre-section {
     position: absolute;
-    top: 75%;
-    left: 55%;
+    top: 70%;
+    left: 50%;
     transform: translate(-50%, -100%);
     color: black;
     text-align: center;

@@ -1,7 +1,7 @@
 <?php
     function generer_vague_steps($couleur1 = "#555555") {
         ?>
-        <svg id="visual" viewBox="0 0 900 601" class="vague" xmlns="http://www.w3.org/2000/svg">
+        <svg id="visual"viewBox="0 0 900 1000" class="vague" xmlns="http://www.w3.org/2000/svg">
         
             <!-- Shape initiale (A) -->
             <path id="wave" 
