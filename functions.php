@@ -24,4 +24,15 @@
   }
   add_action('wp_enqueue_scripts', 'liens_utiles_scripts');
 
+  function theme_scripts() {
+    wp_enqueue_script(
+        'search-js',
+        get_template_directory_uri() . '/js/search.js',
+        array(),
+        null,
+        true
+    );
+}
+add_action('wp_enqueue_scripts', 'theme_scripts');
+
 ?>
