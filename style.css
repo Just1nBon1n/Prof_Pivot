@@ -127,9 +127,9 @@ Les composants
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
-/*--------------------------------------------------------------
+/*----------------------------------------------------------------
 // Styles pour la page d'accueil avec le jeu Snake en mobile
---------------------------------------------------------------*/
+------------------------------------------------------------------*/
 .Accueil {
   display: flex;
   justify-content: center;
@@ -160,7 +160,6 @@ Les layouts
   object-fit: contain;
 }
 
-/* Bloc des instructions (Modale) - Positionnement TOP */
 .Accueil .instructions {
   position: absolute;
   text-align: center;
@@ -173,8 +172,7 @@ Les layouts
   transform: translateX(-50%); /* Centrage horizontal uniquement */
 }
 
-/* Styles pour les éléments DANS .instructions */
-.Accueil .instructions h2 {
+.Accueil .instructions .titre {
   font-family: var(--texte-titre);
   color: var(--couleur-texte-blanc);
   font-size: 2.4rem;
@@ -184,12 +182,89 @@ Les layouts
   border-radius: 12px;
 }
 
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translate(0, -200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+/* État initial pour tous les éléments qui seront animés dans n'importe quelle phase */
+.Accueil .instructions h2.titre,
+.Accueil .instructions p,
+.Accueil .instructions .instructions-container,
+.Accueil .boutton-container {
+  opacity: 0;
+  transform: translate(0, 30px);
+  pointer-events: none;
+  transition: none; /* Crucial pour laisser les @keyframes prendre le relais */
+}
+
+/* Les boutons individuels */
+.Accueil #startButton, .Accueil #quitButton {
+  transition: none; /* S'assure que la transition ne rentre pas en conflit */
+}
+
+/* Séquence 1 : Titre de Bienvenue et Boutons */
+#instructions.is-welcome-active h2.titre {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.2s;
+  pointer-events: auto;
+}
+
+#instructions.is-welcome-active ~ .boutton-container {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.6s; /* Démarre après le titre */
+  pointer-events: auto;
+}
+
+/* Séquence 2 : Titre dynamique et Conteneur de commandes */
+#instructions.is-command-active p { /* dynamicTitle */
+  animation: slideInUp 0.5s ease-out forwards;
+  animation-delay: 0.1s;
+  pointer-events: auto;
+}
+
+#instructions.is-command-active .instructions-container {
+  animation: slideInUp 0.5s ease-out forwards;
+  animation-delay: 0.4s; /* Démarre après le titre dynamique */
+  pointer-events: auto;
+}
+
+/* Séquence 4 : Game Over */
+#instructions.is-gameover-active p { /* dynamicTitle */
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.1s;
+  pointer-events: auto;
+}
+
+#instructions.is-gameover-active .instructions-container {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.4s;
+  pointer-events: auto;
+}
+
+#instructions.is-gameover-active ~ .boutton-container {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.8s;
+  pointer-events: auto;
+}
+
 .Accueil .instructions .instructions-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: var(--acceuil-couleur-texte-fond);
   border-radius: 12px;
+}
+
+#instructions.is-animating .instructions-container {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.2s; /* 0.2s après le déclenchement */
+  pointer-events: auto; /* Autoriser les clics après l'apparition */
 }
 
 .Accueil .instructions .instructions-titre {
@@ -212,7 +287,6 @@ Les layouts
   padding-bottom: 1rem;
 }
 
-/* --- affichage des commandes --- */
 .Accueil .instructions .controls-desktop {
   display: none;
 }
@@ -225,7 +299,6 @@ Les layouts
   text-align: center;
 }
 
-/*---------------------------------*/
 .Accueil .instructions .control-section h4 {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
@@ -276,7 +349,6 @@ Les layouts
   font-size: 1.2rem;
 }
 
-/* Bouton Arrêter (Positionné par le CSS) */
 .Accueil #stopButton {
   position: absolute;
   top: 2%;
@@ -298,7 +370,6 @@ Les layouts
   background-color: var(--acceuil-couleur-bouton-quitter-hover);
 }
 
-/* Conteneur des Boutons (Positionné par le CSS) */
 .Accueil .boutton-container {
   position: absolute;
   bottom: 30%;
@@ -345,7 +416,7 @@ Les layouts
   .Accueil .instructions {
     top: 20%;
   }
-  .Accueil .instructions h2 {
+  .Accueil .instructions .titre {
     font-size: 3rem;
   }
   .Accueil .instructions p {
@@ -369,7 +440,7 @@ Les layouts
   .Accueil .instructions {
     top: 15%;
   }
-  .Accueil .instructions h2 {
+  .Accueil .instructions .titre {
     font-size: 4rem;
   }
   .Accueil .instructions p {
