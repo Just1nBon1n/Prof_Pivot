@@ -515,41 +515,54 @@ Les layouts
     min-height: 55vh; /* augmente sur écrans plus larges */
   }
 }
-.Ressources .aide .carrousel {
-  margin: 100px auto;
-  width: 90%;
-  display: flex;
-  overflow-x: auto;
+.Ressources .aide .banner {
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
 }
-.Ressources .aide .carrousel::-webkit-scrollbar {
-  display: none; /* masque la scrollbar */
+.Ressources .aide .banner .slider {
+  position: relative; /* important pour positionnement des items */
+  width: 200px;
+  height: 250px;
+  top: 10%;
+  left: calc(50% - 100px);
+  transform-style: preserve-3d;
+  perspective: 1000px; /* CORRECT */
+  animation: autoRun 20s linear infinite;
 }
-.Ressources .aide .group {
+.Ressources .aide .banner .slider .item {
+  position: absolute;
+  inset: 0 0 0 0;
+  transform: rotateY(calc((var(--position) - 1) * 360 / var(--quantity) * 1deg)) translateZ(300px);
+  background-color: red;
+  /* rendre le contenu flexible pour positionner le H2 à gauche/centre/droite */
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 1em;
-  animation: spin 12s linear infinite;
-  padding-right: 1em;
+  justify-content: center; /* centre par défaut */
+  padding: 1rem;
+  /* utilitaires pour forcer le côté du titre */
 }
-.Ressources .aide .card {
-  flex: 0 0 5em;
-  height: 7em;
-  padding: 1em;
-  background-color: var(--couleur-fond);
-  font-size: 3rem;
-  border-radius: 0.2em;
-  text-align: center;
-  align-content: center;
-  border: var(--personnes-couleur-border) 2px solid;
+.Ressources .aide .banner .slider .item h2 {
+  margin: 0;
+  width: 100%;
+  text-align: center; /* valeur par défaut */
+  transition: text-align 0.25s ease, padding 0.25s ease, transform 0.25s ease;
 }
-@keyframes spin {
-  from {
-    translate: 0;
-  }
-  to {
-    translate: -100%;
-  }
+.Ressources .aide .banner .slider .item.item--left {
+  justify-content: flex-start;
+}
+.Ressources .aide .banner .slider .item.item--left h2 {
+  text-align: left;
+  padding-left: 10%;
+}
+.Ressources .aide .banner .slider .item.item--right {
+  justify-content: flex-end;
+}
+.Ressources .aide .banner .slider .item.item--right h2 {
+  text-align: right;
+  padding-right: 10%;
 }
 .Ressources .res-titre {
   font-family: var(--texte-titre);
@@ -558,40 +571,13 @@ Les layouts
   margin: 2rem;
   font-size: 3rem;
 }
-.Ressources .carrousel-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: min(900px, 90%);
-  margin: 0 auto;
-  position: relative;
-}
-.Ressources .carousel-arrow {
-  background: transparent;
-  border: none;
-  font-size: 2.2rem;
-  color: var(--couleur-texte-footer);
-  cursor: pointer;
-  transition: color 0.3s;
-  z-index: 2; /* au-dessus du carrousel */
-}
-.Ressources .carousel-arrow.left {
-  margin-right: 1rem;
-}
-.Ressources .carousel-arrow.right {
-  margin-left: 1rem;
-}
-.Ressources .carrousel-wrapper ul {
-  width: 100%;
-  /* Autres styles déjà existants pour ul */
-}
-.Ressources .carrousel.paused .group {
-  /* stoppe l'animation CSS (compatible webkit) */
-  animation-play-state: paused !important;
-  -webkit-animation-play-state: paused !important;
-  /* fallback : annule l'animation si besoin */
-  animation: none !important;
-  -webkit-animation: none !important;
+@keyframes autoRun {
+  from {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(1000px) rotateY(360deg);
+  }
 }
 
 /**************************************************************************************************************/
