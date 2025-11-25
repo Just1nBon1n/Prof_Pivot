@@ -1,5 +1,6 @@
 <!-- Éléments du curseur -->
-<div class="cursor">
+<!-- DESACTIVE POUR LE MOMENT -->
+<!-- <div class="cursor">
   <div class="carre1">
     <div class="detail1">
       <div class="ligne1"></div>
@@ -12,4 +13,4 @@
       <div class="ligne2"></div>
     </div>
   </div>
-</div>
+</div> -->
