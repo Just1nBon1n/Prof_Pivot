@@ -58,6 +58,8 @@ Les variables
 :root {
   --personnes-couleur-fond-carte: #FF9500;
   --personnes-couleur-border: #e6e6e6;
+  --personnes-couleur-bg-boutons: #0D1220;
+  --personnes-couleur-texte-boutons: #E6E6E6;
 }
 
 /* Couleurs  composants section documents utiles */
@@ -500,7 +502,7 @@ Les layouts
 .Ressources .aide {
   order: 1; /* s'assure d'être après .pivots dans l'ordre visuel */
   flex: 0 0 auto; /* ne pas s'étirer */
-  margin-top: 4rem; /* espace au-dessus si nécessaire */
+  margin-top: 2rem; /* espace au-dessus si nécessaire */
   margin-bottom: 4rem;
   /* plus de place pour les slides */
   min-height: 40vh;
@@ -510,6 +512,12 @@ Les layouts
   align-items: center;
   overflow: hidden;
 }
+@media screen and (min-width: 432px) {
+  .Ressources .aide {
+    min-height: 50vh; /* augmente sur écrans moyens */
+    margin-top: 4rem;
+  }
+}
 @media screen and (min-width: 576px) {
   .Ressources .aide {
     min-height: 55vh; /* augmente sur écrans plus larges */
@@ -517,52 +525,104 @@ Les layouts
 }
 .Ressources .aide .banner {
   width: 100%;
-  height: 100vh;
   text-align: center;
   overflow: hidden;
   position: relative;
+  perspective: 1000px;
+  height: 56vh;
 }
 .Ressources .aide .banner .slider {
-  position: relative; /* important pour positionnement des items */
+  position: absolute; /* important pour positionnement des items */
   width: 200px;
-  height: 250px;
+  height: 18.125rem;
   top: 10%;
   left: calc(50% - 100px);
   transform-style: preserve-3d;
-  perspective: 1000px; /* CORRECT */
   animation: autoRun 20s linear infinite;
+  animation-play-state: running;
+  margin-top: 1.5rem;
 }
 .Ressources .aide .banner .slider .item {
   position: absolute;
   inset: 0 0 0 0;
+  /* positionnement dans le carrousel */
   transform: rotateY(calc((var(--position) - 1) * 360 / var(--quantity) * 1deg)) translateZ(300px);
-  background-color: red;
-  /* rendre le contenu flexible pour positionner le H2 à gauche/centre/droite */
-  display: flex;
-  align-items: center;
-  justify-content: center; /* centre par défaut */
-  padding: 1rem;
-  /* utilitaires pour forcer le côté du titre */
+  transform-style: preserve-3d;
+  background: transparent;
+  /* perspective appliquée sur chaque item pour le flip interne */
+  perspective: 1000px;
+  /* wrapper interne pour le flip */
+  /* Par défaut, afficher le recto ; sur hover, on retourne */
+  /* Les deux faces du flip */
+  /* utilitaires de positionnement du titre à l'intérieur des faces */
 }
-.Ressources .aide .banner .slider .item h2 {
+.Ressources .aide .banner .slider .item .flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.Ressources .aide .banner .slider .item:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.Ressources .aide .banner .slider .item .flip-card-front,
+.Ressources .aide .banner .slider .item .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  border: #fff 1px solid;
+  border: 2px solid var(--personnes-couleur-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.Ressources .aide .banner .slider .item .flip-card-back {
+  transform: rotateY(180deg);
+  background-color: #f8f8f8;
+}
+.Ressources .aide .banner .slider .item .flip-card-front h2,
+.Ressources .aide .banner .slider .item .flip-card-back h2 {
   margin: 0;
   width: 100%;
-  text-align: center; /* valeur par défaut */
+  text-align: center;
   transition: text-align 0.25s ease, padding 0.25s ease, transform 0.25s ease;
 }
-.Ressources .aide .banner .slider .item.item--left {
-  justify-content: flex-start;
-}
-.Ressources .aide .banner .slider .item.item--left h2 {
+.Ressources .aide .banner .slider .item.item--left .flip-card-front h2, .Ressources .aide .banner .slider .item.item--left .flip-card-back h2 {
   text-align: left;
   padding-left: 10%;
 }
-.Ressources .aide .banner .slider .item.item--right {
-  justify-content: flex-end;
-}
-.Ressources .aide .banner .slider .item.item--right h2 {
+.Ressources .aide .banner .slider .item.item--right .flip-card-front h2, .Ressources .aide .banner .slider .item.item--right .flip-card-back h2 {
   text-align: right;
   padding-right: 10%;
+}
+.Ressources .aide .controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.Ressources .aide .btn-pixel {
+  font-family: var(--texte-titre);
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
+  color: var(--personnes-couleur-texte-boutons);
+  background: var(--personnes-couleur-bg-boutons);
+  border: 3px solid #fff;
+  border-radius: 0;
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 3px #000;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.Ressources .aide .btn-pixel:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 1px #000;
 }
 .Ressources .res-titre {
   font-family: var(--texte-titre);
@@ -573,10 +633,10 @@ Les layouts
 }
 @keyframes autoRun {
   from {
-    transform: perspective(1000px) rotateY(0deg);
+    transform: rotateY(0deg);
   }
   to {
-    transform: perspective(1000px) rotateY(360deg);
+    transform: rotateY(360deg);
   }
 }
 

@@ -11,4 +11,7 @@
   foreach ($function_files as $file) {
     include_once $functions_dir . $file;
   }
+
+  // Charger le Customizer du module Arthur
+  require_once get_template_directory() . '/Arthur/functions/Arthur_customizer.php';
 ?>

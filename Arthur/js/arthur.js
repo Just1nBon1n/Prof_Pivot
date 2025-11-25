@@ -79,3 +79,43 @@ document.addEventListener('DOMContentLoaded', () => {
   // Carousel JS removed — le carrousel est géré par le markup/CSS uniquement maintenant.
 
 }); // fin DOMContentLoaded
+  // ----- Carousel play / stop -----
+  const slider = document.querySelector('.slider');
+  const btnPlay = document.getElementById('btn-play');
+  const btnStop = document.getElementById('btn-stop');
+
+  if (slider && btnPlay && btnStop) {
+    btnPlay.addEventListener('click', () => {
+      slider.style.animationPlayState = 'running';
+    });
+
+    btnStop.addEventListener('click', () => {
+      slider.style.animationPlayState = 'paused';
+    });
+  }
+
+  ( function( wp ) {
+    if ( ! wp || ! wp.customize ) return;
+
+    function safeSet(selector, html, isHTML) {
+      var el = document.querySelector(selector);
+      if (!el) return;
+      if (isHTML) el.innerHTML = html;
+      else el.textContent = html;
+    }
+
+    for (var i = 1; i <= 4; i++) {
+      (function(i){
+        wp.customize('res_titre_item_' + i, function(value) {
+          value.bind(function(newval) {
+            safeSet('.slider .item:nth-child(' + i + ') .flip-card-front h2', newval, false);
+          });
+        });
+        wp.customize('res_description_item_' + i, function(value) {
+          value.bind(function(newval) {
+            safeSet('.slider .item:nth-child(' + i + ') .flip-card-back p', newval, true);
+          });
+        });
+      })(i);
+    }
+  })( window.wp );
