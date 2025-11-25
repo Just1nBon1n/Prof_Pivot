@@ -68,6 +68,7 @@ Les variables
   --docs-couleur-dossier-5: #28772C;
   --docs-couleur-dossier-6: #1E5A21;
   --docs-couleur-dossier-7: #153C17;
+  --docs-couleur-dossier-8: #0e270f;
   --docs-couleur-dossier-contour: #000000;
   --docs-couleur-dossier-fond: #E6E6E6;
 }
@@ -596,6 +597,10 @@ Les layouts
   background-color: var(--docs-couleur-dossier-7);
 }
 
+.dossier:nth-of-type(8) .arriere {
+  background-color: var(--docs-couleur-dossier-8);
+}
+
 /* Etiquette */
 .arriere::before {
   content: "";
@@ -637,6 +642,10 @@ Les layouts
 
 .dossier:nth-of-type(7) .arriere::before {
   background-color: var(--docs-couleur-dossier-7);
+}
+
+.dossier:nth-of-type(8) .arriere::before {
+  background-color: var(--docs-couleur-dossier-8);
 }
 
 .dossier:nth-child(odd) .arriere::before {
@@ -726,6 +735,10 @@ Les layouts
   background-color: var(--docs-couleur-dossier-7);
 }
 
+.dossier:nth-of-type(8) .avant {
+  background-color: var(--docs-couleur-dossier-8);
+}
+
 /* Animations */
 .dossier:hover .avant {
   transform: rotateX(-40deg);
@@ -769,6 +782,9 @@ Les layouts
   }
   .dossier.dossier:nth-of-type(7) {
     top: -600px;
+  }
+  .dossier.dossier:nth-of-type(8) {
+    top: -700px;
   }
   .dossier:nth-of-type(even) {
     left: 200px;
@@ -983,6 +999,7 @@ footer h2 {
     scale: 1.2;
   }
   .adresse {
+    font-size: 1.5rem;
     display: flex;
     text-align: center;
     justify-content: center;

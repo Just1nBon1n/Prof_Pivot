@@ -53,6 +53,9 @@
 .dossier:nth-of-type(7) .arriere {
     background-color: var(--docs-couleur-dossier-7);
 }
+.dossier:nth-of-type(8) .arriere {
+    background-color: var(--docs-couleur-dossier-8);
+}
 
 /* Etiquette */
 .arriere::before {
@@ -88,6 +91,9 @@
 }
 .dossier:nth-of-type(7) .arriere::before {
     background-color: var(--docs-couleur-dossier-7);
+}
+.dossier:nth-of-type(8) .arriere::before {
+    background-color: var(--docs-couleur-dossier-8);
 }
 
 .dossier:nth-child(odd) .arriere::before {
@@ -169,6 +175,9 @@
 .dossier:nth-of-type(7) .avant {
     background-color: var(--docs-couleur-dossier-7);
 }
+.dossier:nth-of-type(8) .avant {
+    background-color: var(--docs-couleur-dossier-8);
+}
 
 /* Animations */
 .dossier:hover .avant {
@@ -197,7 +206,7 @@
         width: 800px;
         height: 550px;
     }
-    @for $i from 2 through 7 {
+    @for $i from 2 through 8 {
         .dossier.dossier:nth-of-type(#{$i}) {
             top: -#{$i * 100 - 100}px;
         }

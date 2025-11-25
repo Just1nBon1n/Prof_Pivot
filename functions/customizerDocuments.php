@@ -49,8 +49,8 @@ function theme_31w_customize_register($wp_customize) {
         'priority' => 40,
     ));
 
-    // 7 documents téléchargeables
-    for ($i = 1; $i <= 7; $i++) {
+    //  documents téléchargeables
+    for ($i = 1; $i <= 8; $i++) {
         // Étiquette
         $wp_customize->add_setting("etiquette_$i", array(
             'default' => __("Étiquette $i", 'theme_31w'),
@@ -61,7 +61,7 @@ function theme_31w_customize_register($wp_customize) {
             'section' => 'section_documents',
             'type' => 'text',
         ));
-
+    
         // Lien du fichier
         $wp_customize->add_setting("fichier_lien_$i", array(
             'default' => '#',
@@ -133,10 +133,11 @@ function theme_31w_enqueue_scripts() {
     );
 
     // Préparer les données dynamiques
+    $nombreDossiers = 8;
     $etiquettes = [];
     $fichiersLiens = [];
 
-    for ($i = 1; $i <= 7; $i++) {
+    for ($i = 1; $i <= $nombreDossiers; $i++) {
         $etiquettes[] = get_theme_mod("etiquette_$i", "Étiquette $i");
         $fichiersLiens[] = get_theme_mod("fichier_lien_$i", "#");
     }

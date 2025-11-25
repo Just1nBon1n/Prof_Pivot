@@ -1,18 +1,17 @@
-const dossiers = document.querySelector(".dossiers");
-let nombreDossier = 7;
-
 // Données injectées depuis PHP
-
-// Étiquettes
 const etiquettes = dossiersData.etiquettes;
-// Liens des fichiers à télécharger
 const fichiersLiens = dossiersData.fichiersLiens;
+
+// Nombre de dossiers dynamiques
+const nombreDossier = etiquettes.length;
+
+// Sélecteur
+const dossiers = document.querySelector(".dossiers");
 
 let dernierElementTouche = null;
 
 for (let i = 0; i < nombreDossier; i++) {
 
-  // Création de la structure
   const dossier = document.createElement("span");
   dossier.classList.add("dossier");
 
@@ -25,13 +24,10 @@ for (let i = 0; i < nombreDossier; i++) {
   arriere.appendChild(etiquette);
 
   if (i % 2 === 0) {
-    //odd
     etiquette.style.left = "15px";
     etiquette.style.right = "auto";
     etiquette.style.textAlign = "left";
-  } 
-  else {
-    //even
+  } else {
     etiquette.style.right = "15px";
     etiquette.style.left = "auto";
     etiquette.style.textAlign = "right";
@@ -48,7 +44,6 @@ for (let i = 0; i < nombreDossier; i++) {
   const avant = document.createElement("span");
   avant.classList.add("avant");
 
-  // Append
   dossier.appendChild(arriere);
   dossier.appendChild(papier);
   dossier.appendChild(avant);
@@ -64,40 +59,32 @@ for (let i = 0; i < nombreDossier; i++) {
     window.open(fichierURL, "_blank");
   };
 
-    // Gestion des interactions
-    const gereInteraction = (element) => {
+  const gereInteraction = (element) => {
     const touche = "ontouchstart" in window;
 
     if (touche) {
-        element.addEventListener("touchend", (e) => {
-            e.preventDefault();
-            // Si on touche le même élément deux fois de suite, on l'ouvre
-            if (dernierElementTouche == element) {
-                element.classList.add("hover-active");
-                ouvrirFichier();
-                dernierElementTouche = null;
-            } 
-            else {
-                // Sinon, activer "hover"
-                document.querySelectorAll(".dossier.hover-active").forEach(d =>
-                    d.classList.remove("hover-active")
-                );
-                dernierElementTouche = element;
-            }
-        });
-    } 
-    else {
-        // Desktop
-        element.addEventListener("click", ouvrirFichier);
+      element.addEventListener("touchend", (e) => {
+        e.preventDefault();
+        if (dernierElementTouche == element) {
+          element.classList.add("hover-active");
+          ouvrirFichier();
+          dernierElementTouche = null;
+        } else {
+          document.querySelectorAll(".dossier.hover-active").forEach(d =>
+            d.classList.remove("hover-active")
+          );
+          dernierElementTouche = element;
+        }
+      });
+    } else {
+      element.addEventListener("click", ouvrirFichier);
     }
   };
 
-  // Zones cliquables
   gereInteraction(avant);
   gereInteraction(papier);
 }
 
-// Si on tape ailleurs sur mobile, on désactive le hover
 document.addEventListener("touchstart", (e) => {
   if (!e.target.closest(".dossier")) {
     document.querySelectorAll(".dossier.hover-active").forEach(d =>
