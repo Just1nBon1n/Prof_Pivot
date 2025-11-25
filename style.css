@@ -18,6 +18,7 @@ Les variables
 :root {
   --couleur-fond: #0D1220;
   --couleur-texte-default: #000000;
+  --couleur-texte-blanc: #e6e6e6;
   --couleur-texte-titre: #000000;
   --couleur-texte-fond-acceuil: rgba(255, 255, 255, 0.5);
   --couleur-texte-footer: #E6E6E6;
@@ -41,12 +42,18 @@ Les variables
 
 /* Couleurs composants section acceuil */
 :root {
+  --snake-couleur-Logo-TIM-Contour: #141414;
+  --snake-couleur-Logo-TIM-Interieur: #D9D9D9;
+  --snake-couleur-grille: rgba(255, 255, 255, 0.1);
+  --snake-couleur-nourriture: #c4c4c4;
   --snake-couleur-tete: #317032;
   --snake-couleur-corps: #7FC765;
-  --snake-couleur-nourriture: #fffb00;
-  --snake-couleur-Logo-TIM: rgba(255, 255, 255, 0.2);
-  --snake-couleur-grille: rgba(255, 255, 255, 0.1);
-  --snake-couleur-lumiere: #ba3333;
+  --snake-couleur-lumiere: #434c5f;
+  --acceuil-couleur-bouton-jouer: #00b894;
+  --acceuil-couleur-bouton-jouer-hover: #01755a;
+  --acceuil-couleur-bouton-quitter: #d63031;
+  --acceuil-couleur-bouton-quitter-hover: #942c21;
+  --acceuil-couleur-texte-fond: rgba(52, 52, 52, 0.5);
 }
 
 /* Couleurs composants section liens utiles */
@@ -57,6 +64,9 @@ Les variables
 /* Couleurs composants section personnes ressources */
 :root {
   --personnes-couleur-fond-carte: #FF9500;
+  --personnes-couleur-border: #e6e6e6;
+  --personnes-couleur-bg-boutons: #0D1220;
+  --personnes-couleur-texte-boutons: #E6E6E6;
 }
 
 /* Couleurs  composants section documents utiles */
@@ -117,177 +127,173 @@ body {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-/* CURSEUR ////////////////////////////////////////////////////////////////// */
-.cursor {
-  position: fixed;
+/* /////////////////////////////////
+Les layouts
+//////////////////////////////////// */
+/*----------------------------------------------------------------
+// Styles pour la page d'accueil avec le jeu Snake en mobile
+------------------------------------------------------------------*/
+.Accueil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: var(--couleur-fond);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.1em;
+}
+
+.Accueil .snake-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Accueil canvas {
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: 10000; /* Toujours au dessus */
-  /* Taille curseur */
-  width: 3rem;
-  height: 3rem;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.Accueil .instructions {
+  position: absolute;
+  text-align: center;
+  color: var(--couleur-texte-blanc);
+  font-family: var(--texte-titre);
+  z-index: 10;
+  /* Position mobile par défaut */
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%); /* Centrage horizontal uniquement */
+}
+
+.Accueil .instructions .titre {
+  font-family: var(--texte-titre);
+  color: var(--couleur-texte-blanc);
+  font-size: 2.4rem;
+  letter-spacing: 0.1em;
+  background-color: var(--acceuil-couleur-texte-fond);
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+}
+
+/* Animation clé pour faire glisser les éléments vers le haut */
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translate(0, -200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+@keyframes slideInDown {
+  0% {
+    opacity: 0;
+    transform: translate(0, 200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+/* État initial pour tous les éléments qui seront animés dans n'importe quelle phase */
+.Accueil .instructions h2.titre,
+.Accueil .instructions .instructions-container,
+.Accueil .boutton-container,
+.Accueil #stopButton {
+  opacity: 0;
+  transform: translate(0, 30px);
   pointer-events: none;
-  /* Centrer le curseur par rapport à la souris */
-  transform: translate(-50%, -50%);
-  /* Structure curseur */
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: 50% 50%;
-  /* border: 1px solid red;  */
+  transition: none; /* Crucial pour laisser les @keyframes prendre le relais */
 }
 
-/* Carres curseur haut gauche */
-.cursor .carre1 {
+/* Les boutons individuels */
+.Accueil #startButton, .Accueil #quitButton {
+  transition: none; /* S'assure que la transition ne rentre pas en conflit */
+}
+
+/* Séquence 1 : Titre de Bienvenue et Boutons */
+#instructions.is-welcome-active h2.titre {
+  animation: slideInUp 1s ease-out forwards;
+  animation-delay: 0.2s;
+  pointer-events: auto;
+}
+
+#instructions.is-welcome-active ~ .boutton-container {
+  animation: slideInDown 1s ease-out forwards;
+  animation-delay: 0.6s;
+  pointer-events: auto;
+}
+
+/* Séquence 2 : Titre dynamique et Conteneur de commandes */
+#instructions.is-command-active .instructions-container {
+  animation: slideInUp 1s ease-out forwards;
+  animation-delay: 0.1s;
+  pointer-events: auto;
+}
+
+/* Séquence 3 : jeu en cours */
+#instructions.is-game-active ~ #stopButton {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.1s;
+  pointer-events: auto;
+}
+
+/* Séquence 4 : Game Over */
+#instructions.is-gameover-active p { /* dynamicTitle */
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.1s;
+  pointer-events: auto;
+}
+
+#instructions.is-gameover-active .instructions-container {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.4s;
+  pointer-events: auto;
+}
+
+#instructions.is-gameover-active ~ .boutton-container {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.8s;
+  pointer-events: auto;
+}
+
+.Accueil .instructions .instructions-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background-color: whitesmoke;
-  border: 1.5px solid black;
+  background-color: var(--acceuil-couleur-texte-fond);
+  border-radius: 12px;
 }
 
-.cursor .detail1 {
-  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
-  position: relative;
-  width: 80%;
-  height: 80%;
-  /* border: 1px solid red;  */
+#instructions.is-animating .instructions-container {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.2s;
+  pointer-events: auto;
 }
 
-.cursor .carre1 .ligne1 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 70%;
-  height: 20%;
-  background-color: red;
+.Accueil .instructions .instructions-titre {
+  font-size: 2.2rem;
+  padding: 1rem;
 }
 
-.cursor .carre1 .ligne2 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 20%;
-  height: 70%;
-  background-color: red;
+.Accueil .instructions p {
+  font-size: 1.4rem;
+  color: var(--couleur-texte-blanc);
 }
 
-/* Carres curseur bas droite */
-.cursor .carre2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: whitesmoke;
-  grid-row-start: 2;
-  grid-column-start: 2;
-  border: 1.5px solid black;
-}
-
-.cursor .detail2 {
-  /* relatif pour que les lignes soient positionnées par rapport à ce carré */
-  position: relative;
-  width: 80%;
-  height: 80%;
-  /* border: 1px solid red;  */
-}
-
-.cursor .carre2 .ligne1 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 70%;
-  height: 20%;
-  background-color: red;
-  bottom: 0;
-  right: 0;
-}
-
-.cursor .carre2 .ligne2 {
-  /* positionnement par rapport au carré */
-  position: absolute;
-  width: 20%;
-  height: 70%;
-  background-color: red;
-  bottom: 0;
-  right: 0;
-}
-
-/* ========================== */
-/* Hover animations           */
-/* ========================== */
-/* Animation Hover ////////////////////////////////////////////////////////// */
-/* Mouvement carré */
-.cursor .carre1,
-.cursor .carre2 {
-  transition: transform 0.3s ease;
-}
-
-.cursor.hovered .carre1 {
-  transform: translate(100%, 0); /* déplace vers gauche */
-}
-
-.cursor.hovered .carre2 {
-  transform: translate(-100%, 0); /* déplace vers droite */
-}
-
-/* Mouvement lignes 1 */
-.cursor .carre1 .ligne1,
-.cursor .carre2 .ligne1 {
-  transition: transform 0.5s ease;
-}
-
-.cursor.hovered .carre1 .ligne1 {
-  transform: translate(30%, 0);
-}
-
-.cursor.hovered .carre2 .ligne1 {
-  transform: translate(-30%, 0);
-}
-
-/* Mouvement lignes 2 */
-.cursor .carre1 .ligne2,
-.cursor .carre2 .ligne2 {
-  transition: transform 0.3s ease;
-}
-
-.cursor.hovered .carre1 .ligne2 {
-  transform: translate(400%, 0);
-}
-
-.cursor.hovered .carre2 .ligne2 {
-  transform: translate(-400%, 0);
-}
-
-/* ========================== */
-/* Click animation            */
-/* ========================== */
-.cursor.clicked {
-  animation: tailleCurseur 0.3s ease;
-  /* IMPORTANT! garder le meme delais dans le JS */
-}
-
-@keyframes tailleCurseur {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(0.8);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-.carre1, .carre2 {
-  animation: positionCarres 1.3s ease;
-  /* IMPORTANT! garder le meme delais dans le JS */
-}
-
-@keyframes positionCarres {
-  0% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(50%, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+.Accueil .instructions .instructions-body {
+  padding: 1rem;
 }
 .search-container {
   position: sticky;
@@ -337,96 +343,248 @@ Les layouts
 --------------------------------------------------------------*/
 .Accueil {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: var(--couleur-fond);
-  position: relative;
-  overflow: hidden;
+  gap: 2rem;
+  padding-bottom: 1rem;
 }
-.Accueil .snake-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
+
+.Accueil .instructions .controls-desktop {
+  display: none;
 }
-.Accueil canvas {
+
+.Accueil .instructions .controls-mobile {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
-.Accueil .instructions {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+.Accueil .instructions .control-section {
   text-align: center;
-  color: white;
-  font-family: "Poppins", sans-serif;
-  z-index: 10;
 }
-.Accueil .instructions p {
-  font-size: 1.2rem;
+
+.Accueil .instructions .control-section h4 {
+  font-size: 1.8rem;
   margin-bottom: 0.5rem;
+  font-family: var(--texte-default);
+  color: var(--couleur-texte-blanc);
 }
-.Accueil .instructions ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1rem 0;
+
+.Accueil .instructions .commands-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
-.Accueil .instructions ul li {
-  font-size: 1rem;
-  line-height: 1.4;
+
+.Accueil .instructions .separator {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
 }
-.Accueil .instructions #startButton {
-  background-color: #00b894;
+
+.Accueil .instructions .key-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.Accueil .instructions .command-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.Accueil .instructions .key {
+  display: inline-block;
+  background-color: #555;
   color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  min-width: 1.5rem;
+  text-align: center;
+  border: 1px solid #777;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+  transition: 0.2s;
+}
+
+.Accueil .instructions .key-desc {
+  font-family: var(--texte-default);
   font-size: 1.2rem;
+}
+
+.Accueil #stopButton {
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  z-index: 10;
+  background-color: var(--acceuil-couleur-bouton-quitter);
+  color: var(--couleur-texte-blanc);
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  padding: 0.5rem 0.8rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-family: var(--texte-titre);
+}
+
+.Accueil #stopButton:hover {
+  background-color: var(--acceuil-couleur-bouton-quitter-hover);
+}
+
+.Accueil .boutton-container {
+  position: absolute;
+  bottom: 30%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 10;
+  gap: 1rem;
+  transform: translateX(-50%);
+}
+
+/* Styles des boutons */
+.Accueil #startButton, .Accueil #quitButton {
+  background-color: var(--acceuil-couleur-bouton-jouer);
+  color: var(--couleur-texte-blanc);
+  font-size: 2rem;
+  letter-spacing: 0.1em;
   padding: 0.6rem 1rem;
+  z-index: 10;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.5s ease;
+  font-family: var(--texte-titre);
 }
-.Accueil .instructions #startButton:hover {
-  background-color: #019875;
+
+.Accueil #startButton:hover {
+  background-color: var(--acceuil-couleur-bouton-jouer-hover);
+}
+
+.Accueil #quitButton {
+  background-color: var(--acceuil-couleur-bouton-quitter);
+}
+
+.Accueil #quitButton:hover {
+  background-color: var(--acceuil-couleur-bouton-quitter-hover);
 }
 
 /*--------------------------------------------------------------
-// Styles pour les tablettes
+// Styles pour les tablettes (MIN-WIDTH: 600px)
 --------------------------------------------------------------*/
 @media (min-width: 600px) {
+  .Accueil .instructions {
+    top: 20%;
+  }
+  .Accueil .instructions .titre {
+    font-size: 3rem;
+  }
   .Accueil .instructions p {
-    font-size: 1.4rem;
+    font-size: 1.8rem;
   }
-  .Accueil .instructions li {
-    font-size: 1.2rem;
+  .Accueil .instructions .control-section h4 {
+    font-size: 1.6rem;
   }
-  .Accueil .instructions #startButton {
-    font-size: 1.4rem;
-    padding: 0.8rem 1.5rem;
+  .Accueil #startButton, .Accueil #quitButton {
+    font-size: 2rem;
+    padding: 0.8rem 1.4rem;
+  }
+  .Accueil .boutton-container {
+    flex-direction: row;
+    bottom: 25%;
   }
 }
 /*--------------------------------------------------------------
-// Styles pour Desktops
+// Styles pour Desktops (MIN-WIDTH: 1024px)
 --------------------------------------------------------------*/
 @media (min-width: 1024px) {
+  .Accueil .instructions {
+    top: 15%;
+  }
+  .Accueil .instructions .titre {
+    font-size: 4rem;
+  }
   .Accueil .instructions p {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
-  .Accueil .instructions li {
-    font-size: 1.3rem;
+  .Accueil .instructions .control-section h4 {
+    font-size: 2rem;
   }
-  .Accueil .instructions #startButton {
-    font-size: 1.8rem;
+  .Accueil #startButton, .Accueil #quitButton {
+    font-size: 2.2rem;
     padding: 1rem 2rem;
+  }
+  .Accueil .boutton-container {
+    flex-direction: row;
+    bottom: 20%;
+  }
+  /* gestion de l'affichage */
+  .Accueil .instructions .controls-desktop {
+    display: block;
+  }
+  .Accueil .instructions .controls-mobile {
+    display: none;
+  }
+  .Accueil .instructions .control-section {
+    text-align: center;
+  }
+}
+.Ressources {
+  display: flex;
+  flex-direction: column; /* force empilement vertical : .pivots au-dessus, .aide en dessous */
+  align-items: stretch;
+  height: auto;
+  /* Retourné au comportement par défaut : pas de texte à gauche de David.
+     Les styles spécifiques à .zone-david ont été supprimés. */
+}
+.Ressources .pivots {
+  /* espace latéral global pour la section pivots */
+  padding-left: 3vw;
+  padding-right: 3vw;
+  box-sizing: border-box;
+}
+@media screen and (min-width: 432px) {
+  .Ressources .pivots {
+    height: 70vh;
+  }
+}
+@media screen and (min-width: 576px) {
+  .Ressources .pivots {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centre verticalement .prof dans la section */
   }
 }
 .Ressources .pivots .prof {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  margin: 20px;
+  max-width: 1200px; /* largeur max de la grille */
+  width: 100%;
+  margin: 20px auto 0 auto; /* centre horizontalement la grille */
+  padding-inline: 0.75rem; /* marge interne gauche / droite */
   margin-top: 0;
+  /* chaque personne (figure + description) est un item de la grille */
+  /* description sous l'image (pour Grégory) */
+}
+.Ressources .pivots .prof .prof-person {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.Ressources .pivots .prof .person-desc {
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  position: relative;
+  z-index: 3; /* force la description au-dessus du fond */
+  background: rgba(255, 255, 255, 0); /* transparent par défaut, changez si besoin */
+}
+@media screen and (min-width: 576px) {
+  .Ressources .pivots .prof {
+    height: 80%; /* <- .prof prend 80% de la hauteur de .pivots */
+    box-sizing: border-box;
+    width: 100%;
+  }
 }
 .Ressources .pivots .prof figure {
   grid-column: span 2;
@@ -435,13 +593,33 @@ Les layouts
   height: auto;
   position: relative; /* nécessaire pour l'overlay */
   overflow: hidden;
+  /* garder le haut fixe lors des transforms ou du redimensionnement */
+  transform-origin: left center;
+}
+@media screen and (min-width: 432px) {
+  .Ressources .pivots .prof figure {
+    box-sizing: content-box;
+    height: 100%;
+  }
 }
 .Ressources .pivots .prof figure .img-pivots {
   display: block;
   width: 100%;
-  height: auto;
-  border-radius: 10px;
+  height: 100%;
   object-fit: cover;
+  object-position: 50% 20%; /* le haut de l'image reste visible */
+  transform-origin: top center;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+  border: var(--personnes-couleur-border) 2px solid;
+  border-radius: 0; /* plus d'arrondi sur les images */
+  /* border-radius supprimé */
+}
+@media screen and (min-width: 432px) {
+  .Ressources .pivots .prof figure .img-pivots {
+    height: 100%;
+  }
 }
 .Ressources .pivots .prof figure figcaption {
   position: absolute;
@@ -459,16 +637,150 @@ Les layouts
   grid-column: span 1;
 }
 .Ressources .pivots .prof .David {
-  transform-origin: left center; /* Point d'ancrage à gauche */
+  transform-origin: top left; /* ancre en haut à gauche pour garder le haut fixe */
 }
 .Ressources .pivots .prof .Greg {
-  transform-origin: right center; /* Point d'ancrage à droite */
+  transform-origin: top right; /* ancre en haut à droite pour garder le haut fixe */
+}
+.Ressources .aide {
+  order: 1; /* s'assure d'être après .pivots dans l'ordre visuel */
+  flex: 0 0 auto; /* ne pas s'étirer */
+  margin-top: 2rem; /* espace au-dessus si nécessaire */
+  margin-bottom: 4rem;
+  /* plus de place pour les slides */
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+@media screen and (min-width: 432px) {
+  .Ressources .aide {
+    min-height: 50vh; /* augmente sur écrans moyens */
+    margin-top: 4rem;
+  }
+}
+@media screen and (min-width: 576px) {
+  .Ressources .aide {
+    min-height: 55vh; /* augmente sur écrans plus larges */
+  }
+}
+.Ressources .aide .banner {
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  perspective: 1000px;
+  height: 56vh;
+}
+.Ressources .aide .banner .slider {
+  position: absolute; /* important pour positionnement des items */
+  width: 200px;
+  height: 18.125rem;
+  top: 10%;
+  left: calc(50% - 100px);
+  transform-style: preserve-3d;
+  animation: autoRun 20s linear infinite;
+  animation-play-state: running;
+  margin-top: 1.5rem;
+}
+.Ressources .aide .banner .slider .item {
+  position: absolute;
+  inset: 0 0 0 0;
+  /* positionnement dans le carrousel */
+  transform: rotateY(calc((var(--position) - 1) * 360 / var(--quantity) * 1deg)) translateZ(300px);
+  transform-style: preserve-3d;
+  background: transparent;
+  /* perspective appliquée sur chaque item pour le flip interne */
+  perspective: 1000px;
+  /* wrapper interne pour le flip */
+  /* Par défaut, afficher le recto ; sur hover, on retourne */
+  /* Les deux faces du flip */
+  /* utilitaires de positionnement du titre à l'intérieur des faces */
+}
+.Ressources .aide .banner .slider .item .flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.Ressources .aide .banner .slider .item:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+.Ressources .aide .banner .slider .item .flip-card-front,
+.Ressources .aide .banner .slider .item .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  border: #fff 1px solid;
+  border: 2px solid var(--personnes-couleur-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.Ressources .aide .banner .slider .item .flip-card-back {
+  transform: rotateY(180deg);
+  background-color: #f8f8f8;
+}
+.Ressources .aide .banner .slider .item .flip-card-front h2,
+.Ressources .aide .banner .slider .item .flip-card-back h2 {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  transition: text-align 0.25s ease, padding 0.25s ease, transform 0.25s ease;
+}
+.Ressources .aide .banner .slider .item.item--left .flip-card-front h2, .Ressources .aide .banner .slider .item.item--left .flip-card-back h2 {
+  text-align: left;
+  padding-left: 10%;
+}
+.Ressources .aide .banner .slider .item.item--right .flip-card-front h2, .Ressources .aide .banner .slider .item.item--right .flip-card-back h2 {
+  text-align: right;
+  padding-right: 10%;
+}
+.Ressources .aide .controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+.Ressources .aide .btn-pixel {
+  font-family: var(--texte-titre);
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
+  color: var(--personnes-couleur-texte-boutons);
+  background: var(--personnes-couleur-bg-boutons);
+  border: 3px solid #fff;
+  border-radius: 0;
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 3px #000;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.Ressources .aide .btn-pixel:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 1px #000;
 }
 .Ressources .res-titre {
   font-family: var(--texte-titre);
   color: var(--couleur-texte-footer);
   text-align: center;
-  font-size: 1.5rem;
+  margin: 2rem;
+  font-size: 3rem;
+}
+@keyframes autoRun {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
 /**************************************************************************************************************/
