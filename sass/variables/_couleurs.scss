@@ -6,6 +6,7 @@
 :root {
   --couleur-fond: #0D1220;
   --couleur-texte-default: #000000;
+  --couleur-texte-blanc: #e6e6e6;
   --couleur-texte-titre: #000000;
   --couleur-texte-fond-acceuil: rgba(255, 255, 255, 0.5);
   --couleur-texte-footer: #E6E6E6;
@@ -31,22 +32,32 @@
 
 /* Couleurs composants section acceuil */
 :root {
+  --snake-couleur-Logo-TIM-Contour: #141414;
+  --snake-couleur-Logo-TIM-Interieur: #D9D9D9;
+  --snake-couleur-grille: rgba(255, 255, 255, 0.1);
+  --snake-couleur-nourriture: #c4c4c4;
   --snake-couleur-tete: #317032;
   --snake-couleur-corps: #7FC765;
-  --snake-couleur-nourriture: #fffb00;
-  --snake-couleur-Logo-TIM: rgba(255, 255, 255, 0.2);
-  --snake-couleur-grille: rgba(255, 255, 255, 0.1);
-  --snake-couleur-lumiere: #ba3333;
+  --snake-couleur-lumiere: #434c5f;
+
+  --acceuil-couleur-bouton-jouer: #00b894;
+  --acceuil-couleur-bouton-jouer-hover: #01755a;
+  --acceuil-couleur-bouton-quitter: #d63031;
+  --acceuil-couleur-bouton-quitter-hover: #942c21;
+  --acceuil-couleur-texte-fond: rgba(52, 52, 52, 0.5);
 }
 
 /* Couleurs composants section liens utiles */
 :root {
-  --liens-couleur-logo: #ffffff;
+  --liens-couleur-logo: #E6E6E6;
 }
 
 /* Couleurs composants section personnes ressources */
 :root {
   --personnes-couleur-fond-carte: #FF9500;
+  --personnes-couleur-border: #e6e6e6;
+  --personnes-couleur-bg-boutons: #0D1220;
+  --personnes-couleur-texte-boutons: #E6E6E6;
 }
 
 /* Couleurs  composants section documents utiles */ // Couleurs modifiées
