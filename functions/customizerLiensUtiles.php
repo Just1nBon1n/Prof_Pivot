@@ -1,44 +1,74 @@
-
 <?php
 
-// Enregistrer les options personnalisées dans le Customizer
 function mon_theme_customizer_register($wp_customize) {
 
-    // --- SECTION : Liens utiles ---
+    // SECTION : Liens utiles
     $wp_customize->add_section('liens_utiles_section', array(
         'title'       => __('Liens utiles', 'mon-theme'),
         'priority'    => 30,
-        'description' => __('Ajoutez vos liens utiles (URL + icône)', 'mon-theme'),
+        'description' => __('Ajoutez ou supprimez vos liens utiles.', 'mon-theme'),
     ));
 
-    // --- Exemple de liens utiles ---
-    $liens = ['instagram', 'Omnivox', 'Stage ATE', 'linkedin', 'calendrier_tim', 'calendrier_ecole', 'Horaire_evaluations', 'Horaire_profs', 'stages', 'tutorat', 'materiel', 'behance'];
+    // Nombre de liens
+    $wp_customize->add_setting('liens_utiles_count', array(
+        'default'           => 6,
+        'sanitize_callback' => 'absint'
+    ));
 
-    foreach ($liens as $lien) {
+    $wp_customize->add_control('liens_utiles_count', array(
+        'label'       => __('Nombre de liens', 'mon-theme'),
+        'section'     => 'liens_utiles_section',
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min' => 1,
+            'max' => 30
+        )
+    ));
 
-        // URL du lien utile
-        $wp_customize->add_setting("lien_{$lien}_url", [
-            'default'           => '',
-            'sanitize_callback' => 'esc_url_raw',
-        ]);
+    // 💡 Génération automatique des champs
+    $count = get_theme_mod('liens_utiles_count', 6);
 
-        $wp_customize->add_control("lien_{$lien}_url", [
-            'label'   => ucfirst($lien) . ' URL',
+    for ($i = 1; $i <= $count; $i++) {
+
+        // Label
+        $wp_customize->add_setting("lien_{$i}_label", array(
+            'default'           => 'Lien '.$i,
+            'sanitize_callback' => 'sanitize_text_field'
+        ));
+
+        $wp_customize->add_control("lien_{$i}_label", array(
+            'label'   => __("Lien {$i} – Texte", 'mon-theme'),
             'section' => 'liens_utiles_section',
-            'type'    => 'url',
-        ]);
+            'type'    => 'text'
+        ));
 
-        // Icône ou image associée
-        $wp_customize->add_setting("lien_{$lien}_icon", [
+        // URL
+        $wp_customize->add_setting("lien_{$i}_url", array(
             'default'           => '',
-            'sanitize_callback' => 'esc_url_raw',
-        ]);
+            'sanitize_callback' => 'esc_url_raw'
+        ));
 
-        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "lien_{$lien}_icon", [
-            'label'    => 'Icône pour ' . ucfirst($lien),
-            'section'  => 'liens_utiles_section',
-            'settings' => "lien_{$lien}_icon",
-        ]));
+        $wp_customize->add_control("lien_{$i}_url", array(
+            'label'   => __("Lien {$i} – URL", 'mon-theme'),
+            'section' => 'liens_utiles_section',
+            'type'    => 'url'
+        ));
+
+        // Icône
+        $wp_customize->add_setting("lien_{$i}_icon", array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw'
+        ));
+
+        $wp_customize->add_control(new WP_Customize_Image_Control(
+            $wp_customize,
+            "lien_{$i}_icon",
+            array(
+                'label'    => __("Lien {$i} – Icône", 'mon-theme'),
+                'section'  => 'liens_utiles_section',
+                'settings' => "lien_{$i}_icon"
+            )
+        ));
     }
 }
 
