@@ -48,7 +48,7 @@
             grandConteneur.appendChild(titre);
         }
 
-        const nombreSeparateurs = 11;
+        const nombreSeparateurs = 13;
         const milieuIndex = Math.floor(nombreSeparateurs / 2);
 
         for (let i = 0; i < nombreSeparateurs; i++) {

@@ -1,12 +1,19 @@
+.Documents{
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
 .dossiers{
+    position: relative;
     display: flex;
     flex-direction: column;
 }
 
 /* cible tous les enfants directs de .dossier */
-.dossiers > * + * {
-    margin-top: -60px;
-}
+// .dossiers > * + * {
+//     margin-top: -60px;
+// }
 
 .dossier {
     position: relative;
@@ -46,6 +53,9 @@
 .dossier:nth-of-type(7) .arriere {
     background-color: var(--docs-couleur-dossier-7);
 }
+.dossier:nth-of-type(8) .arriere {
+    background-color: var(--docs-couleur-dossier-8);
+}
 
 /* Etiquette */
 .arriere::before {
@@ -81,6 +91,9 @@
 }
 .dossier:nth-of-type(7) .arriere::before {
     background-color: var(--docs-couleur-dossier-7);
+}
+.dossier:nth-of-type(8) .arriere::before {
+    background-color: var(--docs-couleur-dossier-8);
 }
 
 .dossier:nth-child(odd) .arriere::before {
@@ -162,6 +175,9 @@
 .dossier:nth-of-type(7) .avant {
     background-color: var(--docs-couleur-dossier-7);
 }
+.dossier:nth-of-type(8) .avant {
+    background-color: var(--docs-couleur-dossier-8);
+}
 
 /* Animations */
 .dossier:hover .avant {
@@ -174,17 +190,34 @@
 }
 
 .dossier:nth-of-type(even):hover {
-    transform: rotateZ(-5deg);
+    transform: rotateZ(-2deg);
 }
 .dossier:nth-of-type(odd):hover {
-    transform: rotateZ(5deg);
+    transform: rotateZ(2deg);
 }
 
+
+// Media query pour Desktop
 @media screen and (min-width: 432px) {
+    .dossiers{
+        top: 200px;
+    }
     .dossier {
         width: 800px;
         height: 550px;
     }
+    @for $i from 2 through 8 {
+        .dossier.dossier:nth-of-type(#{$i}) {
+            top: -#{$i * 100 - 100}px;
+        }
+    }
+    .dossier:nth-of-type(even) {
+        left: 200px;
+    }
+    .dossier:nth-of-type(odd) {
+        left: -200px;
+    }
+
     .dossier:hover .papier {
         transform: translateY(-150px);
     }

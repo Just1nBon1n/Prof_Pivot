@@ -1,0 +1,156 @@
+footer{
+    position: relative;
+    top: 100px;
+    background-color: var(--footer-couleur-fond);
+    display: flex;
+    z-index: 1;
+}
+footer div{
+    width: 100%;
+}
+
+footer h2{
+    color: var(--footer-couleur-logo);
+}
+
+// Éléments avant l'adresse du collège
+.dessus{
+    column-gap: 33vw;
+    display: flex;
+    text-align: left;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin-left: 10px;
+}
+
+// L'adresse du collège
+.adresse{
+    display: flex;
+    font-size: 18px;
+    margin-left: 10px;
+}
+.dessous{
+    position: relative;
+    bottom: 40px;
+}
+
+// Section Nous Joindre
+.nous-joindre{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    font-size: 12px;
+}
+
+// Section Médias Sociaux
+.medias-sociaux{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    margin-left: auto;
+    padding-right: 10px;
+}
+.titre-medias-sociaux{
+    display: none;
+}
+
+.footer-icones-sociales {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 15px;
+    column-gap: 0px;
+    margin-top: 5px;
+}
+
+.footer-icones-sociales a {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+
+.footer-icones-sociales img.icone-sociale {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.footer-bg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.vague {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+#waveSvg #wave {
+    transition: d 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+    display: block;
+    pointer-events: none;
+}
+
+@media screen and (min-width: 432px){
+
+    .dessus{
+        text-align: center;
+        justify-content: center;
+    }
+    .dessous{
+        position: relative;
+        bottom: 0px;
+    }
+
+    .medias-sociaux{
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        margin-left: 0;
+        padding-right: 0;
+    }
+
+    .nous-joindre{
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        font-size: large;
+    }
+
+    .vague {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .footer-icones-sociales {
+        flex-direction: row;
+        row-gap: 0px;
+        column-gap: 15px;
+    }
+    .footer-icones-sociales a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+    }
+    .footer-icones-sociales a img:hover {
+        filter: brightness(20);
+        scale: 1.2;
+    }
+
+    .adresse{
+        font-size: 1.5rem;
+        display: flex;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .titre-medias-sociaux{
+        display: block;
+    }
+}

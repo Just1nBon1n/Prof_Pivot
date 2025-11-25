@@ -5,6 +5,8 @@
   // Liste des fichiers à inclure
   $function_files = array(
     'options.php',
+    'customizerDocuments.php',
+    'optionsSVG.php'
     'customizerLiensUtiles.php'
   );
 
