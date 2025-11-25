@@ -17,15 +17,21 @@ footer h2{
 .dessus{
     column-gap: 33vw;
     display: flex;
-    text-align: center;
-    justify-content: center;
+    text-align: left;
+    justify-content: flex-start;
     flex-direction: row;
+    margin-left: 10px;
 }
 
 // L'adresse du collège
 .adresse{
     display: flex;
-    font-size: 10px;
+    font-size: 18px;
+    margin-left: 10px;
+}
+.dessous{
+    position: relative;
+    bottom: 40px;
 }
 
 // Section Nous Joindre
@@ -33,7 +39,7 @@ footer h2{
     display: flex;
     flex-direction: column;
     row-gap: 15px;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 // Section Médias Sociaux
@@ -41,19 +47,26 @@ footer h2{
     display: flex;
     flex-direction: column;
     row-gap: 15px;
+    margin-left: auto;
+    padding-right: 10px;
+}
+.titre-medias-sociaux{
+    display: none;
 }
 
 .footer-icones-sociales {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    column-gap: 15px;
+    row-gap: 15px;
+    column-gap: 0px;
+    margin-top: 5px;
 }
 
 .footer-icones-sociales a {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 }
 
 .footer-icones-sociales img.icone-sociale {
@@ -85,6 +98,23 @@ footer h2{
 
 @media screen and (min-width: 432px){
 
+    .dessus{
+        text-align: center;
+        justify-content: center;
+    }
+    .dessous{
+        position: relative;
+        bottom: 0px;
+    }
+
+    .medias-sociaux{
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+        margin-left: 0;
+        padding-right: 0;
+    }
+
     .nous-joindre{
         display: flex;
         flex-direction: column;
@@ -98,12 +128,16 @@ footer h2{
         display: block;
     }
 
+    .footer-icones-sociales {
+        flex-direction: row;
+        row-gap: 0px;
+        column-gap: 15px;
+    }
     .footer-icones-sociales a {
         display: inline-block;
         width: 40px;
         height: 40px;
     }
-
     .footer-icones-sociales a img:hover {
         filter: brightness(20);
         scale: 1.2;
@@ -114,5 +148,9 @@ footer h2{
         display: flex;
         text-align: center;
         justify-content: center;
+    }
+
+    .titre-medias-sociaux{
+        display: block;
     }
 }

@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </section>
       </section>
       <section class="dessous">
-        <h2 class="adresse">3800 rue Sherbrooke E, Montréal QUÉBEC H1X 2A2</h2>
+        <h2 class="adresse">3800 rue Sherbrooke E,<br>Montréal QUÉBEC H1X 2A2</h2>
       </section>
     </div>
 </footer>
