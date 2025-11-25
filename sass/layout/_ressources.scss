@@ -1,25 +1,86 @@
 .Ressources {
+  display: flex;
+  flex-direction: column; /* force empilement vertical : .pivots au-dessus, .aide en dessous */
+  align-items: stretch;
+  height: auto;
   .pivots {
-  .prof {
+    /* espace latéral global pour la section pivots */
+    padding-left: 3vw;
+    padding-right: 3vw;
+    box-sizing: border-box;
+
+      @media screen and (min-width: 432px){
+          height: 70vh;
+      }
+      @media screen and (min-width: 576px){
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center; /* centre verticalement .prof dans la section */
+      }
+    .prof {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr;
-      margin: 20px;
+      max-width: 1200px; /* largeur max de la grille */
+      width: 100%;
+      margin: 20px auto 0 auto; /* centre horizontalement la grille */
+      padding-inline: 0.75rem; /* marge interne gauche / droite */
       margin-top: 0;
+
+        /* chaque personne (figure + description) est un item de la grille */
+        .prof-person {
+          grid-column: span 2;
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        /* description sous l'image (pour Grégory) */
+        .person-desc {
+          margin-top: 0.5rem;
+          padding: 0.25rem 0.5rem;
+          position: relative;
+          z-index: 3; /* force la description au-dessus du fond */
+          background: rgba(255,255,255,0.0); /* transparent par défaut, changez si besoin */
+        }
+
+        @media screen and (min-width: 576px){
+          height: 80%; /* <- .prof prend 80% de la hauteur de .pivots */
+          box-sizing: border-box;
+          width: 100%;
+        }
       figure {
         grid-column: span 2;
         margin: 0;
         width: 100%;
         height: auto;
+        @media screen and (min-width: 432px){
+          box-sizing: content-box;
+          height: 100%;
+        }
         position: relative; /* nécessaire pour l'overlay */
         overflow: hidden;
 
-        .img-pivots {
-          display: block;
-          width: 100%;
-          height: auto;
-          border-radius: 10px;
-          object-fit: cover;
-        }
+        /* garder le haut fixe lors des transforms ou du redimensionnement */
+        transform-origin: left center;
+
+         .img-pivots {
+           display: block;
+           width: 100%;
+           height: 100%;
+           object-fit: cover;
+           object-position: 50% 20%; /* le haut de l'image reste visible */
+           transform-origin: top center;
+           image-rendering: pixelated;
+           image-rendering: crisp-edges;
+           -ms-interpolation-mode: nearest-neighbor;
+           border: var(--personnes-couleur-border) 2px solid;
+           border-radius: 0; /* plus d'arrondi sur les images */
+         @media screen and (min-width: 432px){
+           height: 100%;
+         }
+           /* border-radius supprimé */
+         }
 
         figcaption {
           position: absolute;
@@ -39,20 +100,176 @@
         }
         }
         .David {
-          transform-origin: left center; /* Point d'ancrage à gauche */
-        }
-        .Greg {
-          transform-origin: right center; /* Point d'ancrage à droite */
-        }
-      }
+          transform-origin: top left; /* ancre en haut à gauche pour garder le haut fixe */
+         }
+         .Greg {
+          transform-origin: top right; /* ancre en haut à droite pour garder le haut fixe */
+         }
+       }
   }
   .aide {
+    order: 1;            /* s'assure d'être après .pivots dans l'ordre visuel */
+    flex: 0 0 auto;      /* ne pas s'étirer */
+    margin-top: 2rem;    /* espace au-dessus si nécessaire */
+    margin-bottom: 4rem;
+    /* plus de place pour les slides */
+    min-height: 40vh;
+
+    @media screen and (min-width: 432px) {
+      min-height: 50vh; /* augmente sur écrans moyens */
+      margin-top: 4rem;
+    }
+    @media screen and (min-width: 576px) {
+      min-height: 55vh; /* augmente sur écrans plus larges */
+    }
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    
+    .banner {
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      perspective: (1000px);
+      height: 56vh;
+
+      .slider {
+        position: absolute;  /* important pour positionnement des items */
+        width: 200px;
+        height: 18.125rem;
+        top: 10%;
+        left: calc(50% - 100px);
+        transform-style: preserve-3d;
+        // perspective: 1000px; /* CORRECT */
+        animation: autoRun 20s linear infinite;
+        animation-play-state: running;
+        margin-top: 1.5rem;
+        
+
+        .item {
+          position: absolute;
+          inset: 0 0 0 0;
+          /* positionnement dans le carrousel */
+          transform: rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(300px);
+          transform-style: preserve-3d;
+          background: transparent;
+
+          /* perspective appliquée sur chaque item pour le flip interne */
+          perspective: 1000px;
+
+          /* wrapper interne pour le flip */
+          .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+          }
+
+          /* Par défaut, afficher le recto ; sur hover, on retourne */
+          &:hover .flip-card-inner {
+            transform: rotateY(180deg);
+          }
+
+          /* Les deux faces du flip */
+          .flip-card-front,
+          .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+            border: #fff 1px solid;
+            border: 2px solid var(--personnes-couleur-border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+          }
+
+          .flip-card-back {
+            transform: rotateY(180deg);
+            background-color: #f8f8f8;
+          }
+
+          /* utilitaires de positionnement du titre à l'intérieur des faces */
+          .flip-card-front h2,
+          .flip-card-back h2 {
+            margin: 0;
+            width: 100%;
+            text-align: center;
+            transition: text-align .25s ease, padding .25s ease, transform .25s ease;
+          }
+
+          &.item--left .flip-card-front h2,
+          &.item--left .flip-card-back h2 {
+            text-align: left;
+            padding-left: 10%;
+          }
+          &.item--right .flip-card-front h2,
+          &.item--right .flip-card-back h2 {
+            text-align: right;
+            padding-right: 10%;
+          }
+        }
+      }
+    }
+
+    .controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.btn-pixel {
+  font-family: var(--texte-titre);
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
+  color: var(--personnes-couleur-texte-boutons);
+  background: var(--personnes-couleur-bg-boutons);
+  border: 3px solid #fff;
+  border-radius: 0;
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 3px #000;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.btn-pixel:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 1px #000;
+}
+
   }
-    .res-titre{
+
+  .res-titre{
     font-family: var(--texte-titre);
     color: var(--couleur-texte-footer);
     text-align: center;
     // margin-bottom: 10px;
-    font-size: 1.5rem;
+    margin: 2rem;
+    font-size: 3rem;
   }
+          @keyframes autoRun {
+          from {
+            transform:  rotateY(0deg);
+          }
+          to {
+            transform:  rotateY(360deg);
+          }
+        }
+
+  /* Retourné au comportement par défaut : pas de texte à gauche de David.
+     Les styles spécifiques à .zone-david ont été supprimés. */
+  // .David .img-pivots {
+  //   /* garde les styles d'image normaux (déjà définis plus haut) */
+  // }
+
 }
