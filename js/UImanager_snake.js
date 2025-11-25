@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         // Nettoyage de l'affichage
         instructionsBody.innerHTML = '';
-        // welcomeTitle.style.display = 'none'; // Gardé commenté (l'animation gère la visibilité)
+        welcomeTitle.style.display = 'none'; 
         dynamicTitle.style.display = 'none';
         quitButton.style.display = 'none'; 
         instructionsContainer.style.display = 'none'; 
@@ -71,12 +71,23 @@ document.addEventListener("DOMContentLoaded", function() {
         instructions.classList.remove(
             'is-welcome-active', 
             'is-command-active', 
+            'is-game-active',
             'is-gameover-active'
         );
+
+        // 💡 Déclenchement de l'animation de sortie du fond si on quitte l'accueil
+        if (phase !== 'initial' && window.startBackgroundExit) {
+             window.startBackgroundExit();
+        }
         
         switch (phase) {
             // 1. Bienvenue (Bouton Jouer)
             case 'initial': 
+                // 💡 DÉCLENCHEMENT DE L'ANIMATION D'ENTRÉE DU FOND
+                if (window.startBackgroundAnimation) {
+                     window.startBackgroundAnimation();
+                }
+
                 // 1a. Rétablissement de l'affichage des blocs
                 welcomeTitle.style.display = 'block'; 
                 instructions.style.display = 'block';
@@ -118,8 +129,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 
             // 3. Jeu en cours
             case 'playing': 
+                // 3a. Bouton d'arrêt visible
                 instructions.style.display = 'none';
                 stopButton.style.display = 'inline-block';
+
+                    // 3b. DÉCLENCHEMENT DE L'ANIMATION JEU EN COURS
+                    instructions.classList.add('is-game-active');
                 break;
                 
             // 4. Fin de partie (Game Over)

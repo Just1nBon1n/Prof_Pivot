@@ -48,12 +48,12 @@ Les variables
   --snake-couleur-nourriture: #c4c4c4;
   --snake-couleur-tete: #317032;
   --snake-couleur-corps: #7FC765;
-  --snake-couleur-lumiere: #2a303f;
+  --snake-couleur-lumiere: #434c5f;
   --acceuil-couleur-bouton-jouer: #00b894;
   --acceuil-couleur-bouton-jouer-hover: #01755a;
   --acceuil-couleur-bouton-quitter: #d63031;
   --acceuil-couleur-bouton-quitter-hover: #942c21;
-  --acceuil-couleur-texte-fond: rgba(32, 32, 32, 0.5);
+  --acceuil-couleur-texte-fond: rgba(52, 52, 52, 0.5);
 }
 
 /* Couleurs composants section liens utiles */
@@ -182,6 +182,7 @@ Les layouts
   border-radius: 12px;
 }
 
+/* Animation clé pour faire glisser les éléments vers le haut */
 @keyframes slideInUp {
   0% {
     opacity: 0;
@@ -192,11 +193,21 @@ Les layouts
     transform: translate(0, 0);
   }
 }
+@keyframes slideInDown {
+  0% {
+    opacity: 0;
+    transform: translate(0, 200%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
 /* État initial pour tous les éléments qui seront animés dans n'importe quelle phase */
 .Accueil .instructions h2.titre,
-.Accueil .instructions p,
 .Accueil .instructions .instructions-container,
-.Accueil .boutton-container {
+.Accueil .boutton-container,
+.Accueil #stopButton {
   opacity: 0;
   transform: translate(0, 30px);
   pointer-events: none;
@@ -210,27 +221,28 @@ Les layouts
 
 /* Séquence 1 : Titre de Bienvenue et Boutons */
 #instructions.is-welcome-active h2.titre {
-  animation: slideInUp 0.6s ease-out forwards;
+  animation: slideInUp 1s ease-out forwards;
   animation-delay: 0.2s;
   pointer-events: auto;
 }
 
 #instructions.is-welcome-active ~ .boutton-container {
-  animation: slideInUp 0.6s ease-out forwards;
-  animation-delay: 0.6s; /* Démarre après le titre */
+  animation: slideInDown 1s ease-out forwards;
+  animation-delay: 0.6s;
   pointer-events: auto;
 }
 
 /* Séquence 2 : Titre dynamique et Conteneur de commandes */
-#instructions.is-command-active p { /* dynamicTitle */
-  animation: slideInUp 0.5s ease-out forwards;
+#instructions.is-command-active .instructions-container {
+  animation: slideInUp 1s ease-out forwards;
   animation-delay: 0.1s;
   pointer-events: auto;
 }
 
-#instructions.is-command-active .instructions-container {
-  animation: slideInUp 0.5s ease-out forwards;
-  animation-delay: 0.4s; /* Démarre après le titre dynamique */
+/* Séquence 3 : jeu en cours */
+#instructions.is-game-active ~ #stopButton {
+  animation: slideInUp 0.6s ease-out forwards;
+  animation-delay: 0.1s;
   pointer-events: auto;
 }
 
@@ -263,8 +275,8 @@ Les layouts
 
 #instructions.is-animating .instructions-container {
   animation: slideInUp 0.6s ease-out forwards;
-  animation-delay: 0.2s; /* 0.2s après le déclenchement */
-  pointer-events: auto; /* Autoriser les clics après l'apparition */
+  animation-delay: 0.2s;
+  pointer-events: auto;
 }
 
 .Accueil .instructions .instructions-titre {
@@ -378,7 +390,6 @@ Les layouts
   flex-direction: column;
   z-index: 10;
   gap: 1rem;
-  left: 50%;
   transform: translateX(-50%);
 }
 
@@ -430,6 +441,7 @@ Les layouts
     padding: 0.8rem 1.4rem;
   }
   .Accueil .boutton-container {
+    flex-direction: row;
     bottom: 25%;
   }
 }
@@ -454,6 +466,7 @@ Les layouts
     padding: 1rem 2rem;
   }
   .Accueil .boutton-container {
+    flex-direction: row;
     bottom: 20%;
   }
   /* gestion de l'affichage */
