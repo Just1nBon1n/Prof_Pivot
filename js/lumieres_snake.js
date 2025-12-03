@@ -5,28 +5,33 @@ document.addEventListener("DOMContentLoaded", function() {
     
     // === Variables globales ==================================================
     let box = 40;
-    let blocsLumineux = []; // Tableau commence vide
-    let animationActive = false; // Pour contrôler la boucle requestAnimationFrame
-    let hasEntered = false; // Pour garantir que l'animation d'entrée ne se joue qu'une seule fois
+    let blocsLumineux = []; 
 
     // CONSTANTES
-    const BLOCS_DENSITE = 0.3; 
-    const INTENSITE_MAX = 0.40; 
-    const INTENSITE_MIN = 0.10; 
-    const VITESSE_ANIM = 0.0003; 
-    const VITESSE_DERIVE_PIXELS = 0.15; 
-    const VITESSE_ENTREE_SORTIE = 1.5; 
+    const BLOCS_DENSITE = 0.3; // 30% des cases ont un bloc lumineux
+    const VITESSE_ANIM = 0.0003; // Vitesse de pulsation
+    const VITESSE_DERIVE_PIXELS = 0.4; // AUGMENTÉ pour garantir le mouvement immédiat
     const TAILLE_BLOC = 1.0; 
-    const DISTANCE_DEPART = 4 * box; 
+    const TAUX_TRANSITION = 0.15; // Taux de transition rapide (env. 0.5s)
+
+    // CONSTANTES D'INTENSITÉ 
+    const INTENSITE_MAX_BASE = 0.40; // Opacité maximale hors jeu
+    const INTENSITE_MIN_BASE = 0.10; // Opacité minimale hors jeu
+    const INTENSITE_MAX_JEU = 0.10; // Opacité maximale en jeu (subtile)
+    const INTENSITE_MIN_JEU = 0.05; // Opacité minimale en jeu (subtile)
+
 
     // Utilisation de la fonction définie dans couleursUtils.js
     const couleurLumiere = getCssColor('--snake-couleur-lumiere');
 
+    // Drapeau pour éviter de régénérer la grille si la taille de BOX n'a pas changé
+    let lastBox = 0; 
+    
     // === Fonctions ===========================================================
     function ajusterParametresJeu() {
         const largeur = window.innerWidth;
         if (largeur < 600) box = 34;
-        else if (largeur < 1024) box = 40;
+        else if (largeur < 1024) box = 38;
         else box = 50;
     }
 
@@ -47,37 +52,28 @@ document.addEventListener("DOMContentLoaded", function() {
             for (let x = 0; x < gridW; x++) {
                 if (Math.random() < BLOCS_DENSITE) { 
                     
-                    const edge = Math.floor(Math.random() * 4); 
-                    let initialX = x * box;
-                    let initialY = y * box;
-                    
-                    // Vitesse de retour rapide
-                    let initialSpeedX = (edge === 1) ? -VITESSE_ENTREE_SORTIE : (edge === 3 ? VITESSE_ENTREE_SORTIE : (Math.random() - 0.5) * VITESSE_DERIVE_PIXELS);
-                    let initialSpeedY = (edge === 2) ? -VITESSE_ENTREE_SORTIE : (edge === 0 ? VITESSE_ENTREE_SORTIE : (Math.random() - 0.5) * VITESSE_DERIVE_PIXELS);
+                    // Utiliser Math.pow pour favoriser les valeurs élevées (proches de INTENSITE_MAX_BASE)
+                    const initialRange = INTENSITE_MAX_BASE - INTENSITE_MIN_BASE;
+                    const initialAlpha = INTENSITE_MIN_BASE + Math.pow(Math.random(), 0.5) * initialRange;
 
-                    // Position de départ décalée
-                    if (edge === 0) initialY -= DISTANCE_DEPART;
-                    else if (edge === 1) initialX += DISTANCE_DEPART;
-                    else if (edge === 2) initialY += DISTANCE_DEPART;
-                    else initialX -= DISTANCE_DEPART;
-                    
                     blocsLumineux.push({
-                        x: initialX, 
-                        y: initialY, 
+                        x: x * box, 
+                        y: y * box, 
                         
-                        moveSpeedX: initialSpeedX, 
-                        moveSpeedY: initialSpeedY, 
+                        // Vitesse de dérive et accumulateur
+                        moveSpeedX: (Math.random() - 0.5) * (VITESSE_DERIVE_PIXELS / box * 50),
+                        moveSpeedY: (Math.random() - 0.5) * (VITESSE_DERIVE_PIXELS / box * 50),
+                        // Force le mouvement immédiat
                         pixelAccumulatorX: 1 + Math.random(), 
                         pixelAccumulatorY: 1 + Math.random(),
                         
-                        alpha: INTENSITE_MIN + Math.random() * (INTENSITE_MAX - INTENSITE_MIN), 
+                        alpha: initialAlpha, // Utiliser la nouvelle alpha initialisée
                         sens: Math.random() > 0.5 ? 1 : -1,
-                        vitesse: VITESSE_ANIM + Math.random() * VITESSE_ANIM,
+                        vitesse: VITESSE_ANIM,
                         
-                        isEntering: true, // Est en phase d'entrée au démarrage
-                        isExiting: false, 
-                        targetX: x * box, // Position finale
-                        targetY: y * box  // Position finale
+                        // Stocke les cibles d'intensité
+                        targetMax: INTENSITE_MAX_BASE,
+                        targetMin: INTENSITE_MIN_BASE
                     });
                 }
             }
@@ -90,98 +86,65 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if (!canvasJeu || canvasJeu.width === 0) return;
         
-        canvasLum.width = canvasJeu.width;
-        canvasLum.height = canvasJeu.height;
+        const currentWidth = canvasJeu.width;
+        const currentHeight = canvasJeu.height;
+        const oldBox = lastBox;
+        lastBox = box; 
+
+        // Régénérer les blocs seulement si la taille de BOX change
+        if (box !== oldBox && oldBox !== 0) {
+            genererBlocsLumineux(); 
+            return;
+        }
+
+        // Si la taille du Canvas change, nous régénérons tout.
+        if (currentWidth !== canvasLum.width || currentHeight !== canvasLum.height) {
+             genererBlocsLumineux();
+             return;
+        }
+        
+        // Si les blocs n'ont pas encore été générés (première exécution)
+        if (blocsLumineux.length === 0) {
+            genererBlocsLumineux();
+        }
     }
     
-    // --- Fonction exposée pour démarrer l'animation de fond (ENTRÉE) ---
-    window.startBackgroundAnimation = function() {
-        if (animationActive) return;
-        
-        ajusterCanvas(); 
-        genererBlocsLumineux(); 
-        
-        animationActive = true;
-    };
-    
-    // --- Fonction exposée pour démarrer l'animation de sortie ---
-    window.startBackgroundExit = function() {
-        if (!animationActive || blocsLumineux.length === 0) return;
-        
-        // Déclencheur de la phase de sortie
-        blocsLumineux.forEach(bloc => {
-            if (!bloc.isEntering && !bloc.isExiting) {
-                bloc.isExiting = true;
-                // Vitesse rapide et direction vers l'extérieur (opposée à la dérive actuelle)
-                bloc.moveSpeedX = bloc.moveSpeedX > 0 ? VITESSE_ENTREE_SORTIE : -VITESSE_ENTREE_SORTIE;
-                bloc.moveSpeedY = bloc.moveSpeedY > 0 ? VITESSE_ENTREE_SORTIE : -VITESSE_ENTREE_SORTIE;
-            }
-        });
-    };
-
     // --- Boucle principale d'animation ---
     function animerBlocs() {
+        const phase = window.getCurrentPhase ? window.getCurrentPhase() : 'initial';
+        // Le jeu est considéré actif s'il est en cours OU en attente de démarrage (playing-pending)
+        const isGamePlaying = (phase === 'playing'); 
+
         ctx.clearRect(0, 0, canvasLum.width, canvasLum.height); 
         
-        // Dessine uniquement si les blocs ont été générés
-        if (animationActive && blocsLumineux.length > 0) {
+        if (blocsLumineux.length > 0) {
             
             const blockSize = box * TAILLE_BLOC;
             const width = canvasLum.width;
             const height = canvasLum.height;
             
-            // Vitesse de dérive normale
-            const currentDriftSpeed = 0.05; 
-            
-            const nouveauxBlocs = [];
-
             for (let bloc of blocsLumineux) {
                 
-                // 1. Logique d'entrée/sortie
-                if (bloc.isEntering) {
-                    // Mouvement vers la cible
-                    bloc.pixelAccumulatorX += bloc.moveSpeedX;
-                    bloc.pixelAccumulatorY += bloc.moveSpeedY;
+                // 1. GESTION DE LA TRANSITION DE LA CIBLE D'INTENSITÉ
+                // Définir les cibles actuelles pour la transition
+                const targetMax = isGamePlaying ? INTENSITE_MAX_JEU : INTENSITE_MAX_BASE;
+                const targetMin = isGamePlaying ? INTENSITE_MIN_JEU : INTENSITE_MIN_BASE;
+                
+                // Mélanger les cibles pour la transition douce
+                bloc.targetMax += (targetMax - bloc.targetMax) * TAUX_TRANSITION;
+                bloc.targetMin += (targetMin - bloc.targetMin) * TAUX_TRANSITION;
 
-                    const dx = bloc.x - bloc.targetX;
-                    const dy = bloc.y - bloc.targetY;
-                    
-                    // Si près de la cible, on passe en mode normal
-                    if (Math.abs(dx) < 2 && Math.abs(dy) < 2) {
-                        bloc.isEntering = false;
-                        bloc.x = bloc.targetX; 
-                        bloc.y = bloc.targetY;
-                        // Réinitialiser la dérive à la vitesse lente normale
-                        bloc.moveSpeedX = (Math.random() - 0.5) * currentDriftSpeed;
-                        bloc.moveSpeedY = (Math.random() - 0.5) * currentDriftSpeed;
-                        bloc.pixelAccumulatorX = 0;
-                        bloc.pixelAccumulatorY = 0;
-                    }
-                } else if (bloc.isExiting) {
-                    // Mouvement rapide vers l'extérieur
-                    bloc.pixelAccumulatorX += bloc.moveSpeedX;
-                    bloc.pixelAccumulatorY += bloc.moveSpeedY;
-                    
-                    // Estompage rapide du bloc qui sort
-                    bloc.alpha *= 0.95; 
-                    
-                    // Si le bloc est hors écran ET alpha est faible, NE PAS le rajouter
-                    const isOutside = bloc.x > width + blockSize || bloc.x < 0 - blockSize || bloc.y > height + blockSize || bloc.y < 0 - blockSize;
-                    if (isOutside && bloc.alpha < 0.01) {
-                         continue; // Ne pas ajouter ce bloc à la nouvelle liste (sera filtré)
-                    }
-                } else {
-                    // 2. Logique de dérive lente et pulsation normale
-                    bloc.pixelAccumulatorX += bloc.moveSpeedX;
-                    // 💡 CORRECTION : Ajout de la vitesse, pas de l'accumulateur !
-                    bloc.pixelAccumulatorY += bloc.moveSpeedY; 
-                }
+                // 2. Logique de dérive lente et pulsation
+                bloc.pixelAccumulatorX += bloc.moveSpeedX;
+                bloc.pixelAccumulatorY += bloc.moveSpeedY;
                 
                 // 3. Pulsation
                 bloc.alpha += bloc.vitesse * bloc.sens;
-                if (bloc.alpha > INTENSITE_MAX) {
+                
+                // Vérifier la pulsation par rapport aux cibles mélangées (bloc.targetMax/Min)
+                if (bloc.alpha > bloc.targetMax) {
                     bloc.sens = -1;
-                } else if (bloc.alpha < INTENSITE_MIN) {
+                } else if (bloc.alpha < bloc.targetMin) {
                     bloc.sens = 1;
                 }
 
@@ -198,13 +161,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 
                 // 5. Logique de "wrap" (réapparition à l'opposé)
-                if (!bloc.isEntering && !bloc.isExiting) { // Wrap uniquement en mode normal
-                    if (bloc.x > width) bloc.x = 0 - blockSize;
-                    else if (bloc.x < 0 - blockSize) bloc.x = width;
+                if (bloc.x > width) bloc.x = 0 - blockSize;
+                else if (bloc.x < 0 - blockSize) bloc.x = width;
 
-                    if (bloc.y > height) bloc.y = 0 - blockSize;
-                    else if (bloc.y < 0 - blockSize) bloc.y = height;
-                }
+                if (bloc.y > height) bloc.y = 0 - blockSize;
+                else if (bloc.y < 0 - blockSize) bloc.y = height;
                 
                 
                 // 6. Dessin
@@ -222,15 +183,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         blockSize
                     );
                 }
-                
-                nouveauxBlocs.push(bloc); // Ajouter le bloc pour la prochaine frame
-            }
-            
-            blocsLumineux = nouveauxBlocs; // Remplacer par la nouvelle map de blocs actifs
-            
-            // CRITIQUE : Si la liste est vide après une sortie, désactiver l'animation
-            if (blocsLumineux.length === 0 && animationActive) {
-                 animationActive = false;
             }
         }
         requestAnimationFrame(animerBlocs);
@@ -238,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     window.addEventListener('resize', ajusterCanvas);
     
-    // Le premier appel n'initialise pas les blocs.
+    // Déclenchement synchrone
     ajusterCanvas(); 
-    animerBlocs();
+    animerBlocs(); 
 });
