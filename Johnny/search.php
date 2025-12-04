@@ -11,7 +11,7 @@
 <body>
     <div class="search-container">
         <form action="" class="search-form">
-        <input type="text" placeholder="Type to search" class="search-input" />
+        <input type="text" placeholder="Rechercher..." class="search-input" />
 
         <div class="search-button">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
