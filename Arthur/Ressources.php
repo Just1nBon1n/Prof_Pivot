@@ -28,7 +28,14 @@
         <div class="item" style="--position: <?= esc_attr($i) ?>">
           <div class="flip-card-inner">
             <div class="flip-card-front">
-              <h2><?= esc_html($titre) ?></h2>
+              <?php 
+                $image = get_theme_mod("res_image_item_$i", get_field("image_item_$i"));
+                if ($image) : 
+              ?>
+                <img src="<?= esc_url($image) ?>" alt="<?= esc_attr($titre) ?>">
+              <?php else : ?>
+                <h2><?= esc_html($titre) ?></h2>
+              <?php endif; ?>
             </div>
             <div class="flip-card-back">
               <p><?= wp_kses_post($desc) ?></p>

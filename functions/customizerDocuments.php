@@ -165,6 +165,17 @@ function theme_31w_customize_register($wp_customize) {
             'section' => 'arthur_resources_section',
             'type'    => 'textarea',
         ));
+        // Image (nouveau)
+        $wp_customize->add_setting("res_image_item_$i", array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+            'transport'         => 'postMessage',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "res_image_item_$i", array(
+            'label'    => "Image item $i",
+            'section'  => 'arthur_resources_section',
+            'settings' => "res_image_item_$i",
+        )));
     }
 
 }

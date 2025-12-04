@@ -52,15 +52,29 @@ document.addEventListener('DOMContentLoaded', () => {
     greg.addEventListener('mouseenter', GregHover);
     greg.addEventListener('mouseleave', GregLeave);
 
-    // tactile : toggle au clic
-    david.addEventListener('click', () => {
-      const active = david.style.transform && david.style.transform !== '';
-      if (active) DavidLeave(); else DavidHover();
-    });
-    greg.addEventListener('click', () => {
-      const active = greg.style.transform && greg.style.transform !== '';
-      if (active) GregLeave(); else GregHover();
-    });
+    // ----- Texte au hover sur David / Greg -----
+    const texteBloc = document.querySelector('.prof-texte-content');
+
+    if (texteBloc && david && greg) {
+      const texteDavid = "Texte que tu veux afficher pour David.";
+      const texteGreg  = "Texte que tu veux afficher pour Greg.";
+
+      const setTexte = (txt) => {
+        texteBloc.textContent = txt;
+        texteBloc.style.opacity = '1';
+        texteBloc.style.transition = 'opacity 0.2s ease';
+      };
+
+      const clearTexte = () => {
+        texteBloc.style.opacity = '0';
+      };
+
+      david.addEventListener('mouseenter', () => setTexte(texteDavid));
+      david.addEventListener('mouseleave', clearTexte);
+
+      greg.addEventListener('mouseenter', () => setTexte(texteGreg));
+      greg.addEventListener('mouseleave', clearTexte);
+    }
   }
 
   // toggle classe hover-david pour afficher le texte à gauche (si present)
