@@ -6,7 +6,7 @@
   $function_files = array(
     'options.php',
     'customizerDocuments.php',
-    'optionsSVG.php'
+    'optionsSVG.php',
     'customizerLiensUtiles.php'
   );
 
@@ -38,5 +38,5 @@
 add_action('wp_enqueue_scripts', 'theme_scripts');
 
   // Charger le Customizer du module Arthur
-  require_once get_template_directory() . '/Arthur/functions/Arthur_customizer.php';
+  // require_once get_template_directory() . '/Arthur/functions/';
 ?>
