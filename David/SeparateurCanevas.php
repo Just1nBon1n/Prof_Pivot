@@ -1,12 +1,13 @@
-<canvas></canvas>
+<?php
+// Couleur et titre dynamiques
+$color = isset($args['color']) ? $args['color'] : '';
+$title = isset($args['title']) ? $args['title'] : '';
+?>
 
-<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_canevas_separateur.js" defer></script>
+<div class="wrapper separateur-wrapper">
+    <?php if ($title) : ?>
+        <h2 class="titre-section"><?php echo esc_html($title); ?></h2>
+    <?php endif; ?>
 
-<style>
-    canvas {
-        display: block;
-        position: relative;
-        width: 100vw;
-        height: 33vh;
-    }
-</style>
+    <canvas class="separateur-canevas" data-color="<?php echo esc_attr($color); ?>"></canvas>
+</div>
