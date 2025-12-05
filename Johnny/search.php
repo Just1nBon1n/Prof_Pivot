@@ -4,7 +4,7 @@
 </head>
 <div class="search-container">
     <div class="search-bar">
-        <input type="text" placeholder="Search...">
+        <input type="text" placeholder="Search..." aria-label="Search">
         <i class="fa-solid fa-magnifying-glass"></i>
     </div>
 </div>

@@ -8,6 +8,7 @@ const instructionsContainer = instructions ? instructions.querySelector('.instru
 const welcomeTitle = instructions ? instructions.querySelector('h2.titre') : null; 
 const dynamicTitle = instructions ? instructions.querySelector('p') : null; // <p> pour titre dynamique
 const instructionsBody = instructions ? instructions.querySelector('.instructions-body') : null;
+const arrowIndicator = document.getElementById("arrowIndicator");
 
 // --- Contenu HTML pour les différentes phases ---
 const COMMANDES_HTML = `
@@ -66,6 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         quitButton.style.display = 'none'; 
         instructionsContainer.style.display = 'none'; 
         stopButton.style.display = 'none';
+        arrowIndicator.style.display = 'none';
 
         // *** ÉTAPE CRUCIALE: Nettoyage de TOUTES les classes d'animation ***
         instructions.classList.remove(
@@ -74,20 +76,10 @@ document.addEventListener("DOMContentLoaded", function() {
             'is-game-active',
             'is-gameover-active'
         );
-
-        // 💡 Déclenchement de l'animation de sortie du fond si on quitte l'accueil
-        if (phase !== 'initial' && window.startBackgroundExit) {
-             window.startBackgroundExit();
-        }
         
         switch (phase) {
             // 1. Bienvenue (Bouton Jouer)
             case 'initial': 
-                // 💡 DÉCLENCHEMENT DE L'ANIMATION D'ENTRÉE DU FOND
-                if (window.startBackgroundAnimation) {
-                     window.startBackgroundAnimation();
-                }
-
                 // 1a. Rétablissement de l'affichage des blocs
                 welcomeTitle.style.display = 'block'; 
                 instructions.style.display = 'block';
@@ -99,6 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 welcomeTitle.textContent = 'Bienvenue !'; // Texte statique
                 startButton.textContent = 'Jouer';
                 startButton.style.display = 'inline-block';
+                arrowIndicator.style.display = 'block'; 
                 break;
             
             // 2. Prêt à jouer (Attente du mouvement)
@@ -153,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 startButton.textContent = 'Rejouer';
                 startButton.style.display = 'inline-block';
                 quitButton.style.display = 'inline-block'; 
-                
+                arrowIndicator.style.display = 'block'; 
                 break;
         }
     }
