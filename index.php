@@ -37,6 +37,8 @@
     <?php get_template_part('David/DocumentsTelechargeables'); ?>
 </section>
 
+<?php get_template_part('David/SeparateurCanevas'); ?>
+
 <?php get_footer(); ?>
 
 
