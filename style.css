@@ -134,7 +134,8 @@ Les composants
   z-index: 9999;
   display: flex;
   justify-content: center;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .search-bar {
