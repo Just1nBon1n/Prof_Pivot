@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let gameStarted = false; // CRITIQUE : Démarrage différé
     let patternTIM = []; 
     let foodListe = []; 
-    const foodNb = 3; 
     const TIMTaille = 0.5;
 
     // Constantes de dessin
@@ -373,7 +372,7 @@ document.addEventListener("DOMContentLoaded", function() {
                  for (let i = 1; i < snake.length; i++) { 
                     if (snake[i].x === headX && snake[i].y === headY) {
                         clearInterval(game);
-                        window.toggleInstructions("GAME OVER !", true); 
+                        window.toggleInstructions("Partie Terminée", true); 
                         gameStarted = false;
                         dessiner(); 
                         return;

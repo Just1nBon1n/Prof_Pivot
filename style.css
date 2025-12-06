@@ -129,7 +129,7 @@ body {
 Les composants
 //////////////////////////////////// */
 .search-container {
-  position: sticky;
+  position: fixed;
   top: 50px;
   z-index: 9999;
   display: flex;
@@ -183,6 +183,9 @@ Les layouts
   position: relative;
   overflow: hidden;
   letter-spacing: 0.1em;
+  top: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .Accueil .snake-container {
