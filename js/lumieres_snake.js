@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const TAUX_TRANSITION = 0.15; // Taux de transition rapide (env. 0.5s)
 
     // CONSTANTES D'INTENSITÉ 
-    const INTENSITE_MAX_BASE = 0.40; // Opacité maximale hors jeu
-    const INTENSITE_MIN_BASE = 0.10; // Opacité minimale hors jeu
+    const INTENSITE_MAX_BASE = 0.45; // Opacité maximale hors jeu
+    const INTENSITE_MIN_BASE = 0.15; // Opacité minimale hors jeu
     const INTENSITE_MAX_JEU = 0.10; // Opacité maximale en jeu (subtile)
     const INTENSITE_MIN_JEU = 0.05; // Opacité minimale en jeu (subtile)
 

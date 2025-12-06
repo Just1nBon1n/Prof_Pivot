@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let gameStarted = false; // CRITIQUE : Démarrage différé
     let patternTIM = []; 
     let foodListe = []; 
-    const foodNb = 3; 
     const TIMTaille = 0.5;
 
     // Constantes de dessin
