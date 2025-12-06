@@ -9,6 +9,7 @@ const welcomeTitle = instructions ? instructions.querySelector('h2.titre') : nul
 const dynamicTitle = instructions ? instructions.querySelector('p') : null; // <p> pour titre dynamique
 const instructionsBody = instructions ? instructions.querySelector('.instructions-body') : null;
 const arrowIndicator = document.getElementById("arrowIndicator");
+const navContainer = document.querySelector('.container-navigation'); 
 
 // --- Contenu HTML pour les différentes phases ---
 const COMMANDES_HTML = `
@@ -76,6 +77,19 @@ document.addEventListener("DOMContentLoaded", function() {
             'is-game-active',
             'is-gameover-active'
         );
+
+        // Gestion de la visibilité de la navigation latérale
+        const showNav = (phase === 'initial' || phase === 'gameover');
+        // Utiliser une transition pour masquer/afficher
+        navContainer.style.transition = 'opacity 0.4s ease-out, right 0.4s ease-out';
+        
+        if (showNav) {
+             navContainer.style.right = '20px'; // Position normale
+             navContainer.style.opacity = '1';
+        } else {
+             navContainer.style.right = '-100px'; // Position masquée (hors écran)
+             navContainer.style.opacity = '0';
+        }
         
         switch (phase) {
             // 1. Bienvenue (Bouton Jouer)

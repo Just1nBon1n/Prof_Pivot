@@ -169,6 +169,139 @@ Les composants
   width: 400px;
 }
 
+/* ------------------------------------------------------------- */
+/* Styles pour la barre de navigation latérale (position fixe) */
+/* ------------------------------------------------------------- */
+.container-navigation {
+  /* Positionnement fixe à droite et centré verticalement */
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100; /* Devant tout le reste de l'interface */
+  transition: right 0.3s ease-out;
+}
+
+.side-nav-blocks {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem; /* Espace entre les blocs */
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.nav-block {
+  display: block;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 4px;
+  transition: transform 0.2s ease-out;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+/* 🎯 STYLE DU BLOC ACCUEIL (Plus grand et avec lueur) */
+.nav-accueil {
+  width: 2.8rem; /* Plus large */
+  height: 2.8rem; /* Plus haut */
+  padding: 0.2rem;
+  border-radius: 6px;
+  background-color: var(--snake-couleur-tete); /* Couleur du serpent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Couleurs des blocs de section */
+.nav-liens {
+  background-color: var(--liens-couleur-section);
+}
+
+.nav-ressources {
+  background-color: var(--personnes-couleur-section);
+}
+
+.nav-documents {
+  background-color: var(--docs-couleur-section);
+}
+
+/* Effet de survol (pour le curseur personnalisé) */
+.nav-block:hover {
+  transform: scale(1.3);
+  border-color: white;
+}
+
+/* --- Responsive Adjustments (Mobile doit rester prioritaire) --- */
+@media (max-width: 600px) {
+  .container-navigation {
+    right: 5px; /* Rapproche les blocs du bord sur mobile */
+  }
+}
+/* ------------------------------------------------------------- */
+/* STYLES ET ANIMATION DU SERPENT SVG */
+/* ------------------------------------------------------------- */
+/* Keyframes de déplacement du serpent (3 segments, parcours 4x4) */
+@keyframes snake-move {
+  /* Parcours d'un carré de 80x80 pixels dans le viewBox 100x100, pour centrer le mouvement */
+  0% {
+    transform: translate(10px, 10px);
+  } /* Coin Haut Gauche */
+  25% {
+    transform: translate(70px, 10px);
+  } /* Coin Haut Droit */
+  50% {
+    transform: translate(70px, 70px);
+  } /* Coin Bas Droit */
+  75% {
+    transform: translate(10px, 70px);
+  } /* Coin Bas Gauche */
+  100% {
+    transform: translate(10px, 10px);
+  } /* Retour à Haut Gauche */
+}
+.nav-snake-icon {
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* Permet aux segments de bouger */
+}
+
+/* Styles et animation de base pour tous les segments */
+.nav-snake-icon .snake-segment {
+  fill: var(--snake-couleur-corps);
+  width: 24px; /* Taille du segment (20% du bloc) */
+  height: 24px; /* Taille du segment */
+  animation: snake-move 3s steps(4, end) infinite;
+  animation-play-state: paused;
+  visibility: hidden; /* Caché par défaut */
+}
+
+.nav-accueil:hover .nav-snake-icon .snake-segment {
+  animation-play-state: running; /* LANCE L'ANIMATION */
+  visibility: visible; /* REND VISIBLE LES SEGMENTS */
+}
+
+/* Application des délais et décalages pour simuler un corps */
+.nav-snake-icon .segment-1 {
+  animation-delay: 0s; /* Tête (pas de délai) */
+}
+
+.nav-snake-icon .segment-2 {
+  /* Délai ajusté pour correspondre à 1 étape entière (1/4 du cycle) */
+  animation-delay: -0.4s;
+}
+
+.nav-snake-icon .segment-3 {
+  /* Délai ajusté pour correspondre à 2 étapes entières (1/2 cycle) */
+  animation-delay: -0.8s;
+}
+
+/* --- Responsive Adjustments (Mobile doit rester prioritaire) --- */
+@media (max-width: 600px) {
+  .container-navigation {
+    right: 5px;
+  }
+}
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */

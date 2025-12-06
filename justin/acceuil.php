@@ -46,3 +46,5 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_snake.js"></script>
 <!-- 4. Lumières Snake -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/lumieres_snake.js"></script>
+<!-- 5. Navigation Latérale -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/side-nav.js"></script>
