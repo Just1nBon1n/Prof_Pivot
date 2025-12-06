@@ -1,6 +1,8 @@
 <?php get_header(); ?>
 <!-- barre de recherche -->
 <?php get_template_part('Johnny/search'); ?>
+<!-- navigation principale -->
+<?php get_template_part('justin/navigation'); ?>
 <!-- Inclusion du fichier accueil.php -->
 <?php get_template_part('justin/acceuil'); ?>
 
