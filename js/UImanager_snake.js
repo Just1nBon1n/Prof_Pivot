@@ -135,13 +135,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 // 4a. Rétablissement de l'affichage des blocs
                 dynamicTitle.style.display = 'block';
                 instructions.style.display = 'block';
-                instructionsContainer.style.display = 'flex';
+                instructionsContainer.style.display = 'flex'; 
                 
                 // 4b. DÉCLENCHEMENT DE L'ANIMATION GAMEOVER
                 instructions.classList.add('is-gameover-active');
                 
                 // 4c. Configuration du contenu
-                dynamicTitle.textContent = titre || 'GAME OVER !';
+                dynamicTitle.textContent = titre || 'Partie Terminée';
                 instructionsBody.innerHTML = '<p class="final-message">Choisissez une option.</p>'; 
                 startButton.textContent = 'Rejouer';
                 startButton.style.display = 'inline-block';

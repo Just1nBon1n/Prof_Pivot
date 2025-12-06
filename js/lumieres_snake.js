@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!canvasJeu || canvasJeu.width === 0) return;
         
         const currentWidth = canvasJeu.width;
-        const currentHeight = canvasJeu.height;
+        const currentHeight = canvasJeu.height; 
         const oldBox = lastBox;
         lastBox = box; 
 
