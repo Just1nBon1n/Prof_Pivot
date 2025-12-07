@@ -1041,7 +1041,6 @@ Les layouts
   image-rendering: pixelated;
 }
 
-/* Base style for all items */
 .menu-item {
   display: flex;
   flex-direction: column;
@@ -1058,7 +1057,8 @@ Les layouts
 }
 
 .menu-item .icon {
-  font-size: 2rem;
+  width: 75px;
+  height: 75px;
   transition: opacity 0.3s ease;
   margin-bottom: 8px;
 }
@@ -1097,7 +1097,7 @@ Les layouts
   animation: fadeInHover 0.3s forwards;
 }
 
-/*Animation d'apparition progressive lorsque l'animation JS n'affiche pas de texte */
+/*Animation d'apparition lorsque l'animation JS n'affiche pas de texte */
 @keyframes fadeInHover {
   0% {
     opacity: 0;
@@ -1172,24 +1172,19 @@ Les layouts
     opacity: 0;
     transform: translateY(10px);
   }
-  15% {
+  25% {
     opacity: 1;
     transform: translateY(-4px);
   }
-  65% {
+  50% {
     opacity: 1;
     transform: translateY(-4px);
-  }
-  80% {
-    opacity: 0;
-    transform: translateY(10px);
   }
   100% {
     opacity: 0;
     transform: translateY(10px);
   }
 }
-/* Hover override */
 .menu-item.hovered .text {
   animation: none !important; /* arrête timeline animation */
   opacity: 1 !important;
