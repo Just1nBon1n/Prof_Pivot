@@ -42,9 +42,11 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/couleursUtils.js"></script>
 <!-- 2. UI Manager Snake -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/UImanager_snake.js"></script>
-<!-- 3. Scripts Snake -->
-<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_snake.js"></script>
-<!-- 4. Lumières Snake -->
-<script src="<?php echo get_template_directory_uri(); ?>/js/lumieres_snake.js"></script>
-<!-- 5. Navigation Latérale -->
+<!-- 3. Navigation Latérale -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/side-nav.js"></script>
+<!-- 3.1 Toggle Navigation -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/toggle-nav.js"></script>
+<!-- 4. Scripts Snake -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_snake.js"></script>
+<!-- 5. Lumières Snake -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/lumieres_snake.js"></script>

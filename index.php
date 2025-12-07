@@ -25,7 +25,7 @@
 <!-- Séparateur Orange Personnes Ressources-->
 <section id="separateur-2">
     <?php get_template_part(
-        'David/SeparateurCanevas', 
+        'David/SeparateurCanevas',  
         null, 
         array(
             'color' => '#e67e22',
