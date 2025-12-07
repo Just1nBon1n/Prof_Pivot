@@ -16,17 +16,22 @@ document.addEventListener('DOMContentLoaded', () => {
       david.style.zIndex = '3';
       david.style.transform = 'translateX(50%)';
       david.style.transition = 'transform 0.3s ease-in-out';
+      david.style.border = '2px solid var(--personnes-border-pivots-active)';
       // appliquer BOTH filters ensemble (ne pas écraser)
       greg.style.filter = 'grayscale(60%) blur(3px)';
       greg.style.transform = 'scale(0.95)';
       greg.style.transition = 'transform 0.3s ease-in-out, filter 0.3s ease-in-out';
       greg.style.transformOrigin = 'right center';
       CacherCaption(gregCaption);
+      davidCaption.style.filter = 'blur(.7px)'; // flouter légèrement son propre caption
     };
     const DavidLeave = () => {
+      // si verrouillé par le bloc texte, on ne désactive pas
+      if (david.classList.contains('hover-locked')) return;
       // réinitialiser transform/transition/filter
-      Styles(david, ['zIndex','transform','transition','filter']);
+      Styles(david, ['zIndex','transform','transition','filter', 'border']);
       Styles(greg, ['transform','transformOrigin','transition','filter']);
+      Styles(davidCaption, ['filter']);
       MontrerCaption(gregCaption);
     };
     const GregHover = () => {
@@ -34,46 +39,147 @@ document.addEventListener('DOMContentLoaded', () => {
       greg.style.transform = 'translateX(-50%)';
       greg.style.transition = 'transform 0.3s ease-in-out';
       greg.style.transformOrigin = 'right center';
+      greg.style.border = '2px solid var(--personnes-border-pivots-active)';
       // appliquer BOTH filters sur david
       david.style.filter = 'grayscale(60%) blur(3px)';
       david.style.transform = 'scale(0.95)';
       david.style.transition = 'transform 0.3s ease-in-out, filter 0.3s ease-in-out';
       david.style.transformOrigin = 'left center';
       CacherCaption(davidCaption);
+      gregCaption.style.filter = 'blur(.7px)'; // flouter légèrement son propre caption
+
     };
     const GregLeave = () => {
-      Styles(greg, ['zIndex','transform','transition','transformOrigin','filter']);
+      if (greg.classList.contains('hover-locked')) return;
+      Styles(greg, ['zIndex','transform','transition','transformOrigin','filter', 'border']);
       Styles(david, ['transform','transformOrigin','transition','filter']);
+      Styles(gregCaption, ['filter']);
       MontrerCaption(davidCaption);
     };
 
-    david.addEventListener('mouseenter', DavidHover);
-    david.addEventListener('mouseleave', DavidLeave);
-    greg.addEventListener('mouseenter', GregHover);
-    greg.addEventListener('mouseleave', GregLeave);
+    // les listeners « simples » ont été retirés : on utilise les handlers
+    // plus haut (activerDavid / activerGreg) qui gèrent le verrouillage et le texte.
 
-    // ----- Texte au hover sur David / Greg -----
-    const texteBloc = document.querySelector('.prof-texte-content');
+    // ----- Texte au hover (blocs absolus left/right) -----
+    const texteDavidBloc = document.querySelector('.prof-texte-david');
+    const texteGregBloc  = document.querySelector('.prof-texte-greg');
 
-    if (texteBloc && david && greg) {
-      const texteDavid = "Texte que tu veux afficher pour David.";
-      const texteGreg  = "Texte que tu veux afficher pour Greg.";
+    // david et greg existent déjà (vérifiés plus haut) — ne vérifier que les blocs texte
+    if (texteDavidBloc && texteGregBloc) {
 
-      const setTexte = (txt) => {
-        texteBloc.textContent = txt;
-        texteBloc.style.opacity = '1';
-        texteBloc.style.transition = 'opacity 0.2s ease';
+      const clearTextes = () => {
+        texteDavidBloc.classList.remove('is-visible');
+        texteGregBloc.classList.remove('is-visible');
+        // réinitialiser les états visuels (si non verrouillés)
+        // on appelle leave qui vérifiera le verrou
+        DavidLeave();
+        GregLeave();
       };
 
-      const clearTexte = () => {
-        texteBloc.style.opacity = '0';
+      // fonctions pour activer visuellement chaque prof
+      const activerDavid = () => {
+        texteDavidBloc.textContent = david.dataset.profText || '';
+        texteDavidBloc.classList.add('is-visible');
+        // ajouter verrou si souhaité (aide la stabilité)
+        david.classList.add('hover-locked');
+        DavidHover();
       };
 
-      david.addEventListener('mouseenter', () => setTexte(texteDavid));
-      david.addEventListener('mouseleave', clearTexte);
+      const desactiverDavid = () => {
+        david.classList.remove('hover-locked');
+        clearTextes();
+      };
 
-      greg.addEventListener('mouseenter', () => setTexte(texteGreg));
-      greg.addEventListener('mouseleave', clearTexte);
+      const activerGreg = () => {
+        texteGregBloc.textContent = greg.dataset.profText || '';
+        texteGregBloc.classList.add('is-visible');
+        greg.classList.add('hover-locked');
+        GregHover();
+      };
+
+      const desactiverGreg = () => {
+        greg.classList.remove('hover-locked');
+        clearTextes();
+      };
+
+      // ---- David : figure + texte gardent le hover ----
+      // sur la figure : active (sans retirer le verrou qui sera géré par le bloc texte)
+      david.addEventListener('mouseenter', activerDavid);
+      david.addEventListener('mouseleave', (e) => {
+        // si on sort vers le bloc texte (ou un de ses enfants), ne pas retirer le hover
+        if (e.relatedTarget === texteDavidBloc || (e.relatedTarget && texteDavidBloc.contains(e.relatedTarget))) return;
+        // sinon on supprime aussi le verrou (cas où la souris quitte directement)
+        david.classList.remove('hover-locked');
+        clearTextes();
+      });
+
+      // sur le bloc texte : maintenir le hover et le verrou tant que la souris y est
+      texteDavidBloc.addEventListener('mouseenter', (e) => {
+        activerDavid();
+      });
+      texteDavidBloc.addEventListener('mouseleave', (e) => {
+        // si on retourne vers la figure, ne pas retirer le hover
+        if (e.relatedTarget === david || (e.relatedTarget && david.contains(e.relatedTarget))) return;
+        // sinon retirer le verrou et nettoyer
+        desactiverDavid();
+      });
+
+      // ---- Greg : figure + texte gardent le hover ----
+      greg.addEventListener('mouseenter', activerGreg);
+      greg.addEventListener('mouseleave', (e) => {
+        if (e.relatedTarget === texteGregBloc || (e.relatedTarget && texteGregBloc.contains(e.relatedTarget))) return;
+        greg.classList.remove('hover-locked');
+        clearTextes();
+      });
+
+      texteGregBloc.addEventListener('mouseenter', (e) => {
+        activerGreg();
+      });
+      texteGregBloc.addEventListener('mouseleave', (e) => {
+        if (e.relatedTarget === greg || (e.relatedTarget && greg.contains(e.relatedTarget))) return;
+        desactiverGreg();
+      });
+
+      // --- positionner les blocs texte au centre (vertical) des images ---
+      function setTextBlockPosition(block, img) {
+        if (!block || !img) return;
+        const pivots = document.querySelector('.pivots') || document.body;
+        const pivotsRect = pivots.getBoundingClientRect();
+        const imgRect = img.getBoundingClientRect();
+
+        // centre vertical de l'image, en coordonnées relatives à .pivots
+        const centerY = (imgRect.top - pivotsRect.top) + (imgRect.height / 9);
+
+        block.style.position = 'absolute';
+        block.style.top = Math.round(centerY) + 'px';
+        // conserver translateY(-50%) dans le CSS pour centrer exactement
+      }
+
+      function positionProfTextBlocks() {
+        const imgDavid = david.querySelector('.img-pivots');
+        const imgGreg  = greg.querySelector('.img-pivots');
+        setTextBlockPosition(texteDavidBloc, imgDavid);
+        setTextBlockPosition(texteGregBloc, imgGreg);
+      }
+
+      // repositionne maintenant si images déjà chargées ou quand elles se chargent
+      const imgD = david.querySelector('.img-pivots');
+      const imgG = greg.querySelector('.img-pivots');
+      if (imgD) {
+        if (imgD.complete) positionProfTextBlocks();
+        else imgD.addEventListener('load', positionProfTextBlocks);
+      }
+      if (imgG) {
+        if (imgG.complete) positionProfTextBlocks();
+        else imgG.addEventListener('load', positionProfTextBlocks);
+      }
+
+      // recalculer au redimensionnement, orientationchange et scroll
+      window.addEventListener('resize', positionProfTextBlocks);
+      window.addEventListener('orientationchange', positionProfTextBlocks);
+      window.addEventListener('scroll', positionProfTextBlocks, { passive: true });
+      // appel initial de sécurité
+      positionProfTextBlocks();
     }
   }
 
@@ -93,43 +199,78 @@ document.addEventListener('DOMContentLoaded', () => {
   // Carousel JS removed — le carrousel est géré par le markup/CSS uniquement maintenant.
 
 }); // fin DOMContentLoaded
-  // ----- Carousel play / stop -----
-  const slider = document.querySelector('.slider');
-  const btnPlay = document.getElementById('btn-play');
-  const btnStop = document.getElementById('btn-stop');
 
-  if (slider && btnPlay && btnStop) {
-    btnPlay.addEventListener('click', () => {
-      slider.style.animationPlayState = 'running';
-    });
+// ----- Carousel play / stop -----
+const slider = document.querySelector('.slider');
+const btnPlay = document.getElementById('btn-play');
+const btnStop = document.getElementById('btn-stop');
 
-    btnStop.addEventListener('click', () => {
-      slider.style.animationPlayState = 'paused';
-    });
+function updateSliderButtonsState() {
+  if (!btnPlay || !btnStop) return;
+  // si slider présent, lire son état d'animation ; sinon se baser sur les classes
+  let state = null;
+  if (slider) {
+    // try computed style first, fallback to inline style
+    const computed = window.getComputedStyle(slider);
+    state = computed && computed.animationPlayState ? computed.animationPlayState : slider.style.animationPlayState;
+  }
+  // default to 'running' if null
+  if (!state) state = 'running';
+
+  if (state === 'running') {
+    btnPlay.classList.add('is-active');
+    btnStop.classList.remove('is-active');
+  } else {
+    btnPlay.classList.remove('is-active');
+    btnStop.classList.add('is-active');
+  }
+}
+
+if (btnPlay && btnStop) {
+  btnPlay.addEventListener('click', () => {
+    if (slider) slider.style.animationPlayState = 'running';
+    // si pas de slider, on force l'état visuel uniquement
+    updateSliderButtonsState();
+  });
+
+  btnStop.addEventListener('click', () => {
+    if (slider) slider.style.animationPlayState = 'paused';
+    updateSliderButtonsState();
+  });
+
+  // initialiser l'état des boutons au chargement
+  updateSliderButtonsState();
+
+  // si le slider existe et que son animationPlayState peut changer par CSS/JS externe,
+  // on surveille les changements via mutation observer sur l'attribut style (optionnel)
+  if (slider && typeof MutationObserver !== 'undefined') {
+    const mo = new MutationObserver(() => updateSliderButtonsState());
+    mo.observe(slider, { attributes: true, attributeFilter: ['style'] });
+  }
+}
+
+( function( wp ) {
+  if ( ! wp || ! wp.customize ) return;
+
+  function safeSet(selector, html, isHTML) {
+    var el = document.querySelector(selector);
+    if (!el) return;
+    if (isHTML) el.innerHTML = html;
+    else el.textContent = html;
   }
 
-  ( function( wp ) {
-    if ( ! wp || ! wp.customize ) return;
-
-    function safeSet(selector, html, isHTML) {
-      var el = document.querySelector(selector);
-      if (!el) return;
-      if (isHTML) el.innerHTML = html;
-      else el.textContent = html;
-    }
-
-    for (var i = 1; i <= 4; i++) {
-      (function(i){
-        wp.customize('res_titre_item_' + i, function(value) {
-          value.bind(function(newval) {
-            safeSet('.slider .item:nth-child(' + i + ') .flip-card-front h2', newval, false);
-          });
+  for (var i = 1; i <= 4; i++) {
+    (function(i){
+      wp.customize('res_titre_item_' + i, function(value) {
+        value.bind(function(newval) {
+          safeSet('.slider .item:nth-child(' + i + ') .flip-card-front h2', newval, false);
         });
-        wp.customize('res_description_item_' + i, function(value) {
-          value.bind(function(newval) {
-            safeSet('.slider .item:nth-child(' + i + ') .flip-card-back p', newval, true);
-          });
+      });
+      wp.customize('res_description_item_' + i, function(value) {
+        value.bind(function(newval) {
+          safeSet('.slider .item:nth-child(' + i + ') .flip-card-back p', newval, true);
         });
-      })(i);
-    }
-  })( window.wp );
+      });
+    })(i);
+  }
+})( window.wp );

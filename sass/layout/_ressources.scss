@@ -20,14 +20,51 @@
       }
     .prof {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      max-width: 1200px; /* largeur max de la grille */
-      width: 100%;
-      margin: 20px auto 0 auto; /* centre horizontalement la grille */
-      padding-inline: 0.75rem; /* marge interne gauche / droite */
-      margin-top: 0;
+      grid-template-columns: repeat(4, 1fr);
+      /* force toutes les lignes de la grille à partager la même hauteur */
+      grid-auto-rows: 1fr;
+      align-items: stretch; /* étire les items pour remplir leur cellule */
+      position: relative; // si tu veux du positionnement absolu
 
-        /* chaque personne (figure + description) est un item de la grille */
+      .prof-texte-content {
+        font-family: var(--texte-titre);
+        color: var(--couleur-texte-footer);
+        opacity: 0;
+        /* important : centrer autour du top fourni par JS */
+        transform: translateY(-50%);
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+        text-align: left;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 0.5rem 1rem;
+        z-index: 10;
+      }
+
+      .prof-texte-david {
+        grid-column: 1 / span 2;  /* à gauche */
+        justify-self: start;
+        margin-right: 1rem;
+        align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
+        /* ajustement fin si nécessaire :
+           padding-top: 0.25rem; */
+      }
+
+      .prof-texte-greg {
+        grid-column: 3 / span 2;  /* à droite */
+        justify-self: end;
+        text-align: right;
+        margin-left: 1rem;
+        align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
+        /* ajustement fin si nécessaire :
+           padding-top: 0.25rem; */
+      }
+
+      .prof-texte-content.is-visible {
+        opacity: 1;
+        /* surtout ne pas changer transform ici (JS contrôle top) */
+      }
+
+      /* chaque personne (figure + description) est un item de la grille */
         .prof-person {
           grid-column: span 2;
           display: flex;
@@ -42,6 +79,7 @@
           position: relative;
           z-index: 3; /* force la description au-dessus du fond */
           background: rgba(255,255,255,0.0); /* transparent par défaut, changez si besoin */
+          letter-spacing: .3rem;
         }
 
         @media screen and (min-width: 576px){
@@ -49,15 +87,14 @@
           box-sizing: border-box;
           width: 100%;
         }
+      /* chaque figure occupe toute la hauteur de sa cellule et est un conteneur flex */
       figure {
         grid-column: span 2;
         margin: 0;
         width: 100%;
-        height: auto;
-        @media screen and (min-width: 432px){
-          box-sizing: content-box;
-          height: 100%;
-        }
+        height: 100%; /* IMPORTANT : occupe la hauteur de la cellule (grid-auto-rows) */
+        display: flex;
+        flex-direction: column;
         position: relative; /* nécessaire pour l'overlay */
         overflow: hidden;
 
@@ -67,7 +104,9 @@
          .img-pivots {
            display: block;
            width: 100%;
-           height: 100%;
+           /* laisse l'image prendre l'espace restant dans la figure */
+           flex: 1 1 auto;
+           min-height: 0; /* crucial pour que flex children respectent la taille parent en grid */
            object-fit: cover;
            object-position: 50% 20%; /* le haut de l'image reste visible */
            transform-origin: top center;
@@ -76,10 +115,9 @@
            -ms-interpolation-mode: nearest-neighbor;
            border: var(--personnes-couleur-border) 2px solid;
            border-radius: 0; /* plus d'arrondi sur les images */
-         @media screen and (min-width: 432px){
-           height: 100%;
          }
-           /* border-radius supprimé */
+         .img-pivots:hover {
+           border: none;
          }
 
         figcaption {
@@ -87,13 +125,38 @@
           left: 0;
           right: 0;
           top: 50%;
-          color: #fff;
+          color: var(--couleur-texte-blanc);
           // padding: 0.6rem 1rem;
           font-family: var(--texte-titre);
           text-align: center;
           font-size: 1rem;
           z-index: 2;
+          transition: all 0.25s ease; /* animation pour l'apparition du flou / background */
+          /* rendre le background léger pour que le backdrop-filter ait de l'effet */
+          -webkit-backdrop-filter: none;
+          backdrop-filter: none;
+
+            @media screen and (min-width: 576px) {
+            font-size: 1.5rem; /* augmente sur écrans plus larges */
+          }
         }
+
+        /* Au survol : appliquer un flou derrière le figcaption
+           (backdrop-filter quand supporté, sinon flou direct sur le caption) */
+        figure:hover figcaption {
+          background: rgba(0,0,0,0.35);
+          -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+          /* fallback pour anciens navigateurs : flouter le texte lui‑même */
+          filter: blur(0.3px);
+        }
+
+        /* Optionnel : flouter légèrement l'image au hover pour renforcer l'effet */
+        figure:hover .img-pivots {
+          filter: blur(3px);
+          transition: filter 0.25s ease;
+        }
+
         .prof_content {
           flex: 1 1 0;
           grid-column: span 1;
@@ -188,14 +251,14 @@
             align-items: center;
             padding: 1rem;
             box-sizing: border-box;
-            border: #fff 1px solid;
+            border: var(--personnes-flip-card-border) 1px solid;
             border: 2px solid var(--personnes-couleur-border);
             box-shadow: 0 2px 4px rgba(0,0,0,0.2);
           }
 
           .flip-card-back {
             transform: rotateY(180deg);
-            background-color: #f8f8f8;
+            background-color: var(--personnes-flip-card-bg);
           }
 
           /* utilitaires de positionnement du titre à l'intérieur des faces */
@@ -234,14 +297,20 @@
   padding: 0.5rem 1.25rem;
   color: var(--personnes-couleur-texte-boutons);
   background: var(--personnes-couleur-bg-boutons);
-  border: 3px solid #fff;
+  border: 3px solid var(--personnes-flip-card-border);
   border-radius: 0;
   image-rendering: pixelated;
   box-shadow: 0 0 0 3px #000;
   cursor: pointer;
   text-transform: uppercase;
+  transition: background .18s ease, color .18s ease, transform .06s ease;
 }
 
+/* état actif : fond orange */
+.btn-pixel.is-active {
+  border-color: var(--personnes-couleur-border-btn-active); /* orange */
+  // color: #000;         /* texte lisible */
+}
 .btn-pixel:active {
   transform: translateY(2px);
   box-shadow: 0 0 0 1px #000;

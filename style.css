@@ -67,6 +67,10 @@ Les variables
   --personnes-couleur-border: #e6e6e6;
   --personnes-couleur-bg-boutons: #0D1220;
   --personnes-couleur-texte-boutons: #E6E6E6;
+  --personnes-border-pivots-active: #FF9500;
+  --personnes-flip-card-bg: #f8f8f8;
+  --personnes-flip-card-border: #e6e6e6;
+  --personnes-couleur-border-btn-active: #FF9500;
 }
 
 /* Couleurs  composants section documents utiles */
@@ -553,14 +557,48 @@ Les layouts
 }
 .Ressources .pivots .prof {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  max-width: 1200px; /* largeur max de la grille */
-  width: 100%;
-  margin: 20px auto 0 auto; /* centre horizontalement la grille */
-  padding-inline: 0.75rem; /* marge interne gauche / droite */
-  margin-top: 0;
+  grid-template-columns: repeat(4, 1fr);
+  /* force toutes les lignes de la grille à partager la même hauteur */
+  grid-auto-rows: 1fr;
+  align-items: stretch; /* étire les items pour remplir leur cellule */
+  position: relative;
   /* chaque personne (figure + description) est un item de la grille */
   /* description sous l'image (pour Grégory) */
+  /* chaque figure occupe toute la hauteur de sa cellule et est un conteneur flex */
+}
+.Ressources .pivots .prof .prof-texte-content {
+  font-family: var(--texte-titre);
+  color: var(--couleur-texte-footer);
+  opacity: 0;
+  /* important : centrer autour du top fourni par JS */
+  transform: translateY(-50%);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  text-align: left;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+.Ressources .pivots .prof .prof-texte-david {
+  grid-column: 1/span 2; /* à gauche */
+  justify-self: start;
+  margin-right: 1rem;
+  align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
+  /* ajustement fin si nécessaire :
+     padding-top: 0.25rem; */
+}
+.Ressources .pivots .prof .prof-texte-greg {
+  grid-column: 3/span 2; /* à droite */
+  justify-self: end;
+  text-align: right;
+  margin-left: 1rem;
+  align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
+  /* ajustement fin si nécessaire :
+     padding-top: 0.25rem; */
+}
+.Ressources .pivots .prof .prof-texte-content.is-visible {
+  opacity: 1;
+  /* surtout ne pas changer transform ici (JS contrôle top) */
 }
 .Ressources .pivots .prof .prof-person {
   grid-column: span 2;
@@ -574,6 +612,7 @@ Les layouts
   position: relative;
   z-index: 3; /* force la description au-dessus du fond */
   background: rgba(255, 255, 255, 0); /* transparent par défaut, changez si besoin */
+  letter-spacing: 0.3rem;
 }
 @media screen and (min-width: 576px) {
   .Ressources .pivots .prof {
@@ -586,22 +625,23 @@ Les layouts
   grid-column: span 2;
   margin: 0;
   width: 100%;
-  height: auto;
+  height: 100%; /* IMPORTANT : occupe la hauteur de la cellule (grid-auto-rows) */
+  display: flex;
+  flex-direction: column;
   position: relative; /* nécessaire pour l'overlay */
   overflow: hidden;
   /* garder le haut fixe lors des transforms ou du redimensionnement */
   transform-origin: left center;
-}
-@media screen and (min-width: 432px) {
-  .Ressources .pivots .prof figure {
-    box-sizing: content-box;
-    height: 100%;
-  }
+  /* Au survol : appliquer un flou derrière le figcaption
+     (backdrop-filter quand supporté, sinon flou direct sur le caption) */
+  /* Optionnel : flouter légèrement l'image au hover pour renforcer l'effet */
 }
 .Ressources .pivots .prof figure .img-pivots {
   display: block;
   width: 100%;
-  height: 100%;
+  /* laisse l'image prendre l'espace restant dans la figure */
+  flex: 1 1 auto;
+  min-height: 0; /* crucial pour que flex children respectent la taille parent en grid */
   object-fit: cover;
   object-position: 50% 20%; /* le haut de l'image reste visible */
   transform-origin: top center;
@@ -610,23 +650,40 @@ Les layouts
   -ms-interpolation-mode: nearest-neighbor;
   border: var(--personnes-couleur-border) 2px solid;
   border-radius: 0; /* plus d'arrondi sur les images */
-  /* border-radius supprimé */
 }
-@media screen and (min-width: 432px) {
-  .Ressources .pivots .prof figure .img-pivots {
-    height: 100%;
-  }
+.Ressources .pivots .prof figure .img-pivots:hover {
+  border: none;
 }
 .Ressources .pivots .prof figure figcaption {
   position: absolute;
   left: 0;
   right: 0;
   top: 50%;
-  color: #fff;
+  color: var(--couleur-texte-blanc);
   font-family: var(--texte-titre);
   text-align: center;
   font-size: 1rem;
   z-index: 2;
+  transition: all 0.25s ease; /* animation pour l'apparition du flou / background */
+  /* rendre le background léger pour que le backdrop-filter ait de l'effet */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+@media screen and (min-width: 576px) {
+  .Ressources .pivots .prof figure figcaption {
+    font-size: 1.5rem; /* augmente sur écrans plus larges */
+  }
+}
+.Ressources .pivots .prof figure figure:hover figcaption {
+  background: rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  /* fallback pour anciens navigateurs : flouter le texte lui‑même */
+  filter: blur(0.3px);
+}
+.Ressources .pivots .prof figure figure:hover .img-pivots {
+  filter: blur(3px);
+  transition: filter 0.25s ease;
 }
 .Ressources .pivots .prof figure .prof_content {
   flex: 1 1 0;
@@ -650,6 +707,7 @@ Les layouts
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  /* état actif : fond orange */
 }
 @media screen and (min-width: 432px) {
   .Ressources .aide {
@@ -717,13 +775,13 @@ Les layouts
   align-items: center;
   padding: 1rem;
   box-sizing: border-box;
-  border: #fff 1px solid;
+  border: var(--personnes-flip-card-border) 1px solid;
   border: 2px solid var(--personnes-couleur-border);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .Ressources .aide .banner .slider .item .flip-card-back {
   transform: rotateY(180deg);
-  background-color: #f8f8f8;
+  background-color: var(--personnes-flip-card-bg);
 }
 .Ressources .aide .banner .slider .item .flip-card-front h2,
 .Ressources .aide .banner .slider .item .flip-card-back h2 {
@@ -752,12 +810,16 @@ Les layouts
   padding: 0.5rem 1.25rem;
   color: var(--personnes-couleur-texte-boutons);
   background: var(--personnes-couleur-bg-boutons);
-  border: 3px solid #fff;
+  border: 3px solid var(--personnes-flip-card-border);
   border-radius: 0;
   image-rendering: pixelated;
   box-shadow: 0 0 0 3px #000;
   cursor: pointer;
   text-transform: uppercase;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.06s ease;
+}
+.Ressources .aide .btn-pixel.is-active {
+  border-color: var(--personnes-couleur-border-btn-active); /* orange */
 }
 .Ressources .aide .btn-pixel:active {
   transform: translateY(2px);
