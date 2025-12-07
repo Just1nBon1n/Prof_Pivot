@@ -82,6 +82,8 @@ let isClicked = false;
 
       if (target) {
         smoothScrollTo(target, 800); // adjust speed here
+      }else{
+        window.location.href = page404;
       }
 
       searchForm.classList.remove('active-search');
