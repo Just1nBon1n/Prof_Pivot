@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         // 2. On duplique CET ordre aléatoire (2 ou 3 fois)
         // C'est vital de dupliquer le tableau DÉJÀ mélangé pour que le reset soit invisible
-        const displayList = shuffledCubes.concat(shuffledCubes, shuffledCubes, shuffledCubes, shuffledCubes);
+        const displayList = shuffledCubes.concat(shuffledCubes, shuffledCubes, shuffledCubes, shuffledCubes, shuffledCubes, shuffledCubes, shuffledCubes, shuffledCubes);
         
         displayList.forEach(function(src) {
             const img = document.createElement('img');
