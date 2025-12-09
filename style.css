@@ -1820,7 +1820,8 @@ footer h2 {
   width: 200px; /* LARGEUR FIXE */
   object-fit: contain;
   margin-right: 10px;
-  opacity: 0.35;
+  opacity: 0.2;
+  filter: invert(40%) brightness(1.4);
 }
 
 @keyframes scrollLeft {
