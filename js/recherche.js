@@ -1,19 +1,19 @@
 const toggleSearch = () => {
-  const searchForm = document.querySelector('.search-form');
-  const searchButton = document.querySelector('.search-button');
-  const searchInput = document.querySelector('.search-input');
+const searchForm = document.querySelector('.search-form');
+const searchBoutton = document.querySelector('.search-button');
+const searchInput = document.querySelector('.search-input');
 
-  let scrollTimeout;
-  let isClicked = false;
+let scrollTimeout;
+let isClicked = false;
 
   // Mots clés
   const sections = {
     liens: {
-      keywords: ['liens', 'links', 'utile', 'Tutorat', 'Materiel', 'Stage', 'ate', 'evaluation', 'Calendrier', 'Disponibilite', 'omnivox'],
+      keywords: ['liens', 'links', 'utile', 'Tutorat', 'Materiel', 'Stage', 'ate', 'evaluation', 'Calendrier', 'Disponibilite', 'omnivox', 'ate', 'calendrier', 'evaluation', 'finissant', 'tutorat'],
       target: '#separateur-1'
     },
     profs: {
-      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'Gregory','David','Cetim', 'Pivot'],
+      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'Gregory','David','Cetim', 'Pivot', 'cetim'],
       target: '#separateur-2'
     },
     documents: {
@@ -63,7 +63,7 @@ const toggleSearch = () => {
   };
 
   // Click pour ouvrir et fermer
-  searchButton.addEventListener('click', () => {
+  searchBoutton.addEventListener('click', () => {
     searchForm.classList.toggle('active-search');
     isClicked = searchForm.classList.contains('active-search');
     searchForm.classList.add('visible');
@@ -82,6 +82,8 @@ const toggleSearch = () => {
 
       if (target) {
         smoothScrollTo(target, 800); // adjust speed here
+      }else{
+        window.location.href = page404;
       }
 
       searchForm.classList.remove('active-search');

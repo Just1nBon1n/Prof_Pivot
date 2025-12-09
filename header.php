@@ -17,3 +17,7 @@
 </head>
 <body <?php body_class(); ?>>
   <?php wp_body_open(); ?>
+
+<script>
+  const page404 = "<?php echo site_url('/page-inexistante-pour-404'); ?>";
+</script>

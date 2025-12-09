@@ -1162,7 +1162,6 @@ Les layouts
   image-rendering: pixelated;
 }
 
-/* Base style for all items */
 .menu-item {
   display: flex;
   flex-direction: column;
@@ -1179,7 +1178,8 @@ Les layouts
 }
 
 .menu-item .icon {
-  font-size: 2rem;
+  width: 75px;
+  height: 75px;
   transition: opacity 0.3s ease;
   margin-bottom: 8px;
 }
@@ -1218,7 +1218,7 @@ Les layouts
   animation: fadeInHover 0.3s forwards;
 }
 
-/*Animation d'apparition progressive lorsque l'animation JS n'affiche pas de texte */
+/*Animation d'apparition lorsque l'animation JS n'affiche pas de texte */
 @keyframes fadeInHover {
   0% {
     opacity: 0;
@@ -1293,24 +1293,19 @@ Les layouts
     opacity: 0;
     transform: translateY(10px);
   }
-  15% {
+  25% {
     opacity: 1;
     transform: translateY(-4px);
   }
-  65% {
+  50% {
     opacity: 1;
     transform: translateY(-4px);
-  }
-  80% {
-    opacity: 0;
-    transform: translateY(10px);
   }
   100% {
     opacity: 0;
     transform: translateY(10px);
   }
 }
-/* Hover override */
 .menu-item.hovered .text {
   animation: none !important; /* arrête timeline animation */
   opacity: 1 !important;
@@ -1776,6 +1771,55 @@ footer h2 {
     display: block;
   }
 }
+.page_404 {
+  height: 72vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page_404 h1 {
+  font-size: 10rem;
+  text-shadow: -2px -2px 0 var(--couleur-texte-footer), 2px -2px 0 var(--couleur-texte-footer), -2px 2px 0 var(--couleur-texte-footer), 2px 2px 0 var(--couleur-texte-footer);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.page_404 h2 {
+  font-size: 5rem;
+  text-shadow: -2px -2px 0 var(--couleur-texte-footer), 2px -2px 0 var(--couleur-texte-footer), -2px 2px 0 var(--couleur-texte-footer), 2px 2px 0 var(--couleur-texte-footer);
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: var(--texte-titre);
+}
+
+.page_404 .btn_retourner {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: black;
+  color: white;
+  font-family: var(--texte-titre);
+  text-decoration: none;
+  border: 3px solid;
+  box-shadow: 4px 4px 0 black;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+  .page_404 h1 {
+    font-size: 6rem;
+  }
+  .page_404 h2 {
+    font-size: 3rem;
+  }
+  .page_404 .btn_retourner {
+    padding: 10px 20px;
+    font-size: 1rem;
+    box-shadow: 3px 3px 0 black;
+  }
 #bg-container {
   position: fixed;
   top: 20px;
