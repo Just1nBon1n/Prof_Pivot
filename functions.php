@@ -6,8 +6,7 @@
   $function_files = array(
     'options.php',
     'customizerDocuments.php',
-    'optionsSVG.php',
-    'customizerLiensUtiles.php'
+    'customizerLiensUtiles.php',
   );
 
   // Boucle pour inclure tous les fichiers

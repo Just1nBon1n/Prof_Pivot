@@ -121,6 +121,7 @@ h2 {
 
 /* BODY */
 body {
+  position: relative;
   overflow-x: hidden;
   background-color: var(--couleur-fond);
 }
@@ -254,6 +255,7 @@ Les composants
 }
 
 .nav-block {
+  position: relative;
   display: block;
   width: 2.2rem;
   height: 2.2rem;
@@ -263,7 +265,30 @@ Les composants
   border: 2px solid transparent;
 }
 
-/* 🎯 STYLE DU BLOC ACCUEIL (Plus grand et avec lueur) */
+.nav-block {
+  position: relative;
+}
+
+/* Cube normal (centré, immobile) */
+.nav-block.active::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--couleur-texte-blanc);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 2px;
+  transition: transform 0.6s linear;
+}
+
+/* Rotation quand le bloc vient d’être activé */
+.nav-block.just-activated::after {
+  transform: translate(-50%, -50%) rotate(360deg);
+}
+
+/* STYLE DU BLOC ACCUEIL (Plus grand et avec lueur) */
 .nav-accueil {
   width: 2.8rem; /* Plus large */
   height: 2.8rem; /* Plus haut */
@@ -288,16 +313,53 @@ Les composants
   background-color: var(--docs-couleur-section);
 }
 
-/* Effet de survol (pour le curseur personnalisé) */
-.nav-block:hover {
-  transform: scale(1.3);
-  border-color: white;
+/* STYLE DES SÉPARATEURS ENTRE LES BLOCS ------------------------------------ */
+.nav-separator {
+  width: 3px;
+  height: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden; /* Cache le remplissage initial */
 }
 
-/* --- Responsive Adjustments (Mobile doit rester prioritaire) --- */
-@media (max-width: 600px) {
-  .container-navigation {
-    right: 5px; /* Rapproche les blocs du bord sur mobile */
+.nav-label {
+  position: absolute;
+  font-family: var(--texte-default);
+  color: var(--couleur-texte-blanc);
+  right: 150%;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  opacity: 0;
+  white-space: normal;
+  font-size: 1rem;
+  text-align: right;
+  line-height: 1.2;
+  max-width: 130px;
+  transition: all 0.35s ease-out;
+  pointer-events: none; /* Pour ne pas bloquer le hover du bloc */
+}
+
+/* AU SURVOL DU BLOC -> AFFICHER SON LABEL */
+.side-nav-blocks:hover .nav-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  color: var(--couleur-texte-blanc);
+}
+
+/* --------------------------------------------------------------------------- */
+/* MEDIA QUERY POUR LES ÉCRANS AVEC HOVER (SOURIS) */
+@media (hover: hover) {
+  .nav-block:hover {
+    transform: scale(1.3);
+    border-color: var(--couleur-texte-blanc);
+  }
+  .side-nav-blocks:hover .nav-label {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  .nav-block:hover .nav-label {
+    color: var(--couleur-texte-blanc);
   }
 }
 /* ------------------------------------------------------------- */
@@ -358,10 +420,69 @@ Les composants
   animation-delay: -0.8s;
 }
 
-/* --- Responsive Adjustments (Mobile doit rester prioritaire) --- */
-@media (max-width: 600px) {
-  .container-navigation {
-    right: 5px;
+/* ------------------------------------------------------------- */
+/* STYLES POUR LE BOUTON BURGER DE NAVIGATION MOBILE */
+/* ------------------------------------------------------------- */
+/* --- Base (déjà existante, ajout des transitions) --- */
+.toggle-nav {
+  display: flex;
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  width: 45px;
+  height: 40px;
+  z-index: 2000;
+  padding: 5px;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.toggle-nav .toggle-bar {
+  height: 5px;
+  width: 100%;
+  background-color: var(--couleur-texte-blanc);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animation fluide */
+  transform-origin: center; /* Rotation centrale */
+}
+
+/* --- Transformation en X --- */
+/* Barre 1 : Descendre et pivoter à 45° */
+.toggle-nav.open .toggle-bar:nth-child(1) {
+  transform: translateY(12.5px) rotate(45deg);
+}
+
+/* Barre 2 : S'effacer proprement */
+.toggle-nav.open .toggle-bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* Barre 3 : Monter et pivoter à -45° */
+.toggle-nav.open .toggle-bar:nth-child(3) {
+  transform: translateY(-12.5px) rotate(-45deg);
+}
+
+/* ------------------------------------------------------------- */
+.side-nav-blocks {
+  transform: translateX(200%); /* Cache la nav hors de la vue */
+  transition: transform 0.3s ease-out;
+}
+
+/* Quand le menu est actif */
+.side-nav-blocks.active {
+  transform: translateX(0); /* Déplace la nav dans la vue */
+}
+
+/* MEDIA QUERY POUR LES GRANDS ÉCRANS (DÉSACTIVE LE BOUTON) */
+@media (min-width: 1025px) {
+  .toggle-nav {
+    display: none;
+  }
+  .side-nav-blocks {
+    transform: translateX(0); /* Toujours visible sur grand écran */
   }
 }
 /* /////////////////////////////////
@@ -1398,7 +1519,7 @@ Les layouts
 }
 
 .dossier:hover .papier {
-  transform: translateY(-50px);
+  transform: translateY(-40px);
 }
 
 .dossier:nth-of-type(even):hover {
@@ -1445,7 +1566,7 @@ Les layouts
     left: -200px;
   }
   .dossier:hover .papier {
-    transform: translateY(-150px);
+    transform: translateY(-130px);
   }
   .telecharger-papier {
     text-align: center;
@@ -1520,67 +1641,81 @@ Les layouts
   z-index: 1;
 }
 
+/* --- Footer flottant au-dessus --- */
 footer {
-  position: relative;
-  top: 100px;
-  background-color: var(--footer-couleur-fond);
+  position: absolute; /* flotte au-dessus des autres éléments */
+  bottom: 0.5%; /* collé en bas de la page */
+  left: 0;
+  width: 100%; /* prend toute la largeur */
   display: flex;
-  z-index: 1;
+  flex-direction: column;
+  z-index: 100; /* doit être supérieur à l'élément dessous */
+  overflow: hidden; /* canvas reste à l'intérieur */
 }
 
-footer div {
+/* Wrapper interne du footer */
+footer > div {
   width: 100%;
+  position: relative;
+  z-index: 0; /* contenu au-dessus du canvas */
 }
 
 footer h2 {
   color: var(--footer-couleur-logo);
 }
 
+/* --- Zone supérieure --- */
 .dessus {
-  column-gap: 33vw;
   display: flex;
-  text-align: left;
-  justify-content: flex-start;
   flex-direction: row;
+  justify-content: flex-start;
+  text-align: left;
+  column-gap: 33vw;
   margin-left: 10px;
 }
 
+/* Adresse du collège */
 .adresse {
   display: flex;
   font-size: 18px;
   margin-left: 10px;
+  padding-left: 20px;
 }
 
+/* Zone inférieure */
 .dessous {
   position: relative;
-  bottom: 40px;
+  bottom: 0; /* pas de décalage inutile */
 }
 
+/* Section Nous Joindre */
 .nous-joindre {
   display: flex;
   flex-direction: column;
   row-gap: 15px;
   font-size: 12px;
+  padding-left: 20px;
 }
 
+/* Médias sociaux */
 .medias-sociaux {
   display: flex;
   flex-direction: column;
   row-gap: 15px;
   margin-left: auto;
-  padding-right: 10px;
+  padding-right: 20px;
 }
 
 .titre-medias-sociaux {
   display: none;
 }
 
+/* Icônes sociales */
 .footer-icones-sociales {
   display: flex;
   flex-direction: column;
   justify-content: center;
   row-gap: 15px;
-  column-gap: 0px;
   margin-top: 5px;
 }
 
@@ -1596,73 +1731,41 @@ footer h2 {
   object-fit: contain;
 }
 
-.footer-bg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.vague {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-#waveSvg #wave {
-  transition: d 1000ms cubic-bezier(0.16, 1, 0.3, 1);
-  display: block;
-  pointer-events: none;
-}
-
+/* --- Responsive ≥ 432px --- */
 @media screen and (min-width: 432px) {
-  .dessus {
-    text-align: center;
-    justify-content: center;
+  footer {
+    bottom: 1%;
   }
-  .dessous {
-    position: relative;
-    bottom: 0px;
+  .dessus {
+    justify-content: center;
+    text-align: center;
   }
   .medias-sociaux {
-    display: flex;
-    flex-direction: column;
-    row-gap: 15px;
     margin-left: 0;
     padding-right: 0;
   }
   .nous-joindre {
-    display: flex;
-    flex-direction: column;
-    row-gap: 15px;
     font-size: large;
   }
-  .vague {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  /* Icônes sociales */
   .footer-icones-sociales {
     flex-direction: row;
-    row-gap: 0px;
+    row-gap: 0;
     column-gap: 15px;
   }
   .footer-icones-sociales a {
-    display: inline-block;
     width: 40px;
     height: 40px;
   }
-  .footer-icones-sociales a img:hover {
+  .footer-icones-sociales img:hover {
     filter: brightness(20);
     scale: 1.2;
   }
   .adresse {
-    font-size: 1.5rem;
     display: flex;
-    text-align: center;
     justify-content: center;
+    text-align: center;
+    font-size: 1.5rem;
   }
   .titre-medias-sociaux {
     display: block;
@@ -1717,4 +1820,57 @@ footer h2 {
     font-size: 1rem;
     box-shadow: 3px 3px 0 black;
   }
+#bg-container {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  overflow: hidden;
+}
+
+.row {
+  height: 12.5vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.track img {
+  height: 9vh; /* Hauteur de l'image */
+  width: 200px; /* LARGEUR FIXE */
+  object-fit: contain;
+  margin-right: 10px;
+  opacity: 0.2;
+  filter: invert(40%) brightness(1.4);
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.move-left .track {
+  animation: scrollLeft 120s linear infinite;
+}
+
+.move-right .track {
+  animation: scrollRight 120s linear infinite;
 }/*# sourceMappingURL=style.css.map */

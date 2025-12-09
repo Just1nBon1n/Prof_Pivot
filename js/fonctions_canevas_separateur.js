@@ -105,7 +105,7 @@ lesWrappers.forEach(wrapper => {
                 ctxBase.globalAlpha = flickerValue[row][col] * opaciteCentre;
                 ctxBase.fillRect(x, y, taillePixel, taillePixel);
 
-                // Vérifie si la souris survole ce pixel
+                // Vérifie si la souris survole un pixel
                 const isHovered =
                     mouseX >= x && mouseX < x + taillePixel &&
                     mouseY >= y && mouseY < y + taillePixel;

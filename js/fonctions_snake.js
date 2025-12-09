@@ -65,36 +65,38 @@ document.addEventListener("DOMContentLoaded", function() {
     window.stopGame = stopGame; // Rendre la fonction accessible au gestionnaire UI
     
 
-    // --- Déclencheur de navigation au contact de la nourriture ---
     function triggerNavigation(type) {
         let sectionId = '';
-        
-        // MAPPAGE DES TYPES DE NOURRITURE VERS LES ID DE SECTION
+
         if (type === 'liens') {
-            sectionId = 'separateur-1'; // Bleu -> Liens Utiles
+            sectionId = 'separateur-1';
         } else if (type === 'ressources') {
-            sectionId = 'separateur-2'; // Orange -> Personnes Ressources
+            sectionId = 'separateur-2';
         } else if (type === 'documents') {
-            sectionId = 'separateur-3';  // Vert -> Documents Téléchargeables
+            sectionId = 'separateur-3';
         }
-        
-        if (sectionId) {
-            console.log(`Navigation vers la section: ${type} (#${sectionId})`);
-            const targetElement = document.getElementById(sectionId);
-            
-            if (targetElement) {
-                 // Lancer le défilement
-                 targetElement.scrollIntoView({ behavior: 'smooth' });
-                 
-                 // Arrêter le jeu après le délai de défilement (800ms)
-                 setTimeout(() => {
-                      stopGame(); 
-                 }, 800); 
-            } else {
-                 // Si la section n'est pas trouvée (bug), arrêter le jeu immédiatement
-                 stopGame(); 
-                 console.error(`Erreur: Élément cible #${sectionId} non trouvé.`);
+
+        if (!sectionId) return;
+
+        const target = document.getElementById(sectionId);
+
+        if (target) {
+            // 🔥 Trouver le bloc de navigation correspondant
+            const matchingBlock = document.querySelector(`.nav-block[href="#${sectionId}"]`);
+
+            if (matchingBlock) {
+                // Activer instantanément le cube + animation
+                window.setActiveBlock(matchingBlock);
             }
+
+            // Scroll ensuite
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Stopper le jeu après 800ms
+            setTimeout(() => stopGame(), 800);
+        } else {
+            stopGame();
+            console.error(`Erreur: Élément cible #${sectionId} non trouvé.`);
         }
     }
 

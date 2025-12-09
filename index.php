@@ -3,6 +3,8 @@
 <?php get_template_part('Johnny/search'); ?>
 <!-- navigation principale -->
 <?php get_template_part('justin/navigation'); ?>
+<!-- Inclusion du fichier background.php -->
+<?php get_template_part('justin/background'); ?>
 <!-- Inclusion du fichier accueil.php -->
 <?php get_template_part('justin/acceuil'); ?>
 
@@ -25,7 +27,7 @@
 <!-- Séparateur Orange Personnes Ressources-->
 <section id="separateur-2">
     <?php get_template_part(
-        'David/SeparateurCanevas', 
+        'David/SeparateurCanevas',  
         null, 
         array(
             'color' => '#e67e22',
@@ -54,8 +56,16 @@
     <?php get_template_part('David/DocumentsTelechargeables'); ?>
 </section>
 
-<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_canevas_separateur.js"></script>
+<?php get_template_part(
+    'David/SeparateurCanevas', 
+    null, 
+    array(
+        'color' => '#555555',
+        'title' => get_theme_mod('', '')
+    )
+); ?>
 
+<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_canevas_separateur.js"></script>
 <?php get_footer(); ?>
 
 
