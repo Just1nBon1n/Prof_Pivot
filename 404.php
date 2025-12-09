@@ -1,7 +1,12 @@
 <?php get_header(); ?>
 
 <!-- Inclusion du fichier background.php -->
-<div id="bg-container"></div>
+<?php get_template_part('justin/background'); ?>
+<script>
+    const cubesBase = "<?php echo get_stylesheet_directory_uri(); ?>/justin/images/";
+</script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/background.js"></script>
+
 
 <Section class = "page_404">
     <div class = 404_container></div>

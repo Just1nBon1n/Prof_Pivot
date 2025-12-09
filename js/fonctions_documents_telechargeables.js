@@ -56,8 +56,10 @@ for (let i = 0; i < nombreDossier; i++) {
   dossier.appendChild(arriere);
   dossier.appendChild(papier);
   dossier.appendChild(avant);
-  dossiers.appendChild(dossier);
-
+  if (dossiers) {
+      dossiers.appendChild(dossier);
+  }
+ 
   // URL du fichier à télécharger pour ce dossier
   const fichierURL = fichiersLiens[i] || "#";
 
