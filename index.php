@@ -61,7 +61,7 @@
     null, 
     array(
         'color' => '#555555',
-        'title' => get_theme_mod('titre_separateur_3', '')
+        'title' => get_theme_mod('', '')
     )
 ); ?>
 
