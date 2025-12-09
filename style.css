@@ -1152,7 +1152,6 @@ Les layouts
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
   box-sizing: border-box;
   border: var(--personnes-flip-card-border) 1px solid;
   border: 2px solid var(--personnes-couleur-border);
