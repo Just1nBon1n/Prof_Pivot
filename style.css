@@ -1832,7 +1832,7 @@ footer h2 {
 /* --- Responsive ≥ 432px --- */
 @media screen and (min-width: 432px) {
   footer {
-    bottom: 8rem;
+    bottom: 150px;
   }
   .dessus {
     justify-content: center;
