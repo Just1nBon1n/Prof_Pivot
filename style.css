@@ -1644,7 +1644,7 @@ Les layouts
 /* --- Footer flottant au-dessus --- */
 footer {
   position: absolute; /* flotte au-dessus des autres éléments */
-  bottom: 0.5%; /* collé en bas de la page */
+  bottom: 4rem; /* collé en bas de la page */
   left: 0;
   width: 100%; /* prend toute la largeur */
   display: flex;
@@ -1734,7 +1734,7 @@ footer h2 {
 /* --- Responsive ≥ 432px --- */
 @media screen and (min-width: 432px) {
   footer {
-    bottom: 1%;
+    bottom: 8rem;
   }
   .dessus {
     justify-content: center;
