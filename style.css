@@ -1128,7 +1128,8 @@ Les layouts
   /* Par défaut, afficher le recto ; sur hover, on retourne */
   /* Les deux faces du flip */
   /* empêcher que l'image dépasse de la face avant */
-  /* images des cartes : toujours contenues, couvrent la face */
+  /* titre au-dessus de l'image */
+  /* si pas d'image, titre garde le même rendu */
   /* positionner le H2 en haut de la face avant */
   /* s'assurer que le H2 de la face avant ne possède pas de margin-top */
 }
@@ -1158,18 +1159,36 @@ Les layouts
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .Ressources .aide .banner .slider .item .flip-card-front {
-  overflow: hidden; /* coupe tout débordement */
-  align-items: flex-start; /* place le contenu en haut */
+  position: relative;
+  overflow: hidden;
+  align-items: flex-start; /* place le titre en haut */
   padding-top: 1rem;
 }
-.Ressources .aide .banner .slider .item .flip-card-front img,
-.Ressources .aide .banner .slider .item .flip-card-front > img {
+.Ressources .aide .banner .slider .item .flip-card-front .flip-card-media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.Ressources .aide .banner .slider .item .flip-card-front .flip-card-media img {
   display: block;
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain; /* recadre proprement sans dépasser */
+  object-fit: cover; /* couvre sans dépasser */
+}
+.Ressources .aide .banner .slider .item .flip-card-front .flip-card-title {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0.25rem 1rem;
+  background: rgba(0, 0, 0, 0.25); /* léger fond pour lisibilité */
+  color: #fff;
+  font-size: 1rem;
+}
+.Ressources .aide .banner .slider .item .flip-card-front:not(.has-media) .flip-card-title {
+  background: none;
+  color: inherit;
 }
 .Ressources .aide .banner .slider .item .flip-card-back {
   transform: rotateY(180deg);

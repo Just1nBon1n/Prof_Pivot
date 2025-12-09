@@ -55,10 +55,11 @@
           <div class="flip-card-inner">
             <div class="flip-card-front">
               <?php if ( $image ) : ?>
-                <img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $titre ); ?>">
-              <?php else : ?>
-                <h2><?php echo esc_html( $titre ); ?></h2>
+                <div class="flip-card-media">
+                  <img src="<?php echo esc_url( $image ); ?>" alt="<?php echo esc_attr( $titre ); ?>">
+                </div>
               <?php endif; ?>
+              <h2 class="flip-card-title"><?php echo esc_html( $titre ); ?></h2>
             </div>
             <div class="flip-card-back">
               <p><?php echo wp_kses_post( $desc ); ?></p>
