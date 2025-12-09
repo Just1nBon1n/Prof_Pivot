@@ -48,3 +48,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   requestAnimationFrame(updateAnimation);
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const items = document.querySelectorAll(".menu-item");
+
+  items.forEach(item => {
+    // 50% chance to become big (2x2)
+    const isBig = Math.random() < 0.5;
+
+    if (isBig) {
+      item.style.gridColumn = "span 2";
+      item.style.gridRow = "span 2";
+    } else {
+      item.style.gridColumn = "span 1";
+      item.style.gridRow = "span 1";
+    }
+  });
+});
+

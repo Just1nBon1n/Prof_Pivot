@@ -1,33 +1,3 @@
-.pixel {
-    display: block;
-    width: 20px;
-    height: 20px;
-    animation: flicker 4s infinite ease-in-out;
-    animation-play-state: paused;
-    transition: opacity 0.3s ease-out, filter 0.3s ease-out;
-    scale: 0.9;
-}
-
-.anime .pixel {
-    animation-play-state: running;
-}
-
-.parent-pixel.hovered{
-    filter: brightness(10);
-}
- 
-.conteneur-separateur{
-    display: flex;
-    justify-content: center;
-}
-.grand-conteneur-separateur {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .titre-section {
     position: absolute;
     top: 70%;
@@ -43,21 +13,11 @@
 @media screen and (min-width: 432px) {
     .titre-section {
         white-space: nowrap;
-        top: 70%;
+        top: 65%;
         left: 50%;
         font-size: 85px;
         letter-spacing: 0.1em;
     }
-}
-
-#separateur-1 .pixel{
-    background-color: var(--liens-couleur-section);
-}
-#separateur-2 .pixel{
-    background-color: var(--personnes-couleur-section);
-}
-#separateur-3 .pixel{
-    background-color: var(--docs-couleur-section);
 }
 
 // Animation
@@ -67,4 +27,20 @@
     50%  { opacity: 0.95; filter: brightness(1.05); }
     75%  { opacity: 0.9; filter: brightness(0.98); }
     100% { opacity: 1; filter: brightness(1.05); }
+}
+
+
+.wrapper {
+    width: 100%;
+    height: 33vh; /* hauteur du canvas */
+    position: relative;
+}
+.wrapper separateur-canevas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute; /* pour remplir le conteneur */
+    top: 0;
+    left: 0;
+    z-index: 1;
 }

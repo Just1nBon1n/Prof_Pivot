@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let gameStarted = false; // CRITIQUE : Démarrage différé
     let patternTIM = []; 
     let foodListe = []; 
-    const foodNb = 3; 
     const TIMTaille = 0.5;
 
     // Constantes de dessin
@@ -34,6 +33,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const couleurNourriture = getCssColor('--snake-couleur-nourriture');
     const couleurSerpentTete = getCssColor('--snake-couleur-tete');
     const couleurSerpentCorps = getCssColor('--snake-couleur-corps');
+
+    // COULEURS DE NAVIGATION ET CROISSANCE
+    const couleursNavigation = {
+        'liens': getCssColor('--liens-couleur-section'),       // Bleu
+        'ressources': getCssColor('--personnes-couleur-section'), // Orange
+        'documents': getCssColor('--docs-couleur-section')     // Vert
+    };
+
 
     // --- Fonction utilitaire pour démarrer la boucle de jeu ---
     function startLoop() {
@@ -58,6 +65,42 @@ document.addEventListener("DOMContentLoaded", function() {
     window.stopGame = stopGame; // Rendre la fonction accessible au gestionnaire UI
     
 
+    function triggerNavigation(type) {
+        let sectionId = '';
+
+        if (type === 'liens') {
+            sectionId = 'separateur-1';
+        } else if (type === 'ressources') {
+            sectionId = 'separateur-2';
+        } else if (type === 'documents') {
+            sectionId = 'separateur-3';
+        }
+
+        if (!sectionId) return;
+
+        const target = document.getElementById(sectionId);
+
+        if (target) {
+            // 🔥 Trouver le bloc de navigation correspondant
+            const matchingBlock = document.querySelector(`.nav-block[href="#${sectionId}"]`);
+
+            if (matchingBlock) {
+                // Activer instantanément le cube + animation
+                window.setActiveBlock(matchingBlock);
+            }
+
+            // Scroll ensuite
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Stopper le jeu après 800ms
+            setTimeout(() => stopGame(), 800);
+        } else {
+            stopGame();
+            console.error(`Erreur: Élément cible #${sectionId} non trouvé.`);
+        }
+    }
+
+
     /**
      * Initialise le serpent et la nourriture, mais NE démarre PAS la boucle de jeu.
      */
@@ -69,13 +112,22 @@ document.addEventListener("DOMContentLoaded", function() {
         direction = "RIGHT"; // Direction par défaut pour le premier mouvement
         growing = 3;
 
-        // Réinitialiser serpent et nourriture
-        snake = [{x: Math.floor(canvas.width/2/box)*box, y: Math.floor(canvas.height/2/box)*box}];
-        
+        // NETTOYAGE CRITIQUE : Vider les tableaux avant la réinitialisation
+        snake = [];
         foodListe = [];
-        for (let i = 0; i < foodNb; i++) {
-            foodListe.push(genererNourriture());
+
+        // Réinitialiser serpent et nourriture
+        snake.push({x: Math.floor(canvas.width/2/box)*box, y: Math.floor(canvas.height/2/box)*box});
+        
+        // CRÉATION DES 3 NOURRITURES DE NAVIGATION (Couleurs)
+        const navigationTypes = ['liens', 'ressources', 'documents']; 
+        navigationTypes.forEach(type => foodListe.push(genererNourriture('navigation', type)));
+
+        // CRÉATION DES 3 NOURRITURES DE CROISSANCE (Blanches)
+        for(let i = 0; i < 3; i++) {
+            foodListe.push(genererNourriture('croissance'));
         }
+
 
         // Dessiner le serpent et la nourriture en place
         dessiner(); 
@@ -132,37 +184,37 @@ document.addEventListener("DOMContentLoaded", function() {
             ];
         // Taille tablette
         } else if (largeur < 1024) {
-            box = 40;
+            box = 38;
             patternTIM = [
-                "XXXXXXXXXXX XXXXX XXXX  XXXX ",
-                "XOOOOOOOOOXXXOOOXXXOOXXXXOOXX",
-                "XOOOOOOOOOXXXOOOXXXOOOXXOOOXX",
-                "XXXXOOOXXXXXXOOOXXXOOOOOOOOXX",
-                "   XOOOXXXXXXOOOXXXOOOOOOOOXX",
-                "   XOOOXX   XOOOXXXOOXOOXOOXX",
-                "   XOOOXX   XOOOXXXOOXXXXOOXX",
-                "   XOOOXX   XOOOXXXOOXX XOOXX",
-                "   XOOOXX   XOOOXXXOOXX XOOXX",
-                "   XOOOXX   XOOOXXXOOXX XOOXX",
-                "   XXXXXX   XXXXXXXXXXX XXXXX",
-                "    XXXXX    XXXXX XXXX  XXXX",
+                " XXXXXXXXXXX XXXXX XXXX  XXXX ",
+                " XOOOOOOOOOXXXOOOXXXOOXXXXOOXX",
+                " XOOOOOOOOOXXXOOOXXXOOOXXOOOXX",
+                " XXXXOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "    XOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "    XOOOXX   XOOOXXXOOXOOXOOXX",
+                "    XOOOXX   XOOOXXXOOXXXXOOXX",
+                "    XOOOXX   XOOOXXXOOXX XOOXX",
+                "    XOOOXX   XOOOXXXOOXX XOOXX",
+                "    XOOOXX   XOOOXXXOOXX XOOXX",
+                "    XXXXXX   XXXXXXXXXXX XXXXX",
+                "     XXXXX    XXXXX XXXX  XXXX",
             ];
         // Taille desktop
         } else {
             box = 50;
             patternTIM = [
-                "XXXXXXXXXXX XXXXX XXXX  XXXX ",
-                "XOOOOOOOOOXXXOOOXXXOOXXXXOOXX",
-                "XOOOOOOOOOXXXOOOXXXOOOXXOOOXX",
-                "XXXXOOOXXXXXXOOOXXXOOOOOOOOXX",
-                "   XOOOXXXXXXOOOXXXOOOOOOOOXX",
-                "   XOOOXX   XOOOXXXOOXOOXOOXX",
-                "   XOOOXX   XOOOXXXOOXXXXOOXX",
-                "   XOOOXX   XOOOXXXOOXX XOOXX",
-                "   XOOOXX   XOOOXXXOOXX XOOXX",
-                "   XOOOXX   XOOOXXXOOXX XOOXX",
-                "   XXXXXX   XXXXXXXXXXX XXXXX",
-                "    XXXXX    XXXXX XXXX  XXXX",
+                " XXXXXXXXXXX XXXXX XXXX  XXXX ",
+                " XOOOOOOOOOXXXOOOXXXOOXXXXOOXX",
+                " XOOOOOOOOOXXXOOOXXXOOOXXOOOXX",
+                " XXXXOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "    XOOOXXXXXXOOOXXXOOOOOOOOXX",
+                "    XOOOXX   XOOOXXXOOXOOXOOXX",
+                "    XOOOXX   XOOOXXXOOXXXXOOXX",
+                "    XOOOXX   XOOOXXXOOXX XOOXX",
+                "    XOOOXX   XOOOXXXOOXX XOOXX",
+                "    XOOOXX   XOOOXXXOOXX XOOXX",
+                "    XXXXXX   XXXXXXXXXXX XXXXX",
+                "     XXXXX    XXXXX XXXX  XXXX",
 
             ];
 
@@ -255,18 +307,25 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     // --- Générer la nourriture à une position libre ---
-    function genererNourriture() {
+    function genererNourriture(type, destinationType = null) {
         let positionValide = false;
         let newFood;
         const gridWidth = canvas.width / box;
         const gridHeight = canvas.height / box;
 
+        const actualType = destinationType || type; // Utilise destinationType pour les couleurs si fourni
+        
         while (!positionValide) {
             newFood = {
                 x: Math.floor(Math.random() * gridWidth) * box,
-                y: Math.floor(Math.random() * gridHeight) * box
+                y: Math.floor(Math.random() * gridHeight) * box,
+                type: type, // 'navigation' ou 'croissance'
+                destination: actualType, // Liens, ressources, ou croissance
+                couleur: type === 'croissance' ? couleurNourriture : couleursNavigation[actualType]
             };
-            positionValide = !snake.some(segment => segment.x === newFood.x && segment.y === newFood.y);
+            // Vérifie que la nourriture n'est pas sur le serpent ou une autre nourriture
+            positionValide = !snake.some(segment => segment.x === newFood.x && segment.y === newFood.y)
+                             && !foodListe.some(food => food.x === newFood.x && food.y === newFood.y);
         }
         return newFood;
     }
@@ -277,20 +336,25 @@ document.addEventListener("DOMContentLoaded", function() {
         // 1. Vider le canvas 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // 2. Redessiner la grille
+        // 2. Redessiner la grille et le logo TIM
         dessinerGrille(); 
-
-        // 3. Redessiner le logo TIM au centre
         dessinerTIM();
 
-        // 💡 CONDIȚION PRINCIPALE DE DESSIN : Dessiner le serpent/nourriture uniquement en mode ACTIF
-        if (window.getCurrentPhase() === 'playing' || window.getCurrentPhase() === 'playing-pending') {
+        // 💡 Logique de nettoyage : Fait dans commencerPartie pour les phases statiques.
+        // Si la phase est gameover ou initial, nous sortons sans dessiner le serpent/nourriture.
+        if (window.getCurrentPhase() === 'gameover' || window.getCurrentPhase() === 'initial') {
+            return;
+        }
+
+        // 💡 Le dessin du jeu ne se produit que si snake.length > 0
+        if (snake.length > 0) {
             
             // --- Bouger le serpent ---
             let headX = snake[0].x;
             let headY = snake[0].y;
+            const headBeforeMove = { x: headX, y: headY }; // Sauvegarder la position avant le mouvement
 
-            if (gameStarted) { // Bouger seulement si le jeu a commencé
+            if (gameStarted) { // Le mouvement n'est effectué qu'en mode "gameStarted"
                 if (direction === "LEFT") headX -= box;
                 if (direction === "RIGHT") headX += box;
                 if (direction === "UP") headY -= box;
@@ -309,37 +373,36 @@ document.addEventListener("DOMContentLoaded", function() {
             if (gameStarted) { // Vérifier la collision seulement si le jeu est en cours
                  for (let i = 1; i < snake.length; i++) { 
                     if (snake[i].x === headX && snake[i].y === headY) {
-                        // GAME OVER
                         clearInterval(game);
-                        window.toggleInstructions("GAME OVER !", true); 
+                        window.toggleInstructions("Partie Terminée", true); 
                         gameStarted = false;
-                        
-                        // Forcer un redraw immédiat (nécessaire pour masquer le serpent)
                         dessiner(); 
                         return;
                     }
                 }
             }
 
-            // --- Nouvelle tête ---
-            const newHead = { x: headX, y: headY };
-            snake.unshift(newHead);
-
-            // --- Gérer les nourritures (Carré) ---
+            // --- Gérer les nourritures (Collision et Dessin) ---
             const foodSize = box * COUPE_NOURRITURE;
             const foodOffset = (box - foodSize) / 2;
+            let ateFood = false;
 
             for (let i = 0; i < foodListe.length; i++) {
                 const food = foodListe[i];
                 
-                // Collision avec la nourriture
                 if (headX === food.x && headY === food.y) {
-                    growing++;
-                    foodListe[i] = genererNourriture(); 
+                    
+                    if (food.type === 'navigation') {
+                        triggerNavigation(food.destination);
+                        return; // Arrêter le jeu après la navigation
+                    } else {
+                        growing++;
+                        foodListe[i] = genererNourriture('croissance');
+                    }
                 }
                 
-                // Dessiner la nourriture (Carré centré)
-                ctx.fillStyle = rgbToString(couleurNourriture); 
+                // Dessiner la nourriture (utiliser la couleur spécifique)
+                ctx.fillStyle = rgbToString(food.couleur); 
                 ctx.fillRect(
                     food.x + foodOffset, 
                     food.y + foodOffset, 
@@ -348,17 +411,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 );
             }
 
-            // --- Réduire le serpent si pas de croissance ---
-            if (gameStarted) {
-                if (growing > 0) {
-                    growing--;
-                } else {
-                    snake.pop();
-                }
+            // --- Nouvelle tête ---
+            const newHead = { x: headX, y: headY };
+            snake.unshift(newHead);
+
+            // --- Réduire le serpent (ou non) ---
+            if (growing > 0) {
+                growing--;
+            } else {
+                snake.pop();
             }
             
             // --- Dessiner serpent (Carré Harmonisé) ---
-            
             const segmentSizeCorps = box * COUPE_CORPS;
             const offsetCorps = (box - segmentSizeCorps) / 2;
             const segmentSizeTete = box * COUPE_TETE;
@@ -369,21 +433,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 if (i === 0) {
                     // Tête (Carré légèrement plus petit)
-                    ctx.fillStyle = rgbToString(couleurDessinSnake); 
+                    ctx.fillStyle = rgbToString(couleurSerpentTete); 
                     ctx.fillRect(snake[i].x + offsetTete, snake[i].y + offsetTete, segmentSizeTete, segmentSizeTete);
                 } else {
                     // Corps (Carré plus petit)
-                    ctx.fillStyle = rgbToString(couleurDessinSnake); 
+                    ctx.fillStyle = rgbToString(couleurSerpentCorps); 
                     ctx.fillRect(snake[i].x + offsetCorps, snake[i].y + offsetCorps, segmentSizeCorps, segmentSizeCorps);
                 }
             }
-        } else {
-            // 💡 CORRECTION : Nettoyer le tableau du serpent et de la nourriture lorsque le jeu est terminé.
-            if (snake.length > 0) {
-                 snake = [];
-                 foodListe = [];
-            }
-        } // Fin de la condition de dessin du jeu (playing / playing-pending)
+        } // Fin de la condition if (snake.length > 0)
     }
 
 

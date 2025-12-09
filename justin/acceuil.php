@@ -29,6 +29,11 @@
             <button id="startButton">Jouer</button> 
             <button id="quitButton" style="display:none;">Quitter</button>
          </div>
+
+         <!-- Icône de flèche Unicode (Symbole de Chevron Bas) -->
+        <div id="arrowIndicator" class="arrow-indicator">
+            <span class="arrow-icon">▼</span>
+        </div>
     </div>
 </section>
 
@@ -37,9 +42,16 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/couleursUtils.js"></script>
 <!-- 2. UI Manager Snake -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/UImanager_snake.js"></script>
-<!-- 3. Scripts Snake -->
+<!-- 3. Navigation Latérale -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/side-nav.js"></script>
+<!-- 3.1 Toggle Navigation -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/toggle-nav.js"></script>
+<!-- 4. Scripts Snake -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_snake.js"></script>
-<!-- 4. Lumières Snake -->
+<!-- 5. Lumières Snake -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/lumieres_snake.js"></script>
-<!-- 5. Curseur -->
-<script src="<?php echo get_template_directory_uri(); ?>/js/curseur.js"></script>
+<!-- 6. Background Animé -->
+<script>
+    const cubesBase = "<?php echo get_stylesheet_directory_uri(); ?>/justin/images/";
+</script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/background.js"></script>
