@@ -136,6 +136,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 
             // 3. Jeu en cours
             case 'playing': 
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
                 // 3a. Bouton d'arrêt visible
                 instructions.style.display = 'none';
                 stopButton.style.display = 'inline-block';

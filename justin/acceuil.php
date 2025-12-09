@@ -50,3 +50,8 @@
 <script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_snake.js"></script>
 <!-- 5. Lumières Snake -->
 <script src="<?php echo get_template_directory_uri(); ?>/js/lumieres_snake.js"></script>
+<!-- 6. Background Animé -->
+<script>
+    const cubesBase = "<?php echo get_stylesheet_directory_uri(); ?>/justin/images/";
+</script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/background.js"></script>

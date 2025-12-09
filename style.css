@@ -1792,4 +1792,58 @@ footer h2 {
   .titre-medias-sociaux {
     display: block;
   }
+}
+#bg-container {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  overflow: hidden;
+}
+
+.row {
+  height: 12.5vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.track img {
+  height: 9vh; /* Hauteur de l'image */
+  width: 200px; /* LARGEUR FIXE */
+  object-fit: contain;
+  margin-right: 10px;
+  opacity: 0.2;
+  filter: invert(40%) brightness(1.4);
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.move-left .track {
+  animation: scrollLeft 120s linear infinite;
+}
+
+.move-right .track {
+  animation: scrollRight 120s linear infinite;
 }/*# sourceMappingURL=style.css.map */

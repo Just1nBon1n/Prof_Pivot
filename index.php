@@ -3,6 +3,8 @@
 <?php get_template_part('Johnny/search'); ?>
 <!-- navigation principale -->
 <?php get_template_part('justin/navigation'); ?>
+<!-- Inclusion du fichier background.php -->
+<?php get_template_part('justin/background'); ?>
 <!-- Inclusion du fichier accueil.php -->
 <?php get_template_part('justin/acceuil'); ?>
 
