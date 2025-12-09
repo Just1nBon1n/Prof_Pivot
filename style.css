@@ -1167,7 +1167,7 @@ Les layouts
 }
 
 .dossier:hover .papier {
-  transform: translateY(-50px);
+  transform: translateY(-40px);
 }
 
 .dossier:nth-of-type(even):hover {
@@ -1214,7 +1214,7 @@ Les layouts
     left: -200px;
   }
   .dossier:hover .papier {
-    transform: translateY(-150px);
+    transform: translateY(-130px);
   }
   .telecharger-papier {
     text-align: center;
@@ -1292,7 +1292,7 @@ Les layouts
 /* --- Footer flottant au-dessus --- */
 footer {
   position: absolute; /* flotte au-dessus des autres éléments */
-  bottom: 0; /* collé en bas de la page */
+  bottom: 0.5%; /* collé en bas de la page */
   left: 0;
   width: 100%; /* prend toute la largeur */
   display: flex;
@@ -1327,6 +1327,7 @@ footer h2 {
   display: flex;
   font-size: 18px;
   margin-left: 10px;
+  padding-left: 20px;
 }
 
 /* Zone inférieure */
@@ -1341,6 +1342,7 @@ footer h2 {
   flex-direction: column;
   row-gap: 15px;
   font-size: 12px;
+  padding-left: 20px;
 }
 
 /* Médias sociaux */
@@ -1349,7 +1351,7 @@ footer h2 {
   flex-direction: column;
   row-gap: 15px;
   margin-left: auto;
-  padding-right: 10px;
+  padding-right: 20px;
 }
 
 .titre-medias-sociaux {
@@ -1380,7 +1382,7 @@ footer h2 {
 /* --- Responsive ≥ 432px --- */
 @media screen and (min-width: 432px) {
   footer {
-    bottom: 0.5%;
+    bottom: 1%;
   }
   .dessus {
     justify-content: center;
