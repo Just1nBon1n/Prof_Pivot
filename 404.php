@@ -27,7 +27,7 @@
     )
 ); ?>
 
-<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_canevas_separateur.js"></scr
+<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_canevas_separateur.js"></script>
 
 <?php get_footer(); ?>
 
