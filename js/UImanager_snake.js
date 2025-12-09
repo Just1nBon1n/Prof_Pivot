@@ -8,6 +8,8 @@ const instructionsContainer = instructions ? instructions.querySelector('.instru
 const welcomeTitle = instructions ? instructions.querySelector('h2.titre') : null; 
 const dynamicTitle = instructions ? instructions.querySelector('p') : null; // <p> pour titre dynamique
 const instructionsBody = instructions ? instructions.querySelector('.instructions-body') : null;
+const arrowIndicator = document.getElementById("arrowIndicator");
+const navContainer = document.querySelector('.container-navigation'); 
 
 // --- Contenu HTML pour les différentes phases ---
 const COMMANDES_HTML = `
@@ -66,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
         quitButton.style.display = 'none'; 
         instructionsContainer.style.display = 'none'; 
         stopButton.style.display = 'none';
+        arrowIndicator.style.display = 'none';
 
         // *** ÉTAPE CRUCIALE: Nettoyage de TOUTES les classes d'animation ***
         instructions.classList.remove(
@@ -75,19 +78,22 @@ document.addEventListener("DOMContentLoaded", function() {
             'is-gameover-active'
         );
 
-        // 💡 Déclenchement de l'animation de sortie du fond si on quitte l'accueil
-        if (phase !== 'initial' && window.startBackgroundExit) {
-             window.startBackgroundExit();
+        // Gestion de la visibilité de la navigation latérale
+        const showNav = (phase === 'initial' || phase === 'gameover');
+        // Utiliser une transition pour masquer/afficher
+        navContainer.style.transition = 'opacity 0.4s ease-out, right 0.4s ease-out';
+        
+        if (showNav) {
+             navContainer.style.right = '20px'; // Position normale
+             navContainer.style.opacity = '1';
+        } else {
+             navContainer.style.right = '-100px'; // Position masquée (hors écran)
+             navContainer.style.opacity = '0';
         }
         
         switch (phase) {
             // 1. Bienvenue (Bouton Jouer)
             case 'initial': 
-                // 💡 DÉCLENCHEMENT DE L'ANIMATION D'ENTRÉE DU FOND
-                if (window.startBackgroundAnimation) {
-                     window.startBackgroundAnimation();
-                }
-
                 // 1a. Rétablissement de l'affichage des blocs
                 welcomeTitle.style.display = 'block'; 
                 instructions.style.display = 'block';
@@ -99,6 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 welcomeTitle.textContent = 'Bienvenue !'; // Texte statique
                 startButton.textContent = 'Jouer';
                 startButton.style.display = 'inline-block';
+                arrowIndicator.style.display = 'block'; 
                 break;
             
             // 2. Prêt à jouer (Attente du mouvement)
@@ -129,6 +136,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 
             // 3. Jeu en cours
             case 'playing': 
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
                 // 3a. Bouton d'arrêt visible
                 instructions.style.display = 'none';
                 stopButton.style.display = 'inline-block';
@@ -142,18 +154,18 @@ document.addEventListener("DOMContentLoaded", function() {
                 // 4a. Rétablissement de l'affichage des blocs
                 dynamicTitle.style.display = 'block';
                 instructions.style.display = 'block';
-                instructionsContainer.style.display = 'flex';
+                instructionsContainer.style.display = 'flex'; 
                 
                 // 4b. DÉCLENCHEMENT DE L'ANIMATION GAMEOVER
                 instructions.classList.add('is-gameover-active');
                 
                 // 4c. Configuration du contenu
-                dynamicTitle.textContent = titre || 'GAME OVER !';
+                dynamicTitle.textContent = titre || 'Partie Terminée';
                 instructionsBody.innerHTML = '<p class="final-message">Choisissez une option.</p>'; 
                 startButton.textContent = 'Rejouer';
                 startButton.style.display = 'inline-block';
                 quitButton.style.display = 'inline-block'; 
-                
+                arrowIndicator.style.display = 'block'; 
                 break;
         }
     }

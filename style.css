@@ -129,46 +129,362 @@ body {
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-.search-container {
-  position: sticky;
-  top: 50px;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  width: 100%;
+.search-form {
+  position: fixed;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4rem;
+  height: 4rem;
+  background-color: white;
+  padding: 0.75rem;
+  margin: 0;
+  transition: width 0.5s, opacity 0.5s;
+  opacity: 0; /* hidden by default */
+  pointer-events: none;
+  z-index: 999;
 }
 
-.search-bar {
+.search-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  padding-left: 1rem;
+  font-size: 30px;
+  font-family: var(--texte-default);
+  pointer-events: none;
+}
+
+.search-button {
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--couleur-fond);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.search-icon,
+.search-close {
+  position: absolute;
+  font-size: 1.25rem;
+  color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.search-close {
+  opacity: 0;
+}
+
+/* Active Search */
+.active-search {
+  max-width: 100%;
+  width: 50rem;
+}
+
+.active-search .search-button {
+  left: calc(100% - 2rem);
+}
+
+.active-search .search-input {
+  pointer-events: initial;
+}
+
+.active-search .search-close {
+  opacity: 1;
+}
+
+.active-search .search-icon {
+  opacity: 0;
+}
+
+.search-form.visible {
+  opacity: 1;
+  pointer-events: auto; /* allow interaction */
+}
+
+@media (max-width: 900px) {
+  .search-form {
+    top: 0.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    padding: 0.5rem;
+  }
+  .search-input {
+    font-size: 20px;
+    padding-left: 0.5rem;
+  }
+  .search-button {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .active-search {
+    width: 90vw; /* spans most of the screen */
+    max-width: 90vw;
+  }
+  .active-search .search-button {
+    left: calc(100% - 2.2rem);
+  }
+}
+/* ------------------------------------------------------------- */
+/* Styles pour la barre de navigation latérale (position fixe) */
+/* ------------------------------------------------------------- */
+.container-navigation {
+  /* Positionnement fixe à droite et centré verticalement */
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100; /* Devant tout le reste de l'interface */
+  transition: right 0.3s ease-out;
+}
+
+.side-nav-blocks {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem; /* Espace entre les blocs */
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.nav-block {
+  position: relative;
+  display: block;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 4px;
+  transition: transform 0.2s ease-out;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.nav-block {
+  position: relative;
+}
+
+/* Cube normal (centré, immobile) */
+.nav-block.active::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--couleur-texte-blanc);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 2px;
+  transition: transform 0.6s linear;
+}
+
+/* Rotation quand le bloc vient d’être activé */
+.nav-block.just-activated::after {
+  transform: translate(-50%, -50%) rotate(360deg);
+}
+
+/* STYLE DU BLOC ACCUEIL (Plus grand et avec lueur) */
+.nav-accueil {
+  width: 2.8rem; /* Plus large */
+  height: 2.8rem; /* Plus haut */
+  padding: 0.2rem;
+  border-radius: 6px;
+  background-color: var(--snake-couleur-tete); /* Couleur du serpent */
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
-  width: 60px;
-  background: var(--nav-recherche-couleur-fond);
-  padding: 10px 20px;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
-  transition: 0.5s ease-in-out;
 }
 
-.search-bar input {
+/* Couleurs des blocs de section */
+.nav-liens {
+  background-color: var(--liens-couleur-section);
+}
+
+.nav-ressources {
+  background-color: var(--personnes-couleur-section);
+}
+
+.nav-documents {
+  background-color: var(--docs-couleur-section);
+}
+
+/* STYLE DES SÉPARATEURS ENTRE LES BLOCS ------------------------------------ */
+.nav-separator {
+  width: 3px;
+  height: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden; /* Cache le remplissage initial */
+}
+
+.nav-label {
+  position: absolute;
+  font-family: var(--texte-default);
+  color: var(--couleur-texte-blanc);
+  right: 150%;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  opacity: 0;
+  white-space: normal;
+  font-size: 1rem;
+  text-align: right;
+  line-height: 1.2;
+  max-width: 130px;
+  transition: all 0.35s ease-out;
+  pointer-events: none; /* Pour ne pas bloquer le hover du bloc */
+}
+
+/* AU SURVOL DU BLOC -> AFFICHER SON LABEL */
+.side-nav-blocks:hover .nav-label {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+  color: var(--couleur-texte-blanc);
+}
+
+/* --------------------------------------------------------------------------- */
+/* MEDIA QUERY POUR LES ÉCRANS AVEC HOVER (SOURIS) */
+@media (hover: hover) {
+  .nav-block:hover {
+    transform: scale(1.3);
+    border-color: var(--couleur-texte-blanc);
+  }
+  .side-nav-blocks:hover .nav-label {
+    color: rgba(255, 255, 255, 0.4);
+  }
+  .nav-block:hover .nav-label {
+    color: var(--couleur-texte-blanc);
+  }
+}
+/* ------------------------------------------------------------- */
+/* STYLES ET ANIMATION DU SERPENT SVG */
+/* ------------------------------------------------------------- */
+/* Keyframes de déplacement du serpent (3 segments, parcours 4x4) */
+@keyframes snake-move {
+  /* Parcours d'un carré de 80x80 pixels dans le viewBox 100x100, pour centrer le mouvement */
+  0% {
+    transform: translate(10px, 10px);
+  } /* Coin Haut Gauche */
+  25% {
+    transform: translate(70px, 10px);
+  } /* Coin Haut Droit */
+  50% {
+    transform: translate(70px, 70px);
+  } /* Coin Bas Droit */
+  75% {
+    transform: translate(10px, 70px);
+  } /* Coin Bas Gauche */
+  100% {
+    transform: translate(10px, 10px);
+  } /* Retour à Haut Gauche */
+}
+.nav-snake-icon {
   width: 100%;
   height: 100%;
-  border: none;
-  outline: none;
-  font-size: 18px;
-  font-weight: 400;
-  background-color: transparent;
+  overflow: visible; /* Permet aux segments de bouger */
 }
 
-.search-bar i {
-  font-size: 25px;
-  color: black;
+/* Styles et animation de base pour tous les segments */
+.nav-snake-icon .snake-segment {
+  fill: var(--snake-couleur-corps);
+  width: 24px; /* Taille du segment (20% du bloc) */
+  height: 24px; /* Taille du segment */
+  animation: snake-move 3s steps(4, end) infinite;
+  animation-play-state: paused;
+  visibility: hidden; /* Caché par défaut */
 }
 
-.search-bar:hover {
-  width: 400px;
+.nav-accueil:hover .nav-snake-icon .snake-segment {
+  animation-play-state: running; /* LANCE L'ANIMATION */
+  visibility: visible; /* REND VISIBLE LES SEGMENTS */
 }
 
+/* Application des délais et décalages pour simuler un corps */
+.nav-snake-icon .segment-1 {
+  animation-delay: 0s; /* Tête (pas de délai) */
+}
+
+.nav-snake-icon .segment-2 {
+  /* Délai ajusté pour correspondre à 1 étape entière (1/4 du cycle) */
+  animation-delay: -0.4s;
+}
+
+.nav-snake-icon .segment-3 {
+  /* Délai ajusté pour correspondre à 2 étapes entières (1/2 cycle) */
+  animation-delay: -0.8s;
+}
+
+/* ------------------------------------------------------------- */
+/* STYLES POUR LE BOUTON BURGER DE NAVIGATION MOBILE */
+/* ------------------------------------------------------------- */
+/* --- Base (déjà existante, ajout des transitions) --- */
+.toggle-nav {
+  display: flex;
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  width: 45px;
+  height: 40px;
+  z-index: 2000;
+  padding: 5px;
+  border-radius: 5px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.toggle-nav .toggle-bar {
+  height: 5px;
+  width: 100%;
+  background-color: var(--couleur-texte-blanc);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Animation fluide */
+  transform-origin: center; /* Rotation centrale */
+}
+
+/* --- Transformation en X --- */
+/* Barre 1 : Descendre et pivoter à 45° */
+.toggle-nav.open .toggle-bar:nth-child(1) {
+  transform: translateY(12.5px) rotate(45deg);
+}
+
+/* Barre 2 : S'effacer proprement */
+.toggle-nav.open .toggle-bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/* Barre 3 : Monter et pivoter à -45° */
+.toggle-nav.open .toggle-bar:nth-child(3) {
+  transform: translateY(-12.5px) rotate(-45deg);
+}
+
+/* ------------------------------------------------------------- */
+.side-nav-blocks {
+  transform: translateX(200%); /* Cache la nav hors de la vue */
+  transition: transform 0.3s ease-out;
+}
+
+/* Quand le menu est actif */
+.side-nav-blocks.active {
+  transform: translateX(0); /* Déplace la nav dans la vue */
+}
+
+/* MEDIA QUERY POUR LES GRANDS ÉCRANS (DÉSACTIVE LE BOUTON) */
+@media (min-width: 1025px) {
+  .toggle-nav {
+    display: none;
+  }
+  .side-nav-blocks {
+    transform: translateX(0); /* Toujours visible sur grand écran */
+  }
+}
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */
@@ -184,6 +500,9 @@ Les layouts
   position: relative;
   overflow: hidden;
   letter-spacing: 0.1em;
+  top: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .Accueil .snake-container {
@@ -336,6 +655,44 @@ Les layouts
 
 .Accueil .instructions .instructions-body {
   padding: 1rem;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1) translate(0, -14px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.8;
+  }
+}
+#arrowIndicator {
+  opacity: 0;
+  position: absolute;
+  bottom: 5%;
+  color: var(--couleur-texte-blanc);
+  transition: opacity 0.2s ease-out;
+  z-index: 20;
+}
+
+/* Quand on veut la montrer */
+#instructions.is-welcome-active ~ .arrow-indicator,
+#instructions.is-gameover-active ~ .arrow-indicator {
+  animation: slideInDown 0.6s ease forwards;
+  animation-delay: 1.4s;
+  pointer-events: auto;
+}
+
+.arrow-indicator .arrow-icon {
+  font-size: 4.6rem;
+  animation: pulse 2s infinite;
+  display: block;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
 
 .Accueil .instructions .controls-display {
@@ -1418,4 +1775,58 @@ footer h2 {
   .titre-medias-sociaux {
     display: block;
   }
+}
+#bg-container {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  overflow: hidden;
+}
+
+.row {
+  height: 12.5vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.track img {
+  height: 9vh; /* Hauteur de l'image */
+  width: 200px; /* LARGEUR FIXE */
+  object-fit: contain;
+  margin-right: 10px;
+  opacity: 0.2;
+  filter: invert(40%) brightness(1.4);
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.move-left .track {
+  animation: scrollLeft 120s linear infinite;
+}
+
+.move-right .track {
+  animation: scrollRight 120s linear infinite;
 }/*# sourceMappingURL=style.css.map */

@@ -1,6 +1,5 @@
-<!-- Éléments du curseur -->
-<!-- DESACTIVE POUR LE MOMENT -->
-<!-- <div class="cursor">
+<!-- Éléments du curseur
+<div class="cursor">
   <div class="carre1">
     <div class="detail1">
       <div class="ligne1"></div>

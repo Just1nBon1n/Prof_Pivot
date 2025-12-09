@@ -1,4 +1,4 @@
-/*
+  /*
 Theme Name: Profs Pivot
 Author: David, Arthur, Johnny, Justin
 Author URI: https://github.com/Just1nBon1n/Prof_Pivot
@@ -22,8 +22,9 @@ Les balise de bases
 /* /////////////////////////////////
 Les composants
 //////////////////////////////////// */
-@import "composants/curseur";
+// @import "composants/curseur";
 @import "composants/search-bar";
+@import "composants/navigation";
 
 /* /////////////////////////////////
 Les layouts
@@ -34,3 +35,4 @@ Les layouts
 @import "layout/documents";
 @import "layout/separateur";
 @import "layout/footer";
+@import "layout/background";
