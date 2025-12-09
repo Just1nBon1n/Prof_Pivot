@@ -50,10 +50,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Skip the script if the screen is under 900px
+  if (window.innerWidth < 900) {
+    return;
+  }
+
   const items = document.querySelectorAll(".menu-item");
 
   items.forEach(item => {
-    // 50% chance to become big (2x2)
     const isBig = Math.random() < 0.5;
 
     if (isBig) {
