@@ -141,7 +141,57 @@ function theme_31w_customize_register($wp_customize) {
         'priority' => 160,
     ));
 
-    for ($i = 1; $i <= 4; $i++) {
+    // contrôle : nombre de cartes du carrousel
+    $wp_customize->add_setting( 'res_slider_quantity', array(
+        'default'           => 4,
+        'sanitize_callback' => 'absint',
+    ) );
+
+    $wp_customize->add_control( 'res_slider_quantity', array(
+        'label'       => __( 'Nombre de cartes du carrousel', 'theme_31w' ),
+        'section'     => 'arthur_resources_section', // utilise la section existante
+        'type'        => 'number',
+        'input_attrs' => array(
+            'min' => 1,
+            'max' => 12,
+        ),
+    ) );
+
+
+    // libellés des boutons Play / Stop
+    $wp_customize->add_setting('res_btn_play_text', array(
+        'default'           => 'Play',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('res_btn_play_text', array(
+        'label'   => __('Texte bouton Play', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('res_btn_stop_text', array(
+        'default'           => 'Stop',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('res_btn_stop_text', array(
+        'label'   => __('Texte bouton Stop', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'text',
+    ));
+
+
+    // section dédiée "Carrousel" (permet de regrouper les contrôles des cartes)
+    $wp_customize->add_section( 'res_section_carrousel', array(
+        'title'    => __( 'Ressources – Carrousel', 'theme_31w' ),
+        'priority' => 170,
+    ) );
+
+    // Nombre maximal de cartes éditables dans le Customizer
+    $max_cards = 10;
+
+    for ($i = 1; $i <= $max_cards; $i++) {
         // Titre
         $wp_customize->add_setting("res_titre_item_$i", array(
             'default'           => "Titre $i",
@@ -150,7 +200,7 @@ function theme_31w_customize_register($wp_customize) {
         ));
         $wp_customize->add_control("res_titre_item_$i", array(
             'label'   => "Titre item $i",
-            'section' => 'arthur_resources_section',
+            'section' => 'res_section_carrousel',
             'type'    => 'text',
         ));
 
@@ -162,10 +212,116 @@ function theme_31w_customize_register($wp_customize) {
         ));
         $wp_customize->add_control("res_description_item_$i", array(
             'label'   => "Description item $i",
-            'section' => 'arthur_resources_section',
+            'section' => 'res_section_carrousel',
             'type'    => 'textarea',
         ));
+        // Image (nouveau)
+        $wp_customize->add_setting("res_image_item_$i", array(
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+            'transport'         => 'postMessage',
+        ));
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "res_image_item_$i", array(
+            'label'    => "Image item $i",
+            'section'  => 'res_section_carrousel',
+            'settings' => "res_image_item_$i",
+        )));
     }
+
+    // --- Titres de sections modifiables : "Profs pivots" et "Soutien et encadrement" ---
+    $wp_customize->add_setting('res_titre_profs_pivots', array(
+        'default'           => 'Profs pivots',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('res_titre_profs_pivots', array(
+        'label'   => __('Titre section — Profs pivots', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'text',
+    ));
+
+    $wp_customize->add_setting('res_titre_soutien_encadrement', array(
+        'default'           => 'Soutien et encadrement',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('res_titre_soutien_encadrement', array(
+        'label'   => __('Titre section — Soutien et encadrement', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'text',
+    ));
+
+    // -------------------
+    // CONTROLES : Profs (David / Greg) — placés dans la section 'arthur_resources_section'
+    // -------------------
+
+    $wp_customize->add_setting('prof_david_caption', array(
+        'default'           => 'Survolez pour plus d\'infos sur David',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('prof_david_caption', array(
+        'label'   => __('Figcaption — David', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'text',
+    ));
+
+    // Image David (Uploader)
+    $wp_customize->add_setting('prof_david_image', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'prof_david_image_control', array(
+        'label'    => __('Image — David', 'theme_31w'),
+        'section'  => 'arthur_resources_section',
+        'settings' => 'prof_david_image',
+    )));
+
+    $wp_customize->add_setting('prof_david_text', array(
+        'default'           => "Texte de présentation de David.",
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('prof_david_text', array(
+        'label'   => __('Texte (html autorisé) — David', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'textarea',
+    ));
+
+    $wp_customize->add_setting('prof_greg_caption', array(
+        'default'           => 'Survolez pour plus d\'infos sur Grégory',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('prof_greg_caption', array(
+        'label'   => __('Figcaption — Grégory', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'text',
+    ));
+
+    // Image Greg (Uploader)
+    $wp_customize->add_setting('prof_greg_image', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'prof_greg_image_control', array(
+        'label'    => __('Image — Grégory', 'theme_31w'),
+        'section'  => 'arthur_resources_section',
+        'settings' => 'prof_greg_image',
+    )));
+
+    $wp_customize->add_setting('prof_greg_text', array(
+        'default'           => "Texte de présentation de Grégory.",
+        'sanitize_callback' => 'wp_kses_post',
+        'transport'         => 'postMessage',
+    ));
+    $wp_customize->add_control('prof_greg_text', array(
+        'label'   => __('Texte (html autorisé) — Grégory', 'theme_31w'),
+        'section' => 'arthur_resources_section',
+        'type'    => 'textarea',
+    ));
 
 }
 add_action('customize_register', 'theme_31w_customize_register');
