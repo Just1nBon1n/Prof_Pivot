@@ -1,5 +1,8 @@
 <?php get_header(); ?>
 
+<!-- Inclusion du fichier background.php -->
+<?php get_template_part('justin/background'); ?>
+
 <Section class = "page_404">
     <div class = 404_container></div>
         <h1>404</h1>
