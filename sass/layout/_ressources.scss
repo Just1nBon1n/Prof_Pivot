@@ -304,7 +304,6 @@
          .flip-card-front {
            align-items: flex-start; /* place le contenu en haut */
            padding-top: 1rem;       /* espace entre le bord et le titre */
-           color: var(--personnes-flip-card-front-titre-couleur);
          }
 +
           /* utilitaires de positionnement du titre à l'intérieur des faces */
@@ -319,6 +318,8 @@
          /* s'assurer que le H2 de la face avant ne possède pas de margin-top */
          .flip-card-front h2 {
            margin-top: 0;
+          color: var(--personnes-flip-card-front-titre-couleur);
+
          }
         }
       }

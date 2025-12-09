@@ -71,6 +71,7 @@ Les variables
   --personnes-flip-card-bg: #f8f8f8;
   --personnes-flip-card-border: #e6e6e6;
   --personnes-couleur-border-btn-active: #FF9500;
+  --personnes-flip-card-front-titre-couleur: #e6e6e6;
 }
 
 /* Couleurs  composants section documents utiles */
@@ -1179,7 +1180,6 @@ Les layouts
 .Ressources .aide .banner .slider .item .flip-card-front {
   align-items: flex-start; /* place le contenu en haut */
   padding-top: 1rem; /* espace entre le bord et le titre */
-  color: var(--personnes-flip-card-front-titre-couleur);
 }
 .Ressources .aide .banner .slider .item + .flip-card-front h2,
 .Ressources .aide .banner .slider .item .flip-card-back h2 {
@@ -1190,6 +1190,7 @@ Les layouts
 }
 .Ressources .aide .banner .slider .item .flip-card-front h2 {
   margin-top: 0;
+  color: var(--personnes-flip-card-front-titre-couleur);
 }
 .Ressources .aide .controls {
   display: flex;
