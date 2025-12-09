@@ -18,5 +18,16 @@
     </div>
 </Section>
 
+<?php get_template_part(
+    'David/SeparateurCanevas', 
+    null, 
+    array(
+        'color' => '#555555',
+        'title' => get_theme_mod('', '')
+    )
+); ?>
+
+<script src="<?php echo get_template_directory_uri(); ?>/js/fonctions_canevas_separateur.js"></scr
+
 <?php get_footer(); ?>
 
