@@ -186,7 +186,7 @@
 }
 
 .dossier:hover .papier {
-    transform: translateY(-50px);
+    transform: translateY(-40px);
 }
 
 .dossier:nth-of-type(even):hover {
@@ -219,7 +219,7 @@
     }
 
     .dossier:hover .papier {
-        transform: translateY(-150px);
+        transform: translateY(-130px);
     }
     .telecharger-papier{
         text-align: center;
