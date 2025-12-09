@@ -17,29 +17,48 @@ document.addEventListener('DOMContentLoaded', () => {
       david.style.transform = 'translateX(50%)';
       david.style.transition = 'transform 0.3s ease-in-out';
       david.style.border = '2px solid var(--personnes-border-pivots-active)';
+      david.style.filter = 'grayscale(0) blur(0)';
+      david.style.zIndex = '3';
       // appliquer BOTH filters ensemble (ne pas écraser)
       greg.style.filter = 'grayscale(60%) blur(3px)';
       greg.style.transform = 'scale(0.95)';
       greg.style.transition = 'transform 0.3s ease-in-out, filter 0.3s ease-in-out';
       greg.style.transformOrigin = 'right center';
+      greg.style.zIndex = '1';
       CacherCaption(gregCaption);
       davidCaption.style.filter = 'blur(.7px)'; // flouter légèrement son propre caption
     };
     const DavidLeave = () => {
-      // si verrouillé par le bloc texte, on ne désactive pas
       if (david.classList.contains('hover-locked')) return;
-      // réinitialiser transform/transition/filter
-      Styles(david, ['zIndex','transform','transition','filter', 'border']);
-      Styles(greg, ['transform','transformOrigin','transition','filter']);
+      // appliquer des transitions de sortie pour obtenir une animation fluide
+      david.style.transition = 'transform 0.35s ease-in-out, border-color 0.18s ease, filter 0.35s ease-in-out';
+      greg.style.transition  = 'transform 0.35s ease-in-out, filter 0.35s ease-in-out';
+
+      // remettre les valeurs "par défaut" (vider transform/filter) pour que la transition anime
+      david.style.transform = '';
+      david.style.filter = '';
+      greg.style.transform = '';
+      greg.style.filter = '';
+
+      // figcaptions
       Styles(davidCaption, ['filter']);
       MontrerCaption(gregCaption);
+
+      // retirer zIndex + border inline après la transition (petit délai)
+      window.setTimeout(() => {
+        Styles(david, ['zIndex','transition','border','transform','filter']);
+        Styles(greg,  ['transform','transformOrigin','transition','filter']);
+      }, 380);
     };
+
     const GregHover = () => {
       greg.style.zIndex = '3';
       greg.style.transform = 'translateX(-50%)';
       greg.style.transition = 'transform 0.3s ease-in-out';
       greg.style.transformOrigin = 'right center';
       greg.style.border = '2px solid var(--personnes-border-pivots-active)';
+      greg.style.filter = 'grayscale(0) blur(0)';
+      greg.style.zIndex = '3';
       // appliquer BOTH filters sur david
       david.style.filter = 'grayscale(60%) blur(3px)';
       david.style.transform = 'scale(0.95)';
@@ -51,10 +70,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const GregLeave = () => {
       if (greg.classList.contains('hover-locked')) return;
-      Styles(greg, ['zIndex','transform','transition','transformOrigin','filter', 'border']);
-      Styles(david, ['transform','transformOrigin','transition','filter']);
+      greg.style.transition = 'transform 0.35s ease-in-out, border-color 0.18s ease, filter 0.35s ease-in-out';
+      david.style.transition = 'transform 0.35s ease-in-out, filter 0.35s ease-in-out';
+
+      greg.style.transform = '';
+      greg.style.filter = '';
+      david.style.transform = '';
+      david.style.filter = '';
+
       Styles(gregCaption, ['filter']);
       MontrerCaption(davidCaption);
+
+      window.setTimeout(() => {
+        Styles(greg,  ['zIndex','transform','transition','transformOrigin','filter','border']);
+        Styles(david, ['transform','transformOrigin','transition','filter']);
+      }, 380);
     };
 
     // les listeners « simples » ont été retirés : on utilise les handlers
@@ -82,7 +112,10 @@ document.addEventListener('DOMContentLoaded', () => {
         texteDavidBloc.classList.add('is-visible');
         // ajouter verrou si souhaité (aide la stabilité)
         david.classList.add('hover-locked');
+        texteGregBloc.classList.remove('is-visible');
+        greg.classList.remove('hover-locked');
         DavidHover();
+        MontrerCaption(davidCaption);
       };
 
       const desactiverDavid = () => {
@@ -94,7 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
         texteGregBloc.textContent = greg.dataset.profText || '';
         texteGregBloc.classList.add('is-visible');
         greg.classList.add('hover-locked');
+        texteDavidBloc.classList.remove('is-visible');
+        david.classList.remove('hover-locked');
         GregHover();
+        MontrerCaption(gregCaption);
       };
 
       const desactiverGreg = () => {
@@ -102,42 +138,35 @@ document.addEventListener('DOMContentLoaded', () => {
         clearTextes();
       };
 
-      // ---- David : figure + texte gardent le hover ----
-      // sur la figure : active (sans retirer le verrou qui sera géré par le bloc texte)
-      david.addEventListener('mouseenter', activerDavid);
-      david.addEventListener('mouseleave', (e) => {
-        // si on sort vers le bloc texte (ou un de ses enfants), ne pas retirer le hover
-        if (e.relatedTarget === texteDavidBloc || (e.relatedTarget && texteDavidBloc.contains(e.relatedTarget))) return;
-        // sinon on supprime aussi le verrou (cas où la souris quitte directement)
-        david.classList.remove('hover-locked');
-        clearTextes();
+
+      // ---- Remplacement hover par click ----
+      // click sur figure -> toggle open/close (préserve l'expérience visuelle actuelle via DavidHover/GregHover)
+      david.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (texteDavidBloc.classList.contains('is-visible')) desactiverDavid();
+        else activerDavid();
+      });
+      texteDavidBloc.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (texteDavidBloc.classList.contains('is-visible')) desactiverDavid();
+        else activerDavid();
       });
 
-      // sur le bloc texte : maintenir le hover et le verrou tant que la souris y est
-      texteDavidBloc.addEventListener('mouseenter', (e) => {
-        activerDavid();
+      greg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (texteGregBloc.classList.contains('is-visible')) desactiverGreg();
+        else activerGreg();
       });
-      texteDavidBloc.addEventListener('mouseleave', (e) => {
-        // si on retourne vers la figure, ne pas retirer le hover
-        if (e.relatedTarget === david || (e.relatedTarget && david.contains(e.relatedTarget))) return;
-        // sinon retirer le verrou et nettoyer
-        desactiverDavid();
-      });
-
-      // ---- Greg : figure + texte gardent le hover ----
-      greg.addEventListener('mouseenter', activerGreg);
-      greg.addEventListener('mouseleave', (e) => {
-        if (e.relatedTarget === texteGregBloc || (e.relatedTarget && texteGregBloc.contains(e.relatedTarget))) return;
-        greg.classList.remove('hover-locked');
-        clearTextes();
+      texteGregBloc.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (texteGregBloc.classList.contains('is-visible')) desactiverGreg();
+        else activerGreg();
       });
 
-      texteGregBloc.addEventListener('mouseenter', (e) => {
-        activerGreg();
-      });
-      texteGregBloc.addEventListener('mouseleave', (e) => {
-        if (e.relatedTarget === greg || (e.relatedTarget && greg.contains(e.relatedTarget))) return;
-        desactiverGreg();
+      // clic en dehors ferme tout
+      document.addEventListener('click', () => {
+        if (texteDavidBloc.classList.contains('is-visible')) desactiverDavid();
+        if (texteGregBloc.classList.contains('is-visible')) desactiverGreg();
       });
 
       // --- positionner les blocs texte au centre (vertical) des images ---

@@ -573,7 +573,10 @@ Les layouts
   /* important : centrer autour du top fourni par JS */
   transform: translateY(-50%);
   transition: opacity 0.3s ease;
+  /* par défaut : ne pas capter les événements (clic passe au dessous) */
   pointer-events: none;
+  /* empêcher la sélection quand invisible */
+  user-select: none;
   text-align: left;
   background: rgba(0, 0, 0, 0.8);
   padding: 0.5rem 1rem;
@@ -598,6 +601,10 @@ Les layouts
 }
 .Ressources .pivots .prof .prof-texte-content.is-visible {
   opacity: 1;
+  /* activer la sélection et les interactions quand visible */
+  pointer-events: auto;
+  user-select: text;
+  cursor: text;
   /* surtout ne pas changer transform ici (JS contrôle top) */
 }
 .Ressources .pivots .prof .prof-person {
@@ -625,30 +632,52 @@ Les layouts
   grid-column: span 2;
   margin: 0;
   width: 100%;
-  height: 100%; /* IMPORTANT : occupe la hauteur de la cellule (grid-auto-rows) */
+  height: 100%;
   display: flex;
   flex-direction: column;
-  position: relative; /* nécessaire pour l'overlay */
+  position: relative;
   overflow: hidden;
-  /* garder le haut fixe lors des transforms ou du redimensionnement */
-  transform-origin: left center;
-  /* Au survol : appliquer un flou derrière le figcaption
-     (backdrop-filter quand supporté, sinon flou direct sur le caption) */
-  /* Optionnel : flouter légèrement l'image au hover pour renforcer l'effet */
+  cursor: pointer; /* click plutôt que hover */
+  /* bordure par défaut (blanche) */
+  border: 2px solid #fff;
+  transition: border-color 0.18s ease;
+  /* zone de hover fixe (couvre toute la figure) */
+  /* état actif (clic) : appliquer un flou / background sur le figcaption */
+  /* état actif : bordure orange (variable ou fallback) */
+  /* Optionnel : état actif => déplacer / agrandir l'image et flouter */
+  /* état inactif : reset */
+  /* Optionnel : état actif (clic) : image floutée / déplacée (déjà géré par .is-active plus haut) */
+  /* aucune règle :hover restante — on utilise uniquement .is-active */
+}
+.Ressources .pivots .prof figure::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.Ressources .pivots .prof figure.is-active figcaption {
+  background: rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  /* fallback pour anciens navigateurs : flouter le texte lui‑même */
+  filter: blur(0.3px);
+}
+.Ressources .pivots .prof figure.is-active {
+  border-color: var(--personnes-border-pivots-active, #ff8a00);
+}
+.Ressources .pivots .prof figure.is-active .img-pivots {
+  transform: translateX(50%) scale(1.12);
+  transition: transform 0.35s ease-in-out, filter 0.25s ease;
+  filter: blur(3px);
 }
 .Ressources .pivots .prof figure .img-pivots {
-  display: block;
-  width: 100%;
-  /* laisse l'image prendre l'espace restant dans la figure */
-  flex: 1 1 auto;
-  min-height: 0; /* crucial pour que flex children respectent la taille parent en grid */
+  transition: transform 0.25s ease, filter 0.25s ease;
   object-fit: cover;
   object-position: 50% 20%; /* le haut de l'image reste visible */
   transform-origin: top center;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   -ms-interpolation-mode: nearest-neighbor;
-  border: var(--personnes-couleur-border) 2px solid;
   border-radius: 0; /* plus d'arrondi sur les images */
 }
 .Ressources .pivots .prof figure .img-pivots:hover {
@@ -673,17 +702,6 @@ Les layouts
   .Ressources .pivots .prof figure figcaption {
     font-size: 1.5rem; /* augmente sur écrans plus larges */
   }
-}
-.Ressources .pivots .prof figure figure:hover figcaption {
-  background: rgba(0, 0, 0, 0.35);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  /* fallback pour anciens navigateurs : flouter le texte lui‑même */
-  filter: blur(0.3px);
-}
-.Ressources .pivots .prof figure figure:hover .img-pivots {
-  filter: blur(3px);
-  transition: filter 0.25s ease;
 }
 .Ressources .pivots .prof figure .prof_content {
   flex: 1 1 0;
