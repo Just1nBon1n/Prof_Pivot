@@ -1152,6 +1152,7 @@ Les layouts
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
   box-sizing: border-box;
   border: var(--personnes-flip-card-border) 1px solid;
   border: 2px solid var(--personnes-couleur-border);
@@ -1178,6 +1179,7 @@ Les layouts
 .Ressources .aide .banner .slider .item .flip-card-front {
   align-items: flex-start; /* place le contenu en haut */
   padding-top: 1rem; /* espace entre le bord et le titre */
+  color: var(--personnes-flip-card-front-titre-couleur);
 }
 .Ressources .aide .banner .slider .item + .flip-card-front h2,
 .Ressources .aide .banner .slider .item .flip-card-back h2 {
