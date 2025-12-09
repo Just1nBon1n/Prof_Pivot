@@ -13,7 +13,7 @@ let isClicked = false;
       target: '#separateur-1'
     },
     profs: {
-      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'Gregory','David','Cetim', 'Pivot', 'cetim'],
+      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'Gregory','David','Cetim', 'Pivot', 'cetim', 'personnes', 'ressources'],
       target: '#separateur-2'
     },
     documents: {
