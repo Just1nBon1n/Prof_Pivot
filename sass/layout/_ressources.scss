@@ -280,9 +280,11 @@
          /* empêcher que l'image dépasse de la face avant */
          .flip-card-front {
            overflow: hidden; /* coupe tout débordement */
-           align-items: flex-start; /* place le contenu en haut */
+           align-items: flex-end; /* place le contenu en haut */
+           flex-direction: column-reverse;
            padding-top: 1rem;
            background-color: var(--personnes-flip-card-front);
+           gap: 3rem;
          }
 
          /* images des cartes : toujours contenues, couvrent la face */
@@ -300,12 +302,6 @@
             transform: rotateY(180deg);
             background-color: var(--personnes-flip-card-bg);
           }
-
-         /* positionner le H2 en haut de la face avant */
-         .flip-card-front {
-           align-items: flex-start; /* place le contenu en haut */
-           padding-top: 1rem;       /* espace entre le bord et le titre */
-         }
 
           /* utilitaires de positionnement du titre à l'intérieur des faces */
           .flip-card-front h2,
