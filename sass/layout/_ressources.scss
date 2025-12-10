@@ -41,7 +41,15 @@
         background: rgba(0, 0, 0, 0.8);
         padding: 0.5rem 1rem;
         z-index: 10;
+        font-size: 1rem;
       }
+      @media screen and (min-width: 576px) {
+        font-size: 2.5rem;
+      }
+        @media screen and (min-width: 785px) {
+        font-size: 4rem;
+      }
+
 
       .prof-texte-david {
         grid-column: 1 / span 2;  /* à gauche */
@@ -50,6 +58,8 @@
         align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
         /* ajustement fin si nécessaire :
            padding-top: 0.25rem; */
+        font-size: 1rem;
+
       }
 
       .prof-texte-greg {
@@ -57,9 +67,29 @@
         justify-self: end;
         text-align: right;
         margin-left: 1rem;
+        margin-right: 0;
         align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
         /* ajustement fin si nécessaire :
            padding-top: 0.25rem; */
+        font-size: 1rem;
+
+      }
+      @media  screen and (min-width: 576px) {
+        .prof-texte-david, 
+        .prof-texte-greg {
+           width: 90%;
+           font-size: 1rem;
+        }
+      }
+      @media screen and (min-width: 785px) {
+        .prof-texte-greg {
+           margin-right: 1.1rem;
+        }
+        .prof-texte-david, 
+        .prof-texte-greg {
+           width: 60%;
+           font-size: 1.5rem;
+        }
       }
 
       .prof-texte-content.is-visible {

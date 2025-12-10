@@ -64,12 +64,12 @@ Les variables
 /* Couleurs composants section personnes ressources */
 :root {
   --personnes-couleur-fond-carte: #FF9500;
-  --personnes-couleur-border: #e6e6e6;
+  --personnes-couleur-border: #FF9500;
   --personnes-couleur-bg-boutons: #0D1220;
   --personnes-couleur-texte-boutons: #E6E6E6;
   --personnes-border-pivots-active: #FF9500;
   --personnes-flip-card-bg: #0D1220;
-  --personnes-flip-card-front: #a15e00;
+  --personnes-flip-card-front: #0D1220;
   --personnes-flip-card-border: #e6e6e6;
   --personnes-couleur-border-btn-active: #FF9500;
   --personnes-flip-card-front-titre-couleur: #e6e6e6;
@@ -1142,6 +1142,17 @@ Les layouts
   background: rgba(0, 0, 0, 0.8);
   padding: 0.5rem 1rem;
   z-index: 10;
+  font-size: 1rem;
+}
+@media screen and (min-width: 576px) {
+  .Ressources .pivots .prof {
+    font-size: 2.5rem;
+  }
+}
+@media screen and (min-width: 785px) {
+  .Ressources .pivots .prof {
+    font-size: 4rem;
+  }
 }
 .Ressources .pivots .prof .prof-texte-david {
   grid-column: 1/span 2; /* à gauche */
@@ -1150,15 +1161,35 @@ Les layouts
   align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
   /* ajustement fin si nécessaire :
      padding-top: 0.25rem; */
+  font-size: 1rem;
 }
 .Ressources .pivots .prof .prof-texte-greg {
   grid-column: 3/span 2; /* à droite */
   justify-self: end;
   text-align: right;
   margin-left: 1rem;
+  margin-right: 0;
   align-self: center; /* aligne verticalement au centre de la grille (même hauteur que la figure) */
   /* ajustement fin si nécessaire :
      padding-top: 0.25rem; */
+  font-size: 1rem;
+}
+@media screen and (min-width: 576px) {
+  .Ressources .pivots .prof .prof-texte-david,
+  .Ressources .pivots .prof .prof-texte-greg {
+    width: 90%;
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 785px) {
+  .Ressources .pivots .prof .prof-texte-greg {
+    margin-right: 1.1rem;
+  }
+  .Ressources .pivots .prof .prof-texte-david,
+  .Ressources .pivots .prof .prof-texte-greg {
+    width: 60%;
+    font-size: 1.5rem;
+  }
 }
 .Ressources .pivots .prof .prof-texte-content.is-visible {
   opacity: 1;
