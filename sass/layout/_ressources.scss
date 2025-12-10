@@ -280,7 +280,7 @@
          /* empêcher que l'image dépasse de la face avant */
          .flip-card-front {
            overflow: hidden; /* coupe tout débordement */
-           align-items: flex-end; /* place le contenu en haut */
+           justify-content: flex-end; /* place le contenu en haut */
            flex-direction: column-reverse;
            padding-top: 1rem;
            background-color: var(--personnes-flip-card-front);
