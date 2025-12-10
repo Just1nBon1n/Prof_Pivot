@@ -55,3 +55,5 @@
     const cubesBase = "<?php echo get_stylesheet_directory_uri(); ?>/justin/images/";
 </script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/background.js"></script>
+<!-- 7. Crédits -->
+<script src="<?php echo get_template_directory_uri(); ?>/js/credits.js"></script>
