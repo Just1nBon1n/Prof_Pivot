@@ -68,7 +68,8 @@ Les variables
   --personnes-couleur-bg-boutons: #0D1220;
   --personnes-couleur-texte-boutons: #E6E6E6;
   --personnes-border-pivots-active: #FF9500;
-  --personnes-flip-card-bg: #f8f8f8;
+  --personnes-flip-card-bg: #0D1220;
+  --personnes-flip-card-front: #a15e00;
   --personnes-flip-card-border: #e6e6e6;
   --personnes-couleur-border-btn-active: #FF9500;
   --personnes-flip-card-front-titre-couleur: #e6e6e6;
@@ -1365,7 +1366,7 @@ Les layouts
   overflow: hidden; /* coupe tout débordement */
   align-items: flex-start; /* place le contenu en haut */
   padding-top: 1rem;
-  background-color: var(--personnes-couleur-bg-boutons);
+  background-color: var(--personnes-flip-card-front);
 }
 .Ressources .aide .banner .slider .item .flip-card-front img,
 .Ressources .aide .banner .slider .item .flip-card-front > img {
@@ -1385,11 +1386,16 @@ Les layouts
   padding-top: 1rem; /* espace entre le bord et le titre */
 }
 .Ressources .aide .banner .slider .item .flip-card-front h2,
-.Ressources .aide .banner .slider .item .flip-card-back h2 {
+.Ressources .aide .banner .slider .item .flip-card-back h2,
+.Ressources .aide .banner .slider .item .flip-card-front p,
+.Ressources .aide .banner .slider .item .flip-card-back p {
   margin: 0;
   width: 100%;
   text-align: center;
   transition: text-align 0.25s ease, padding 0.25s ease, transform 0.25s ease;
+  font-family: var(--texte-default);
+  font-size: 0.8rem;
+  color: var(--couleur-texte-blanc);
 }
 .Ressources .aide .banner .slider .item .flip-card-front h2 {
   margin-top: 0;

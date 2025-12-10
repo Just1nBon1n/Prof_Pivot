@@ -282,7 +282,7 @@
            overflow: hidden; /* coupe tout débordement */
            align-items: flex-start; /* place le contenu en haut */
            padding-top: 1rem;
-           background-color: var(--personnes-couleur-bg-boutons);
+           background-color: var(--personnes-flip-card-front);
          }
 
          /* images des cartes : toujours contenues, couvrent la face */
@@ -309,11 +309,16 @@
 
           /* utilitaires de positionnement du titre à l'intérieur des faces */
           .flip-card-front h2,
-          .flip-card-back h2 {
+          .flip-card-back h2,
+          .flip-card-front p,
+          .flip-card-back p {
             margin: 0;
             width: 100%;
             text-align: center;
             transition: text-align .25s ease, padding .25s ease, transform .25s ease;
+            font-family: var(--texte-default);
+            font-size: .8rem;
+            color: var(--couleur-texte-blanc);
           }
 
          /* s'assurer que le H2 de la face avant ne possède pas de margin-top */
