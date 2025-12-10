@@ -71,6 +71,7 @@ Les variables
   --personnes-flip-card-bg: #f8f8f8;
   --personnes-flip-card-border: #e6e6e6;
   --personnes-couleur-border-btn-active: #FF9500;
+  --personnes-flip-card-front-titre-couleur: #e6e6e6;
 }
 
 /* Couleurs  composants section documents utiles */
@@ -1328,6 +1329,8 @@ Les layouts
   /* wrapper interne pour le flip */
   /* Par défaut, afficher le recto ; sur hover, on retourne */
   /* Les deux faces du flip */
+  /* empêcher que l'image dépasse de la face avant */
+  /* images des cartes : toujours contenues, couvrent la face */
   /* positionner le H2 en haut de la face avant */
   /* s'assurer que le H2 de la face avant ne possède pas de margin-top */
 }
@@ -1357,6 +1360,20 @@ Les layouts
   border: 2px solid var(--personnes-couleur-border);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+.Ressources .aide .banner .slider .item .flip-card-front {
+  overflow: hidden; /* coupe tout débordement */
+  align-items: flex-start; /* place le contenu en haut */
+  padding-top: 1rem;
+}
+.Ressources .aide .banner .slider .item .flip-card-front img,
+.Ressources .aide .banner .slider .item .flip-card-front > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* recadre proprement sans dépasser */
+}
 .Ressources .aide .banner .slider .item .flip-card-back {
   transform: rotateY(180deg);
   background-color: var(--personnes-flip-card-bg);
@@ -1374,6 +1391,7 @@ Les layouts
 }
 .Ressources .aide .banner .slider .item .flip-card-front h2 {
   margin-top: 0;
+  color: var(--personnes-flip-card-front-titre-couleur);
 }
 .Ressources .aide .controls {
   display: flex;
