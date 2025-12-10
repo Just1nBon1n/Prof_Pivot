@@ -26,7 +26,7 @@ Les variables
 
 /* Couleurs navigation */
 :root {
-  --nav-recherche-couleur-fond: #FFFFFF;
+  --nav-recherche-couleur-fond: #e6e6e6;
   --nav-recherche-couleur-contour: #000000;
 }
 
@@ -229,8 +229,8 @@ Les composants
     height: 2.5rem;
   }
   .active-search {
-    width: 90vw; /* spans most of the screen */
-    max-width: 90vw;
+    width: 70vw; /* spans most of the screen */
+    max-width: 60vw;
   }
   .active-search .search-button {
     left: calc(100% - 2.2rem);
@@ -489,6 +489,207 @@ Les composants
     transform: translateX(0); /* Toujours visible sur grand écran */
   }
 }
+/* --- Cube fixe (bas gauche) --- */
+#credits-cube {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background: rgba(131, 131, 131, 0.6);
+  color: var(--couleur-texte-blanc);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  cursor: pointer;
+  z-index: 2000;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+  overflow: visible;
+  font-family: var(--texte-default);
+}
+
+#credits-cube::after {
+  content: "Crédits";
+  position: absolute;
+  left: 60px;
+  opacity: 0;
+  white-space: nowrap;
+  color: var(--couleur-texte-blanc);
+  font-size: 24px;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#credits-cube:hover {
+  transform: scale(0.85);
+}
+
+/* Apparition progressive du texte */
+#credits-cube:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Conteneur du symbole */
+#credits-cube .code-symbol {
+  display: inline-flex;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--couleur-texte-blanc, white);
+}
+
+#credits-cube .code-symbol i {
+  font-style: normal;
+  padding: 0 1px;
+  margin: 0;
+  line-height: 1;
+  transform: translate(0, 0);
+  transition: color 0.3s ease;
+}
+
+/* --- EFFET COULEURS MULTIPLES AU SURVOL --- */
+/* Le caractère '<' (Gauche) */
+#credits-cube:hover .c-l {
+  color: var(--liens-couleur-section);
+}
+
+/* Le caractère '/' (Séparateur) */
+#credits-cube:hover .c-s {
+  color: var(--personnes-couleur-section);
+}
+
+/* Le caractère '>' (Droite) */
+#credits-cube:hover .c-r {
+  color: var(--docs-couleur-section);
+}
+
+@media (min-width: 900px) {
+  #credits-cube {
+    width: 60px;
+    height: 60px;
+  }
+  #credits-cube .code-symbol {
+    font-size: 24px;
+  }
+  #credits-cube::after {
+    font-size: 28px;
+    left: 80px;
+  }
+}
+#credits-fond {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  transition: opacity 0.3s ease;
+}
+
+#credits-fond.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.credits-content {
+  background: white;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 16px;
+  position: relative;
+  font-family: var(--texte-default);
+  /* Masqué au début pour l'animation */
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* L'ouverture utilise l'animation popupIn */
+#credits-fond.open .credits-content {
+  animation: popupIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* La fermeture utilise l'animation popupOut */
+#credits-fond.closing .credits-content {
+  animation: popupOut 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* --- KEYFRAMES (Animations) --- */
+/* Modification de l'animation d'ENTRÉE */
+@keyframes popupIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* Nouvelle animation de SORTIE */
+@keyframes popupOut {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+/* --- Style du bouton de fermeture --- */
+#close-credits {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+
+/* --- Style de la liste des développeurs --- */
+.developer-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.developer-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+}
+
+.developer-list li:last-child {
+  border-bottom: none;
+}
+
+/* --- Style du lien LinkedIn --- */
+.linkedin-link {
+  color: #0077B5; /* Bleu LinkedIn */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.linkedin-link:hover {
+  color: #004471;
+  transform: scale(1.1);
+  transform: translateX(-30%);
+}
+
 /* /////////////////////////////////
 Les layouts
 //////////////////////////////////// */

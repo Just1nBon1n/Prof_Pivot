@@ -17,7 +17,7 @@ Les variables
 /* /////////////////////////////////
 Les balise de bases
 //////////////////////////////////// */
-@import "base/simple";
+@import "base/simple"; 
 
 /* /////////////////////////////////
 Les composants
@@ -25,6 +25,7 @@ Les composants
 // @import "composants/curseur";
 @import "composants/search-bar";
 @import "composants/navigation";
+@import "composants/credits";
 
 /* /////////////////////////////////
 Les layouts
