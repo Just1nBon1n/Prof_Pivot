@@ -282,6 +282,7 @@
            overflow: hidden; /* coupe tout débordement */
            align-items: flex-start; /* place le contenu en haut */
            padding-top: 1rem;
+           background-color: var(--personnes-couleur-bg-boutons);
          }
 
          /* images des cartes : toujours contenues, couvrent la face */
@@ -305,7 +306,7 @@
            align-items: flex-start; /* place le contenu en haut */
            padding-top: 1rem;       /* espace entre le bord et le titre */
          }
-+
+
           /* utilitaires de positionnement du titre à l'intérieur des faces */
           .flip-card-front h2,
           .flip-card-back h2 {
