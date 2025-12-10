@@ -1131,6 +1131,7 @@ Les layouts
   /* empêcher que l'image dépasse de la face avant */
   /* images des cartes : toujours contenues, couvrent la face */
   /* positionner le H2 en haut de la face avant */
+  /* utilitaires de positionnement du titre à l'intérieur des faces */
   /* s'assurer que le H2 de la face avant ne possède pas de margin-top */
 }
 .Ressources .aide .banner .slider .item .flip-card-inner {
@@ -1163,6 +1164,7 @@ Les layouts
   overflow: hidden; /* coupe tout débordement */
   align-items: flex-start; /* place le contenu en haut */
   padding-top: 1rem;
+  background-color: var(--personnes-couleur-bg-boutons);
 }
 .Ressources .aide .banner .slider .item .flip-card-front img,
 .Ressources .aide .banner .slider .item .flip-card-front > img {
@@ -1181,7 +1183,7 @@ Les layouts
   align-items: flex-start; /* place le contenu en haut */
   padding-top: 1rem; /* espace entre le bord et le titre */
 }
-.Ressources .aide .banner .slider .item + .flip-card-front h2,
+.Ressources .aide .banner .slider .item .flip-card-front h2,
 .Ressources .aide .banner .slider .item .flip-card-back h2 {
   margin: 0;
   width: 100%;
