@@ -13,11 +13,11 @@ let isClicked = false;
       target: '#separateur-1'
     },
     profs: {
-      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'Gregory','David','Cetim', 'Pivot', 'cetim', 'personnes', 'ressources', 'API','coordonateur','Martin','Mathieur'],
+      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'gregory','david','cetim', 'pivot', 'cetim', 'personnes', 'ressources', 'api','coordonateur','martin','mathieu'],
       target: '#separateur-2'
     },
     documents: {
-      keywords: ['documents', 'docs', 'telechargement', 'contrat', 'Grille', 'Pondération', 'Adobe','MacOS'],
+      keywords: ['documents', 'docs', 'telechargement', 'contrat', 'grille', 'pondération', 'adobe','macos'],
       target: '#separateur-3'
     }
   };
