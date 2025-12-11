@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 <!-- barre de recherche -->
-<?php get_template_part('Johnny/search'); ?>
+<?php get_template_part('Johnny/searchBar'); ?>
 <!-- navigation principale -->
 <?php get_template_part('justin/navigation'); ?>
 <!-- Inclusion du fichier background.php -->
