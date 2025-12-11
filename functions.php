@@ -28,7 +28,7 @@
   function theme_scripts() {
     wp_enqueue_script(
         'search-js',
-        get_template_directory_uri() . '/js/search.js',
+        get_template_directory_uri() . '/js/recherche.js',
         array(),
         null,
         true

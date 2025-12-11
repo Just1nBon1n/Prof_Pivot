@@ -9,11 +9,11 @@ let isClicked = false;
   // Mots clés
   const sections = {
     liens: {
-      keywords: ['liens', 'links', 'utile', 'Tutorat', 'Materiel', 'Stage', 'ate', 'evaluation', 'Calendrier', 'Disponibilite', 'omnivox', 'ate', 'calendrier', 'evaluation', 'finissant', 'tutorat'],
+      keywords: ['liens', 'links', 'utiles', 'Tutorat', 'Materiel', 'Stage', 'ate', 'evaluation', 'Calendrier', 'Disponibilite', 'omnivox', 'ate', 'calendrier', 'evaluation', 'finissant', 'tutorat'],
       target: '#separateur-1'
     },
     profs: {
-      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'Gregory','David','Cetim', 'Pivot', 'cetim', 'personnes', 'ressources'],
+      keywords: ['profs', 'enseignants', 'ressources', 'soutien', 'Gregory','David','Cetim', 'Pivot', 'cetim', 'personnes', 'ressources', 'API','coordonateur','Martin','Mathieur'],
       target: '#separateur-2'
     },
     documents: {
