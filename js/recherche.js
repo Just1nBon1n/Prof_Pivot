@@ -9,7 +9,7 @@ let isClicked = false;
   // Mots clés
   const sections = {
     liens: {
-      keywords: ['liens', 'links', 'utiles', 'Tutorat', 'Materiel', 'Stage', 'ate', 'evaluation', 'Calendrier', 'Disponibilite', 'omnivox', 'ate', 'calendrier', 'evaluation', 'finissant', 'tutorat'],
+      keywords: ['liens', 'links', 'utiles', 'tutorat', 'Materiel', 'Stage', 'ate', 'evaluation', 'Calendrier', 'Disponibilite', 'omnivox', 'ate', 'calendrier', 'evaluation', 'finissant', 'tutorat'],
       target: '#separateur-1'
     },
     profs: {
